@@ -1,5 +1,11 @@
 "use strict";
 
+var app = angular.module('main', [ 'ngRoute']);
+
+
+/*
+
+
 var app = angular.module('main', [ 're0']);
 app.controller('testctrl', ['$scope', '$http', 'recipes','$location',
     function ($scope, $http, recipes,$location) {
@@ -38,14 +44,14 @@ app.controller('testctrl', ['$scope', '$http', 'recipes','$location',
             $scope.info=location();
         }
     }]);
-/*app.controller('addctrl', ['$scope', '$http', 'recipe',
+/!*app.controller('addctrl', ['$scope', '$http', 'recipe',
  function ($scope, $http, recipe) {
  $scope.add= function () {
  var re=new
  recipe.save()
  }
  })
- */
+ *!/
 
 app.config(['$routeProvider', function ($routeProvider, $scope) {
     $routeProvider.when('/', {
@@ -57,4 +63,4 @@ app.config(['$routeProvider', function ($routeProvider, $scope) {
             }]
         }
     })
-}]);
+}]);*/
