@@ -1,0 +1,15 @@
+<div class="col-lg-12">
+    <form class="col-lg-6 col-lg-offset-3" ng-submit="login()">
+        <input class="form-control" type="text" placeholder="User" autofocus ng-model="User" >
+        <input class="form-control" type="text" placeholder="Pass" ng-model="Pass">
+        <button class="btn btn-success" type="button" ng-click="set()" >Reset</button>
+        <p ng-click="test()">获取数据</p>
+    </form>
+    <h1 class="jumbotron" ng-click="test()">test1</h1>
+    <h1 class="jumbotron" ng-click="test2()">test2</h1>
+    <p ng-repeat="i in recipes">
+        {{i.title}}
+    </p>
+    {{data}}
+    {{'66'+info+'55'}}
+</div>
