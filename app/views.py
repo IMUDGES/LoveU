@@ -1,12 +1,13 @@
 from app import app
-from flask import Flask,jsonify
-from flask import request,render_template,url_for
+from flask import Flask, jsonify
+from flask import request, render_template, url_for
 from db import User
 
 @app.route('/')
 @app.route('/index')
 def index():
     return render_template('index.html')
+
 
 @app.route('/login',methods=['POST'])
 def login():
