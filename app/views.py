@@ -1,7 +1,10 @@
 from app import app
 from flask import Flask, jsonify
 from flask import request, render_template, url_for
+from secretkey import Secretkey
 from db import User
+import db
+
 
 @app.route('/')
 @app.route('/index')
@@ -12,22 +15,26 @@ def index():
 @app.route('/login',methods=['POST'])
 def login():
     form = request.form
-    userphone = form.get('UserPhone')
+    UserPhone = form.get('UserPhone')
     PassWord = form.get('PassWord')
-    print userphone
-    print PassWord
-    if not userphone:
-        return '0'
+    u=User.query.filter_by(UserPhone=UserPhone).first()
+    if u is None:
+        msg='0'
+        SecretKey=None
     else:
-        if not PassWord:
-            return '2'
+        if u.PassWord == PassWord:
+            msg='1'
+            S=Secretkey()
+            SecretKey=S.GetSecretKey()
+            u.SecretKey=SecretKey
         else:
-            u=User.query.filter_by(UserPhone=userphone).first()
-            if u.PassWord == PassWord:
-
-                return '1'
-            else:
-                return '3'
+            msg='0'
+            SecretKey=None
+    array={
+        'msg':msg,
+        'SecretKey':SecretKey
+    }
+    return jsonify(array)
 
 
 
