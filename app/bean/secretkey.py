@@ -13,5 +13,3 @@ class Secretkey():
         m.update(str4)
         psw = m.hexdigest()
         return psw
-s=Secretkey()
-print (s.GetSecretKey())
