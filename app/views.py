@@ -12,29 +12,38 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/login',methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
     form = request.form
     UserPhone = form.get('UserPhone')
     PassWord = form.get('PassWord')
     u=User.query.filter_by(UserPhone=UserPhone).first()
     if u is None:
-        msg='0'
-        SecretKey=None
+        msg = '0'
+        SecretKey = None
     else:
         if u.PassWord == PassWord:
             msg='1'
-            S=Secretkey()
-            SecretKey=S.GetSecretKey()
-            u.SecretKey=SecretKey
+            S = Secretkey()
+            SecretKey = S.GetSecretKey()
+            u.SecretKey = SecretKey
         else:
-            msg='0'
-            SecretKey=None
-    array={
-        'msg':msg,
-        'SecretKey':SecretKey
+            msg = '0'
+            SecretKey = None
+    array = {
+        'msg': msg,
+        'SecretKey': SecretKey
     }
     return jsonify(array)
+
+
+@app.route('/register', methods=['POST'])
+def register():
+    form = request.form
+
+    return jsonify(array)
+
+
 
 
 

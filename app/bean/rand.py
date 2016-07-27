@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 import string, random
 
 
@@ -6,5 +7,5 @@ def rand(n):
     s = s[0] + s[1] + s[2] + s[3] + s[4] + s[5]
     return s
 #调用方法，生成n位随机数
-# rand(6)
+print rand(6)
 
