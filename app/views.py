@@ -1,9 +1,9 @@
+from flask import jsonify
+from flask import request, render_template
+
 from app import app
-from flask import Flask, jsonify
-from flask import request, render_template, url_for
-from secretkey import Secretkey
+from app.bean.secretkey import Secretkey
 from db import User
-import db
 
 
 @app.route('/')
