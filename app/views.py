@@ -40,11 +40,14 @@ def login():
 
 @app.route('/register1', methods=['POST'])
 def register1():
-    form = request.form()
-
-    UserPhone = form.get('UserPhone')
+    form = request.form
+    UserPhone = form.get('UserPhone').encode('utf-8')
+    print UserPhone
     sendMessage = SendMessage()
     sendMessage.sendmessage(UserPhone)
-
-
+    msg = 1
+    array = {
+        'msg': msg,
+    }
+    return jsonify(array)
 

@@ -17,16 +17,13 @@ class Message(object):
     def sendMessage(self, phone):
         try:
             url = "/sms?u=" + self.UserName + "&p=" + self.PassWord + "&m=" + phone + "&c=" + self.content
-            print url
             conn = httplib.HTTPConnection("www.smsbao.com")
             conn.request("GET", url)
             response = conn.getresponse()
-            print response.read()
+            conn.close()
         except Exception, e:
             print e
         finally:
-            if conn:
-                conn.close()
             return self.CheckCode
 
 

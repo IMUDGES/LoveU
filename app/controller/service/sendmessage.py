@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from app.bean.message import Message
-from app.db import Checkcode,db
+from app.db import Checkcode, db
 
 
 class SendMessage(object):
