@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 import httplib
 import hashlib
-from rand import rand
+from app.bean.rand import rand
 
 
 class Message(object):
