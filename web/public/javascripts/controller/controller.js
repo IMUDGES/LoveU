@@ -1,8 +1,18 @@
 //"use strict";
 
-var app = angular.module('main', [ 'ngRoute']);
-app.controller('MainCtrl',['$scope','$http','$rootScope',function ($scope,$http,$rootScope) {
-    $rootScope.web='test';
+var app = angular.module('main', [ 'ngRoute','MyService']);
+app.controller('LogCtrl',['$scope','$http','$rootScope','LoginService',function ($scope,$http,$rootScope,LoginService) {
+    $scope.user={
+        user:'',
+        pass:''
+    };
+    $scope.msg={
+        ifshow:true,
+        text:'测试'
+    };
+    $scope.login=function () {
+        LoginService.login($scope.user);
+    }
 }]);
 
 /*
@@ -57,7 +67,7 @@ app.controller('testctrl', ['$scope', '$http', 'recipes','$location',
 */
 app.config(['$routeProvider', function ($routeProvider, $scope) {
     $routeProvider.when('/', {
-        controller: "MainCtrl",
+        controller: "LogCtrl",
         templateUrl: "views/user.login.html"
         /*resolve: {
             recipes: ["MultiRecipeLoader", function (MultiRecipeLoader) {

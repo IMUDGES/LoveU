@@ -1,56 +1,23 @@
-var services = angular.module('re0', ['ngResource']);
+var services = angular.module('MyService', []);
+var root_url = '127.0.0.1:5000/';
 
-services.factory('Recipe', ['$resource',
-    function($resource) {
-        return $resource('/recipes/:id', {id: '@id'});
-    }]);
+services.factory('LoginService', ['$q', '$http',
+    function ($q, $http) {
+        return {
+            login: function (logdata) {
+                var delay = $q.defer();
+                if (logdata.user.length == 0)
+                    delay.reject('用户名不能留空');
+                if (logdata.pass.length == 0)
+                    delay.reject('密码不能留空');
+                $http.get(root_url+'login').success(function (iflogin) {
+                        delay.resolve(iflogin);
+                    }
+                ).error(function () {
+                    delay.reject('Unable to connect');
+                })
+            }
+        }
+    }
+]);
 
-services.factory('MultiRecipeLoader', ['Recipe', '$q',
-    function(Recipe, $q) {
-        return function() {
-            var delay = $q.defer();
-            Recipe.query(function(recipes) {
-                delay.resolve(recipes);
-            }, function() {
-                delay.reject('Unable to fetch recipes');
-            });
-            return delay.promise;
-        };
-    }]);
-
-/*
- var services = angular.module('re0', ['ngResource']);
-
- services.factory('Recipe', ['$resource',
- function($resource) {
- return $resource('/recipes/:id', {id: '@id'});
- }]);
-
- services.factory('MultiRecipeLoader', ['Recipe', '$q',
- function(Recipe, $q) {
- return function() {
- var delay = $q.defer();
- Recipe.query(function(recipes) {
- delay.resolve(recipes);
- }, function() {
- delay.reject('Unable to fetch recipes');
- });
- return delay.promise;
- };
- }]);
-
- /!*
- services.factory('RecipeLoader', ['Recipe', '$route', '$q',
- function(Recipe, $route, $q) {
- return function() {
- var delay = $q.defer();
- Recipe.get({id: $route.current.params.recipeId}, function(recipe) {
- delay.resolve(recipe);
- }, function() {
- delay.reject('Unable to fetch recipe '  + $route.current.params.recipeId);
- });
- return delay.promise;
- };
- }]);
- *!/
- */
