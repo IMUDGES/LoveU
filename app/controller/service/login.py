@@ -25,7 +25,4 @@ def dologin():
         'msg': msg,
         'SecretKey': SecretKey
     }
-    print (UserPhone)
-    print (PassWord)
-    print (msg)
     return array
