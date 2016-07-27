@@ -6,16 +6,24 @@ services.factory('LoginService', ['$q', '$http',
         return {
             login: function (logdata) {
                 var delay = $q.defer();
-                if (logdata.user.length == 0)
-                    delay.reject('用户名不能留空');
-                if (logdata.pass.length == 0)
-                    delay.reject('密码不能留空');
-                $http.post(root_url+'login').success(function (iflogin) {
-                        delay.resolve(iflogin);
-                    }
-                ).error(function () {
+                var promise=delay.promise;
+                $http.post(root_url+'login', {
+                    UserPhone: logdata.name,
+                    PassWord: logdata.pass
+                }).success(function (iflogin) {
+                    delay.resolve(iflogin);
+                }).error(function () {
                     delay.reject('Unable to connect');
-                })
+                });
+                promise.success = function (fn) {
+                    promise.then(fn);
+                    return promise;
+                };
+                promise.error = function (fn) {
+                    promise.then(null, fn);
+                    return promise;
+                };
+                return promise;
             }
         }
     }
