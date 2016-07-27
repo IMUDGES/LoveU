@@ -1,6 +1,5 @@
 from flask import jsonify
 from flask import request, render_template
-
 from app import app
 from app.bean.secretkey import Secretkey
 from db import User
@@ -35,18 +34,10 @@ def login():
         'SecretKey': SecretKey
     }
     return jsonify(array)
-@app.route('/food')
-def food():
-
-
-
 
 
 @app.route('/register', methods=['POST'])
 def register():
-    form = request.form
-
-    return jsonify(array)
 
 
 
