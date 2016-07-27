@@ -3,6 +3,7 @@ import httplib
 import hashlib
 from rand import rand
 
+
 class Message(object):
     UserName = "yanyongjie"
     PassWord = "15296603340yyjqq"
