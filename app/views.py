@@ -22,6 +22,8 @@ def login():
 @app.route('/register1', methods=['POST'])
 def register1():
     form = request.form
+    UserPhone = form.get('UserPhone').encode('utf-8')
+    print (UserPhone)
     UserPhone = form.get('UserPhone')
     print(UserPhone)
     sendMessage = SendMessage()

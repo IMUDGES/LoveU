@@ -3,7 +3,7 @@
 var app = angular.module('main', [ 'ngRoute','MyService']);
 app.controller('LogCtrl',['$scope','$http','$rootScope','LoginService',function ($scope,$http,$rootScope,LoginService) {
     $scope.user={
-        name:'',
+        user:'',
         pass:''
     };
     $scope.msg={
@@ -11,11 +11,7 @@ app.controller('LogCtrl',['$scope','$http','$rootScope','LoginService',function 
         text:'测试'
     };
     $scope.login=function () {
-        LoginService.login($scope.user).success(function (data) {
-            $scope.msg.text=data+'sd';
-        }).error(function (data) {
-            $scope.msg.text=data;
-        })
+        LoginService.login($scope.user);
     }
 }]);
 

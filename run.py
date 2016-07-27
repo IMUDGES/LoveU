@@ -1,8 +1,5 @@
-from flask import Flask
-from flask_cors import CORS
+#!flask/bin/python
+from app import app
 
-app = Flask(__name__)
-CORS(app)
 
-app.run(debug=False)
-
+app.run(debug=True)
