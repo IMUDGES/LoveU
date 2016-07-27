@@ -1,7 +1,7 @@
 from app import app
 from flask import Flask
 from flask_script import Manager
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_sqlalchemy import SQLAlchemy
 import pymysql
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@183.175.14.250:3306/loveu'
