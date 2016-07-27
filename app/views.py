@@ -23,9 +23,7 @@ def login():
 def register1():
     form = request.form
     UserPhone = form.get('UserPhone').encode('utf-8')
-    print (UserPhone)
     UserPhone = form.get('UserPhone')
-    print(UserPhone)
     sendMessage = SendMessage()
     sendMessage.sendmessage(UserPhone)
     msg = 1
