@@ -35,6 +35,11 @@ def login():
         'SecretKey': SecretKey
     }
     return jsonify(array)
+@app.route('/food')
+def food():
+
+
+
 
 
 @app.route('/register', methods=['POST'])
