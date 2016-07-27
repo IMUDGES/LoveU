@@ -1,3 +1,5 @@
+from flask import Flask
+from flask_cors import CORS
 
-#from app import views
-#from app import views2
+app = Flask(__name__)
+CORS(app)
