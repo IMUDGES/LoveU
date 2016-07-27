@@ -1,5 +1,5 @@
 var services = angular.module('MyService', []);
-var root_url = '127.0.0.1:5000/';
+var root_url = 'http://127.0.0.1:5000/';
 
 services.factory('LoginService', ['$q', '$http',
     function ($q, $http) {
@@ -10,7 +10,7 @@ services.factory('LoginService', ['$q', '$http',
                     delay.reject('用户名不能留空');
                 if (logdata.pass.length == 0)
                     delay.reject('密码不能留空');
-                $http.get(root_url+'login').success(function (iflogin) {
+                $http.post(root_url+'login').success(function (iflogin) {
                         delay.resolve(iflogin);
                     }
                 ).error(function () {
