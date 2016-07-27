@@ -1,7 +1,9 @@
-"use strict";
+//"use strict";
 
 var app = angular.module('main', [ 'ngRoute']);
-
+app.controller('MainCtrl',['$scope','$http','$rootScope',function ($scope,$http,$rootScope) {
+    $rootScope.web='test';
+}]);
 
 /*
 
@@ -52,15 +54,15 @@ app.controller('testctrl', ['$scope', '$http', 'recipes','$location',
  }
  })
  *!/
-
+*/
 app.config(['$routeProvider', function ($routeProvider, $scope) {
     $routeProvider.when('/', {
-        controller: "testctrl",
-        templateUrl: "views/main.login.html",
-        resolve: {
+        controller: "MainCtrl",
+        templateUrl: "views/user.login.html"
+        /*resolve: {
             recipes: ["MultiRecipeLoader", function (MultiRecipeLoader) {
                 return MultiRecipeLoader();
             }]
-        }
+        }*/
     })
-}]);*/
+}]);
