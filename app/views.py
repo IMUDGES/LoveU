@@ -2,6 +2,8 @@
 from flask import jsonify
 from flask import request, render_template
 from app import app
+from app.bean.secretkey import Secretkey
+from app.db import User
 from app.controller.service.sendmessage import SendMessage
 from app.controller.service.login import dologin
 
@@ -12,7 +14,7 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/login',methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
     return jsonify(dologin())
 
@@ -22,6 +24,8 @@ def register1():
     form = request.form
     UserPhone = form.get('UserPhone').encode('utf-8')
     print (UserPhone)
+    UserPhone = form.get('UserPhone')
+    print(UserPhone)
     sendMessage = SendMessage()
     sendMessage.sendmessage(UserPhone)
     msg = 1
