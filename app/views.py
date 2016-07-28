@@ -10,7 +10,7 @@ from app.controller.service.sendmessage import SendMessage
 from app.controller.service.login import dologin
 from app.controller.foodservice.food import foodservice
 from app.controller.service.data import data
-
+import json
 
 @app.route('/')
 @app.route('/index')
@@ -66,6 +66,17 @@ def register3():
 def food():
     f = foodservice()
     return jsonify(f.food())
+
+@app.route('/creatfoood', methods = ['POST', 'GET'])
+def creatfood():
+    f = foodservice()
+    return jsonify(f.creat())
+
+
+@app.route('/creatfoood', methods=['POST', 'GET'])
+def creatfood():
+    f = foodservice()
+    return jsonify(f.get())
 
 
 @app.route('/data',methods = ['POST', 'GET'])

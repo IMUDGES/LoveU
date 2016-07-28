@@ -2,6 +2,7 @@
 from app.bean.secretkey import Secretkey
 from app.db import User
 from flask import request
+import hashlib
 
 
 def dologin():
@@ -13,7 +14,11 @@ def dologin():
         msg = '0'
         SecretKey = None
     else:
-        if u.PassWord == PassWord:
+        m = PassWord
+        password = hashlib.md5()
+        password.update(m)
+        psw = password.hexdigest()
+        if psw == u.PassWord:
             msg = '1'
             S = Secretkey()
             SecretKey = S.GetSecretKey()

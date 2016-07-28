@@ -12,7 +12,8 @@ class data():
             'UserSex' : u.UserSex,
             'UserPhoto' : u.UserPhoto
         }
-        return array
+        list1 = [array]
+        return list1
     def GetMyData(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
@@ -29,7 +30,8 @@ class data():
                     'UserPhoto': u.UserPhoto,
                     'UserMajor' : u.UserMajor
                 }
-                return array
+                list1 = [array]
+                return list1
             else:
                 return None
         else:
