@@ -1,12 +1,10 @@
 # -*- coding:utf-8 -*-
 from flask import request
-from app.db import Food
-from app.db import User
-
+from app.db import User, Food, db
 
 class foodservice():
     def food(self):
-        page = request.args.get('page')
+        page = int(request.args.get('page'))
         #SecretKey = '0a6b58441e5069288e0f95939a2c4375'
         #UserPhone = '2147483647'
         #page = 1
@@ -42,9 +40,22 @@ class foodservice():
         UserPhone = form.get('UserPhone')
         SecretKey = form.get('SecretKey')
         if UserPhone and SecretKey:
-            u = User.query.filter_by().first()
+            u = User.query.filter_by(UserPhone = UserPhone).first()
             if u.SecretKey == SecretKey:
-
+                FoodArea = form.get('FoodArea')
+                FoodInformation = form.args.get('FoodInformation')
+                FoodTime = form.args.get('FoodTime')
+                FoodWay = form.args.get('FoodWay')
+                UserId = u.UserId
+                f =  Food()
+                f.UserId = UserId
+                f.FoodArea = FoodArea
+                f.FoodInformation = FoodInformation
+                f.FoodTime = FoodTime
+                f.FoodWay = FoodWay
+                f.State = 1
+                db.session.add(f)
+                db.session.commit()
                 msg = '1'
             else:
                 msg = '0'
@@ -54,6 +65,30 @@ class foodservice():
             'msg' : msg
         }
         return msg
+    def get(self):
+        UserPhone = request.args.get('UserPhone')
+        SecretKey = request.args.get('SecretKey')
+        FoodId = request.args.get('FoodId')
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone = UserPhone).first()
+            if u.SecretKey == SecretKey:
+                f = Food.query.filter_by(FoodId = FoodId).first()
+                if f.State == 1:
+                    f.GetUser = u.UserId
+                    f.State = 0
+                    msg = '1'
+                else:
+                    msg = '约会已结束'
+            else:
+                msg = '请登录'
+        else:
+            msg = '请登录'
+        array = {
+            'msg' : msg
+        }
+        return array
+
+
 
 
 

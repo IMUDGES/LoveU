@@ -67,14 +67,14 @@ def food():
     f = foodservice()
     return jsonify(f.food())
 
-@app.route('/creatfoood', methods = ['POST', 'GET'])
+@app.route('/creatfood', methods = ['POST', 'GET'])
 def creatfood():
     f = foodservice()
     return jsonify(f.creat())
 
 
-@app.route('/creatfoood', methods=['POST', 'GET'])
-def creatfood():
+@app.route('/getfood', methods=['POST', 'GET'])
+def getfood():
     f = foodservice()
     return jsonify(f.get())
 
