@@ -5,9 +5,9 @@ from app import app
 from app.bean.secretkey import Secretkey
 from app.db import User
 from app.controller.service.register2 import Register2
+from app.controller.service.register3 import Register3
 from app.controller.service.sendmessage import SendMessage
 from app.controller.service.login import dologin
-from app.controller.foodservice.food import foodservice
 
 
 @app.route('/')
@@ -39,8 +39,26 @@ def register2():
     form = request.form
     UserPhone = form.get('UserPhone')
     CheckCode = form.get('CheckCode')
-    register2 = Register2()
-    return jsonify(register2.register2(UserPhone, CheckCode))
+    register2q = Register2()
+    return jsonify(register2q.register2(UserPhone, CheckCode))
+
+
+@app.route('/register3', methods=['POST'])
+def register3():
+    form = request.form
+    UserPhone = form.get('UserPhone')
+    PassWord = form.get('PassWord')
+    NickName = form.get('NickName')
+    CheckCode = form.get('CheckCode')
+    register2q = Register2()
+    array = register2q.register2(UserPhone, CheckCode)
+    q = int(array['msg'])
+    if q == 1:
+        register3 = Register3()
+        return jsonify(register3.register3(UserPhone, PassWord, NickName))
+    else:
+        return jsonify(array)
+
 
 @app.route('/food', methods = ['POST', 'GET'])
 def food():
