@@ -69,7 +69,7 @@ def food():
 
 
 @app.route('/data',methods = ['POST', 'GET'])
-def data():
+def getdata():
     d = data()
     return jsonify(d.GetOthersData())
 
@@ -77,7 +77,7 @@ def data():
 @app.route('/mydata',methods = ['POST', 'GET'])
 def mydata():
     d = data()
-    return jsonify(d.GetMysData())
+    return jsonify(d.GetMyData())
 
 
 @app.route('/test')
