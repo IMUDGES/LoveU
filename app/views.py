@@ -7,6 +7,7 @@ from app.db import User
 from app.controller.service.register2 import Register2
 from app.controller.service.sendmessage import SendMessage
 from app.controller.service.login import dologin
+from app.controller.foodservice.food import foodservice
 
 
 @app.route('/')
@@ -40,3 +41,12 @@ def register2():
     CheckCode = form.get('CheckCode')
     register2 = Register2()
     return jsonify(register2.register2(UserPhone, CheckCode))
+
+@app.route('/food', methods = ['POST', 'GET'])
+def food():
+    f = foodservice()
+    return jsonify(f.food())
+
+
+
+
