@@ -8,6 +8,8 @@ from app.controller.service.register2 import Register2
 from app.controller.service.register3 import Register3
 from app.controller.service.sendmessage import SendMessage
 from app.controller.service.login import dologin
+from app.controller.foodservice.food import foodservice
+from app.controller.service.data import data
 
 
 @app.route('/')
@@ -64,6 +66,25 @@ def register3():
 def food():
     f = foodservice()
     return jsonify(f.food())
+
+
+@app.route('/data',methods = ['POST', 'GET'])
+def data():
+    d = data()
+    return jsonify(d.GetOthersData())
+
+
+@app.route('/mydata',methods = ['POST', 'GET'])
+def mydata():
+    d = data()
+    return jsonify(d.GetMysData())
+
+
+@app.route('/test')
+def test():
+    u = User.query.filter_by(UserPhone='18548186741').first()
+    print (u.NickName)
+    return u.NickName
 
 
 
