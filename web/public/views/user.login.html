@@ -16,6 +16,7 @@
         <div class="alert alert-warning margin-10px col-xs-12" ng-show="msg.ifshow">
             <p class="text-center" ng-bind="msg.text"></p>
         </div>
+        <p ng-bind="key"></p>
         <form class="col-lg-10 col-lg-offset-1 col-xs-10 col-xs-offset-1" ng-submit="login()">
             <input class="form-control margin-10px" type="text" placeholder="手机号" ng-model="user.name">
             <input class="form-control margin-10px" type="password" placeholder="密码" ng-model="user.pass">
@@ -26,5 +27,6 @@
     <div>
         <br>
         <p class="text text-center margin-10px"><a href="#/regist">没有账号？注册一个</a></p>
+
     </div>
 </div>

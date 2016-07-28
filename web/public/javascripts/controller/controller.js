@@ -1,17 +1,24 @@
 //"use strict";
 
 var app = angular.module('main', [ 'ngRoute','MyService']);
-app.controller('LogCtrl',['$scope','$http','$rootScope','LoginService',function ($scope,$http,$rootScope,LoginService) {
+app.controller('MainCtrl',['$scope','$']);
+app.controller('LogCtrl',['$scope','$rootScope','LoginService','SecretKey','key',
+    function ($scope,$rootScope,LoginService,SecretKey,key) {
     $scope.user={
-        user:'',
+        name:'',
         pass:''
     };
     $scope.msg={
         ifshow:true,
         text:'测试'
     };
+    $scope.key=key;
     $scope.login=function () {
-        LoginService.login($scope.user);
+        LoginService.login($scope.user).success(function (data) {
+            setCookie('key',data.SecretKey);
+        }).error(function (msg) {
+            $scope.msg.text=msg;
+        })
     }
 }]);
 
@@ -68,11 +75,11 @@ app.controller('testctrl', ['$scope', '$http', 'recipes','$location',
 app.config(['$routeProvider', function ($routeProvider, $scope) {
     $routeProvider.when('/', {
         controller: "LogCtrl",
-        templateUrl: "views/user.login.html"
-        /*resolve: {
-            recipes: ["MultiRecipeLoader", function (MultiRecipeLoader) {
-                return MultiRecipeLoader();
+        templateUrl: "views/user.login.html",
+        resolve: {
+            key: ["SecretKey", function (SecretKey) {
+                return SecretKey.Get();
             }]
-        }*/
+        }
     })
 }]);
