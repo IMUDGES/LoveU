@@ -29,11 +29,11 @@ class User(db.Model):
 
 class Checkcode(db.Model):
     CheckId = db.Column(db.Integer, primary_key=True)
-    UserPhone = db.Column(db.String, unique=True)
-    CheckCode = db.Column(db.Integer, unique=True)
+    UserPhone = db.Column(db.String)
+    CheckCode = db.Column(db.Integer)
 
     def __repr__(self):
-        return '<User %r>' % self.UserPhone
+        return '<User %r>' % self.UserPhone + "&" + str(self.CheckCode)
 
 
 class Class(db.Model):

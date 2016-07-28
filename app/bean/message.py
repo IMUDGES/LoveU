@@ -20,7 +20,7 @@ class Message(object):
             url = url + "&m="
             url = url + str(phone)
             url = url + "&c=" + self.content
-            conn = httplib2.Http('.cache')
+            conn = httplib2.Http()
             resp, content = conn.request(url, "GET")
         except Exception as e:
             print(e)
