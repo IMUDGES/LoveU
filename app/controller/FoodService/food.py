@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from flask import request
 from app.db import Food
+from app.db import User
 
 
 class foodservice():
@@ -37,6 +38,22 @@ class foodservice():
                 list1.append(array)
         return list1
     def creat(self):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        if UserPhone and SecretKey:
+            u = User.query.filter_by().first()
+            if u.SecretKey == SecretKey:
+
+                msg = '1'
+            else:
+                msg = '0'
+        else:
+            msg = '0'
+        array = {
+            'msg' : msg
+        }
+        return msg
 
 
 
