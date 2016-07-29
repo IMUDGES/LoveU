@@ -31,7 +31,7 @@ def register1():
     sendMessage = SendMessage()
     sendMessage.sendmessage(UserPhone)
     state = 1
-    msg = "注册成功了，快去登陆吧！"
+    msg = "成功"
     array = {
         'state':state,
         'msg': msg,

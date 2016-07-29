@@ -24,20 +24,26 @@ class upjwxtService(object):
                     self.jwxtservice.updatajwxtinfoService(jwxtnumber,jwxtpassword, user['UserId'])
                 else:
                     self.jwxtservice.addjwxtinfoService(jwxtnumber,jwxtpassword, user['UserId'])
-                msg = 1
+                state = 1
+                msg = "成功"
                 array = {
+                    'state': state,
                     'msg': msg
                 }
                 return array
             else:
-                msg = 0
+                state = 0
+                msg = "请使用正确的教务系统账号密码哦！"
                 array = {
+                    'state':state,
                     'msg': msg
                 }
                 return array
         else:
-            msg = 0
+            state = 0
+            msg = '请记得先登录哦~'
             array = {
+                'state': state,
                 'msg': msg
             }
             return array
