@@ -1,27 +1,53 @@
 body {
+    font-weight: 300;
     overflow-x: hidden;
-    font-family:  "Microsoft YaHei UI","Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Microsoft YaHei UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-a:focus {
-    outline: none;
+a,.btn {
+    outline: none !important;
 }
 
-.navbar {
+
+.navbar-loveu {
     border-radius: 0;
-    background-color: white;
+    padding: 15px !important;
+    background-color: #48CFAD;
+}
+
+.nav-img {
+    width: 150px;
+    margin-right: 50px;
 }
 
 .li {
+    color: white !important;
     transition: 0.5s;
 }
 
 .li:hover {
     background-color: skyblue;
 }
+.nav-a{
+    font-size: 18px;
+    color: white !important;
+    margin: 5px 10px 5px 10px;
+}
+.nav-divide{
+    width: 60px;
+}
+/*.navbar-nav:first-child{
+    margin-left: 60px;
+}*/
 
 .alert {
+    border-radius:0 ;
     padding: 5px;
+}
+
+.btn-click{
+    color: #fff !important;
+    background-color: #48CFAD;
 }
 
 .nopadding {
@@ -32,13 +58,13 @@ a:focus {
     margin: 10px;
 }
 
-.text {
-    font-weight: 300;
-}
-.novel{
+
+
+.novel {
     box-shadow: 1px 1px 0 #f5f5f5;
 }
-.novel-click{
+
+.novel-click {
     border-bottom: 20px #f5f5f5 solid;
 }
 
@@ -52,9 +78,10 @@ a:focus {
 }
 
 @media (min-width: 1000px) {
-    .supper{
+    .supper {
         font-size: 4em;
     }
+
     .text {
         font-size: 1.5em;
     }
@@ -70,10 +97,11 @@ a:focus {
 }
 
 @media (max-width: 650px) {
-    .supper{
+    .supper {
         word-break: break-all;
         font-size: 4em;
     }
+
     .text {
         font-size: 1em;
     }
@@ -89,10 +117,11 @@ a:focus {
 }
 
 @media (max-width: 350px) {
-    .supper{
+    .supper {
         word-break: break-all;
         font-size: 2em;
     }
+
     .text {
         font-size: 1em;
     }
@@ -110,10 +139,11 @@ a:focus {
 .banner {
     color: #555;
     font-weight: 300;
-    margin-bottom: 20px;
-    margin-top: 10px;
 }
-
+.words{
+    margin-top: 50px;
+    line-height: 50px;
+}
 .avator {
     width: 50px;
 }
@@ -127,10 +157,8 @@ a:focus {
     max-width: 350px;
     margin: 0 auto;
     height: auto;
-    padding: 30px 20px 50px;
-    border: 1px solid #b3b3b3;
-    border-radius: 4px;
-    box-shadow: 0 1px 10px #a7a7a7, inset 0 1px 0 #fff;
+    padding: 30px 20px 30px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.15);
     background: #fcfcfc;
 }
 
@@ -167,50 +195,55 @@ li {
     background-color: #f5f5f5;
 }
 
-.right-list{
+.right-list {
     background-color: #f5f5f5;
     padding: 0;
 }
-.book{
+
+.book {
     padding: 5%;
     padding-bottom: 0;
     margin: 10px;
- }
+}
 
-.content{
+.content {
     padding: 5%;
     background-color: #77C4D3;
 }
-.index{
+
+.index {
     padding: 2%;
     padding-right: 10%;
     margin-left: 10%;
     margin-right: -10%;
     background-color: #F6F792;
 }
-.about{
+
+.about {
     margin-left: -10%;
     padding-right: 10%;
     width: 120%;
     background-color: white;
     opacity: .7;
 }
-.authur{
+
+.authur {
     padding: 10px;
     color: white;
     display: inline;
     background-color: #EA2E49;
 }
-.form{
+
+.form {
     overflow: hidden;
     max-width: 800px;
     margin: 0 auto;
     height: auto;
     padding: 30px 20px 50px;
-    border: 1px solid #b3b3b3;
     box-shadow: 0 1px 10px #a7a7a7, inset 0 1px 0 #fff;
     background: #fcfcfc;
 }
+
 .inner {
     height: 350px;
     resize: none;

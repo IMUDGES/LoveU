@@ -4,6 +4,7 @@ from flask import request, render_template
 from app import app
 from app.bean.secretkey import Secretkey
 from app.db import User
+from app.controller.service.register1 import Register1
 from app.controller.service.register2 import Register2
 from app.controller.service.register3 import Register3
 from app.controller.service.sendmessage import SendMessage
@@ -11,6 +12,7 @@ from app.controller.service.login import dologin
 from app.controller.foodservice.food import foodservice
 from app.controller.service.data import data
 from app.controller.jwxtservice.upjwxtservice import upjwxtService
+from app.controller.runservice.run import runservice
 import json
 
 @app.route('/')
@@ -28,15 +30,8 @@ def login():
 def register1():
     form = request.form
     UserPhone = form.get('UserPhone')
-    sendMessage = SendMessage()
-    sendMessage.sendmessage(UserPhone)
-    state = 1
-    msg = "成功"
-    array = {
-        'state':state,
-        'msg': msg,
-    }
-    return jsonify(array)
+    register1 = Register1()
+    return jsonify(register1.register1(UserPhone))
 
 
 @app.route('/register2', methods=['POST'])
@@ -64,7 +59,7 @@ def register3():
     else:
         return jsonify(array)
 
-
+#food模块
 @app.route('/food', methods = ['POST', 'GET'])
 def food():
     f = foodservice()
@@ -99,7 +94,7 @@ def myfood():
 def thisfood():
     f= foodservice()
     return jsonify(f.thisfood())
-
+#food模块结束
 
 @app.route('/data', methods = ['POST', 'GET'])
 def getdata():
@@ -130,7 +125,34 @@ def upjwxtservice():
     upjwxtserviceinfo = upjwxtService()
     return jsonify(upjwxtserviceinfo.check(UserPhone,Secretkey,JwxtNumber,JwxtPassword))
 
-@app.route('/run', methods=['POST','GET'])
+#run模块-------------------------------------------------------------run模块
+@app.route('/run', methods = ['POST', 'GET'])
 def run():
-    #此模块未完成
     pass
+
+
+@app.route('/creatrun', methods = ['POST', 'GET'])
+def creatrun():
+    pass
+
+
+@app.route('/getrun', methods=['POST', 'GET'])
+def getrun():
+    pass
+
+
+@app.route('/canclerun', methods = ['POST', 'GET'])
+def canclerun():
+    pass
+
+
+@app.route('/myrun', methods = ['POST', 'GET'])
+def myrun():
+    pass
+
+
+@app.route('/thisrun', methods = ['GET', 'POST'])
+def thisrun():
+    pass
+
+#run模块结束---------------------------------------------------run模块结束

@@ -1,32 +1,25 @@
-<br>
-<div class="hidden-xs">
-    <br><br>
-</div>
 <div>
     <h1 class="text-big text-center banner">
-        <span class="glyphicon glyphicon-grain" style="color: green"></span>
+        <span class="glyphicon glyphicon-grain" style="color:#48CFAD"></span>
         一个帐户，畅享 LoveU 所有服务！
-        <span class="glyphicon glyphicon-grain" style="color: green"></span>
+        <span class="glyphicon glyphicon-grain" style="color: #48CFAD"></span>
     </h1>
     <p class="text text-center hidden-xs banner">
-        使用您的 LoveU 账号登录
+        使用 LoveU 账号登录
     </p>
     <div class="container1 text-center">
         <img class="img img-circle" src="../images/avatar_2x.png" alt="avatar">
         <div class="alert alert-warning margin-10px col-xs-12" ng-show="msg.ifshow">
             <p class="text-center" ng-bind="msg.text"></p>
         </div>
-        <p ng-bind="key"></p>
         <form class="col-lg-10 col-lg-offset-1 col-xs-10 col-xs-offset-1" ng-submit="login()">
             <input class="form-control margin-10px" type="text" placeholder="手机号" ng-model="user.name">
             <input class="form-control margin-10px" type="password" placeholder="密码" ng-model="user.pass">
-            <button type="submit" class="btn btn-success margin-10px col-lg-12 col-xs-12">登录</button>
+            <button type="submit" class="btn btn-click margin-10px col-lg-12 col-xs-12">登录</button>
         </form>
-        <p class="text-center col-lg-12 col-xs-12"><a class="text margin-10px" href="#/">返回首页</a></p>
-    </div>
-    <div>
-        <br>
-        <p class="text text-center margin-10px"><a href="#/regist">没有账号？注册一个</a></p>
-
+        <div class="col-lg-12">
+            <a class="col-lg-6 text-left" href="#/regist">新用户注册</a>
+            <a class="col-lg-6 text-right" href="#/regist">忘记密码？</a>
+        </div>
     </div>
 </div>

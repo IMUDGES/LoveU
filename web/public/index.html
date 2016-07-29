@@ -3,16 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1" >
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
     <link href="stylesheets/style.css" rel="stylesheet">
-    <title ng-bind="web" ng-init="qq"></title>
+    <title ng-bind="web" ng-init="404"></title>
 </head>
 <body>
 
-<div class="row" ng-view></div>
-<!--<script src="javascripts/vendor/jQuery.js"></script>-->
-<!--<script src="javascripts/vendor/bootstrap.js"></script>-->
+<div>
+    <nav class="navbar navbar-default navbar-loveu" role="navigation">
+        <div class="navbar-header col-lg-offset-2">
+            <button class="navbar-toggle pull-left" data-toggle="collapse" data-target="#sg-header">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+            </button>
+            <img class="img-responsive nav-img" src="images/logo.png" style="display: inline">
+        </div>
+
+        <div class="collapse navbar-collapse" id="sg-header">
+            <ul class="nav navbar-nav">
+                <li class="li"><a class="nav-a" href="#/">测试首页</a></li>
+                <li class="li"><a class="nav-a" href="#/login">登录</a></li>
+                <li class="li"><a class="nav-a" href="#/regist">注册</a></li>
+                <li class="li"><a class="nav-a" href="#/profile">通知</a></li>
+                <li class="li"><a class="nav-a" >登出</a></li>
+            </ul>
+
+        </div>
+    </nav>
+</div>
+
+<div class="row">
+    <div class="col-lg-12" ng-view></div>
+</div>
+<script src="javascripts/vendor/jQuery.js"></script>
+<script src="javascripts/vendor/bootstrap.js"></script>
 <!--<script src="javascripts/vendor/angular-1.0.4.js"></script>-->
 <!--angular版本选择-->
 <script src="javascripts/vendor/md5.js"></script>
