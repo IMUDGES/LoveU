@@ -68,6 +68,7 @@ def food():
     f = foodservice()
     return jsonify(f.food())
 
+
 @app.route('/creatfood', methods = ['POST', 'GET'])
 def creatfood():
     f = foodservice()
@@ -80,13 +81,19 @@ def getfood():
     return jsonify(f.get())
 
 
-@app.route('/data',methods = ['POST', 'GET'])
+@app.route('/canclefood', methods = ['POST', 'GET'])
+def canclefood():
+    f = foodservice()
+    return jsonify(f.cancle())
+
+
+@app.route('/data', methods = ['POST', 'GET'])
 def getdata():
     d = data()
     return jsonify(d.GetOthersData())
 
 
-@app.route('/mydata',methods = ['POST', 'GET'])
+@app.route('/mydata', methods = ['POST', 'GET'])
 def mydata():
     d = data()
     return jsonify(d.GetMyData())

@@ -39,6 +39,8 @@ class foodservice():
         form = request.form
         UserPhone = form.get('UserPhone')
         SecretKey = form.get('SecretKey')
+        #UserPhone = '2147483647'
+        #SecretKey = '8fe98a41f795497799ef3ade6ee02366'
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone = UserPhone).first()
             if u.SecretKey == SecretKey:
@@ -46,6 +48,10 @@ class foodservice():
                 FoodInformation = form.args.get('FoodInformation')
                 FoodTime = form.args.get('FoodTime')
                 FoodWay = form.args.get('FoodWay')
+                #FoodArea = 'hhh'
+                #FoodInformation = 'hhh'
+                #FoodTime = '2016-07-28 15:31:41'
+                #FoodWay = 'hhh'
                 UserId = u.UserId
                 f =  Food()
                 f.UserId = UserId
@@ -64,11 +70,14 @@ class foodservice():
         array = {
             'msg' : msg
         }
-        return msg
+        return array
     def get(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
         FoodId = request.args.get('FoodId')
+        #UserPhone = '2147483647'
+        #SecretKey = '8fe98a41f795497799ef3ade6ee02366'
+        #FoodId = 3
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone = UserPhone).first()
             if u.SecretKey == SecretKey:
@@ -87,6 +96,32 @@ class foodservice():
             'msg' : msg
         }
         return array
+    def cancle(self):
+        UserPhone = request.args.get('UserPhone')
+        SecretKey = request.args.get('SecretKey')
+        FoodId = request.args.get('FoodId')
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone = UserPhone).first()
+            if u.SecretKey == SecretKey:
+                f = Food.query.filter_by(FoodId = FoodId).first()
+                db.session.delete(f)
+                db.session.commit()
+                msg = '1'
+            else:
+                msg = '请登录'
+        else:
+         msg = '请登录'
+        array = {
+            'msg' : msg
+        }
+        return array
+    def myfood(self):
+        UserPhone = request.args.get('UserPhone')
+        SecretKey = request.args.get('SecretKey')
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                f = Food.query.filter(UserId = u.UserId).all()
 
 
 
