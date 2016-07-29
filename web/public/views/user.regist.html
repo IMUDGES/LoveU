@@ -1,0 +1,58 @@
+<div>
+    <div class="visible-lg visible-md">
+        <h1 class="text-big text-center banner">
+            <span class="glyphicon glyphicon-grain" style="color:#48CFAD"></span>
+            创建一个 LoveU 账户
+            <span class="glyphicon glyphicon-grain" style="color:#48CFAD"></span>
+        </h1>
+    </div>
+    <div class="col-lg-6 col-md-6 hidden-sm hidden-xs">
+        <h3 class="text-center banner words">
+            即刻加入<br>
+            只需注册一个帐户即可 <br>
+            <small class="banner">一个免费帐户，即可畅享 LoveU 的所有服务</small>
+            <br>
+            高品质大学生活<br>
+            尽在 LoveU <br>
+        </h3>
+    </div>
+    <div class="col-lg-5 col-md-5 col-sm-12">
+        <div>
+            <div class="hidden-lg hidden-md">
+                <h1 class="text-big text-center banner">
+                    <span class="glyphicon glyphicon-grain" style="color:#48CFAD"></span>
+                    创建一个 LoveU 账户
+                    <span class="glyphicon glyphicon-grain" style="color:#48CFAD"></span>
+                </h1>
+            </div>
+            <form class="col-lg-10 col-lg-offset-1 col-xs-10 col-xs-offset-1" ng-submit="regist()">
+                <fieldset class="col-lg-12 col-xs-12 ">
+                    <br>
+                    手机号码：<input class="form-control margin-10px" type="text"
+                                placeholder="11位手机号码" ng-model="username" ng-change="autoCheck()">
+                    <div class="alert alert-warning margin-10px col-xs-12" ng-show="msg.ifphone">
+                        <p class="text-center" ng-bind="msg.phone"></p>
+                    </div>
+                    <button type="button" class="btn btn-click margin-10px col-lg-12 col-xs-12">发送验证码</button>
+                    验证码：<input class="form-control margin-10px" type="text"
+                               placeholder="手机接收到的6位 LoveU 注册验证码" ng-model="username" ng-change="autoCheck()">
+                    <div class="alert alert-warning margin-10px col-xs-12" ng-show="msg.ifvcode">
+                        <p class="text-center" ng-bind="msg.vcode"></p>
+                    </div>
+                    密码：<input class="form-control margin-10px" type="password"
+                              placeholder="6到18位" ng-model="password" ng-change="autoCheck()">
+                    <div class="alert alert-warning margin-10px col-xs-12" ng-show="msg.ifpass">
+                        <p class="text-center" ng-bind="msg.pass"></p>
+                    </div>
+                    确认密码：<input class="form-control margin-10px" type="password"
+                                placeholder="重复输入密码" ng-model="password1" ng-change="autoCheck()">
+                    <div class="alert alert-warning margin-10px col-xs-12" ng-show="msg.ifpass1">
+                        <p class="text-center" ng-bind="msg.pass1"></p>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-click margin-10px col-lg-12 col-xs-12">创建</button>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>

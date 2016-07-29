@@ -8,7 +8,7 @@ from app.controller.service.register2 import Register2
 from app.controller.service.register3 import Register3
 from app.controller.service.sendmessage import SendMessage
 from app.controller.service.login import dologin
-from app.controller.foodservice.food import foodservice
+from app.controller.Foodservice.food import foodservice
 from app.controller.service.data import data
 from app.controller.jwxtservice.upjwxtservice import upjwxtService
 import json
