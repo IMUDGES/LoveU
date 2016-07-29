@@ -10,31 +10,31 @@ class foodservice():
         #page = 1
         f = Food.query.paginate(page,10,False)
         p = f.items
-        array = {
-            'FoodId': p[0].FoodId,
-            'UserId': p[0].UserId,
-            'FoodArea': p[0].FoodArea,
-            'FoodInformation': p[0].FoodInformation,
-            'GetUser': p[0].GetUser,
-            'FoodTime': p[0].FoodTime,
-            'FoodWay': p[0].FoodWay,
-            'State': p[0].State
-         }
-        list1 = [array]
-        for i in range(1,len(p)):
-            if p[i] is not None:
-                array = {
-                    'FoodId': p[i].FoodId,
-                    'UserId' : p[i].UserId,
-                    'FoodArea' : p[i].FoodArea,
-                    'FoodInformation' : p[i].FoodInformation,
-                    'GetUser' : p[i].GetUser,
-                    'FoodTime' : p[i].FoodTime,
-                    'FoodWay' : p[i].FoodWay,
-                    'State' : p[i].State
-                }
-                list1.append(array)
-        return list1
+        if len(p) > 0:
+            array = {
+                'msg': '成功',
+                'state': '1'
+            }
+            list1 = [array]
+            for i in range(0,len(p)):
+                if p[i] is not None:
+                    array = {
+                        'FoodId': p[i].FoodId,
+                        'UserId' : p[i].UserId,
+                        'FoodArea' : p[i].FoodArea,
+                        'FoodInformation' : p[i].FoodInformation,
+                        'GetUser' : p[i].GetUser,
+                        'FoodTime' : p[i].FoodTime,
+                        'FoodWay' : p[i].FoodWay,
+                        'State' : p[i].State
+                    }
+                    list1.append(array)
+            return list1
+        else:
+            array = {
+                'msg': '信息为空',
+                'state': '0'
+            }
     def creat(self):
         form = request.form
         UserPhone = form.get('UserPhone')
@@ -62,19 +62,23 @@ class foodservice():
                 f.State = 1
                 db.session.add(f)
                 db.session.commit()
-                msg = '1'
+                state = '1'
+                msg = '创建成功'
             else:
-                msg = '0'
+                state = '0'
+                msg = '创建失败'
         else:
-            msg = '0'
+            state = '0'
+            msg = '创建失败'
         array = {
+            'state' : state,
             'msg' : msg
         }
         return array
     def get(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
-        FoodId = request.args.get('FoodId')
+        FoodId = int(request.args.get('FoodId'))
         #UserPhone = '2147483647'
         #SecretKey = '8fe98a41f795497799ef3ade6ee02366'
         #FoodId = 3
@@ -85,33 +89,42 @@ class foodservice():
                 if f.State == 1:
                     f.GetUser = u.UserId
                     f.State = 0
-                    msg = '1'
+                    msg = '成功'
+                    state = '1'
                 else:
                     msg = '约会已结束'
+                    state = '0'
             else:
                 msg = '请登录'
+                state = '0'
         else:
             msg = '请登录'
+            state = '0'
         array = {
-            'msg' : msg
+            'msg' : msg,
+            'state' : state
         }
         return array
     def cancle(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
-        FoodId = request.args.get('FoodId')
+        FoodId = int(request.args.get('FoodId'))
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone = UserPhone).first()
             if u.SecretKey == SecretKey:
                 f = Food.query.filter_by(FoodId = FoodId).first()
                 db.session.delete(f)
                 db.session.commit()
-                msg = '1'
+                msg = '撤销成功'
+                state = '1'
             else:
                 msg = '请登录'
+                state = '0'
         else:
-         msg = '请登录'
+            msg = '请登录'
+            state = '0'
         array = {
+            'state' : state,
             'msg' : msg
         }
         return array
@@ -121,7 +134,62 @@ class foodservice():
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
-                f = Food.query.filter(UserId = u.UserId).all()
+                p = Food.query.filter_by(UserId = u.UserId).all()
+                if p is not None:
+                    array = {
+                        'msg' : '成功',
+                        'state' : '1'
+                    }
+                    list1 = [array]
+                    for i in range(0,len(p)):
+                        array = {
+                            'FoodId': p[i].FoodId,
+                            'UserId': p[i].UserId,
+                            'FoodArea': p[i].FoodArea,
+                            'FoodInformation': p[i].FoodInformation,
+                            'GetUser': p[i].GetUser,
+                            'FoodTime': p[i].FoodTime,
+                            'FoodWay': p[i].FoodWay,
+                            'State': p[i].State
+                        }
+                        list1.append(array)
+                    return list1
+            else:
+                array = {
+                    'msg': '请登录',
+                    'state': '0'
+                }
+                return array
+        else:
+            array = {
+                'msg': '请登录',
+                'state': '0'
+            }
+            return array
+    def thisfood(self):
+        FoodId = int(request.args.get('FoodId'))
+        p = Food.query.filter_by(FoodId = FoodId).first()
+        if p is not None:
+            array  = {
+                'msg' : '成功',
+                'state' : '1',
+                'FoodId': p.FoodId,
+                'UserId': p.UserId,
+                'FoodArea': p.FoodArea,
+                'FoodInformation': p.FoodInformation,
+                'GetUser': p.GetUser,
+                'FoodTime': p.FoodTime,
+                'FoodWay': p.FoodWay,
+                'State': p.State
+            }
+        else:
+            array = {
+                'msg': '失败',
+                'state': '0',
+            }
+        return array
+
+
 
 
 
