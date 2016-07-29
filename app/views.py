@@ -136,23 +136,23 @@ def creatrun():
     pass
 
 
-@app.route('/getfood', methods=['POST', 'GET'])
-def getfood():
+@app.route('/getrun', methods=['POST', 'GET'])
+def getrun():
     pass
 
 
-@app.route('/canclefood', methods = ['POST', 'GET'])
-def canclefood():
+@app.route('/canclerun', methods = ['POST', 'GET'])
+def canclerun():
     pass
 
 
-@app.route('/myfood', methods = ['POST', 'GET'])
-def myfood():
+@app.route('/myrun', methods = ['POST', 'GET'])
+def myrun():
     pass
 
 
-@app.route('/thisfood', methods = ['GET', 'POST'])
-def thisfood():
+@app.route('/thisrun', methods = ['GET', 'POST'])
+def thisrun():
     pass
 
 #run模块结束---------------------------------------------------run模块结束
