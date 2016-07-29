@@ -11,7 +11,8 @@ def dologin():
     PassWord = form.get('PassWord')
     u = User.query.filter_by(UserPhone=UserPhone).first()
     if u is None:
-        msg = '0'
+        msg = '账号或密码错误'
+        state = '0'
         SecretKey = None
     else:
         m = PassWord
@@ -19,15 +20,18 @@ def dologin():
         password.update(m)
         psw = password.hexdigest()
         if psw == u.PassWord:
-            msg = '1'
+            state = '1'
+            msg = '登陆成功'
             S = Secretkey()
             SecretKey = S.GetSecretKey()
             u.SecretKey = SecretKey
         else:
-            msg = '0'
+            msg = '账号或密码错误'
+            state = '0'
             SecretKey = None
     array = {
         'msg': msg,
+        'state' : state,
         'SecretKey': SecretKey
     }
     return array

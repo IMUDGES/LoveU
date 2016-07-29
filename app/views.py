@@ -99,6 +99,13 @@ def mydata():
     return jsonify(d.GetMyData())
 
 
+@app.route('/myfood', methods = ['POST', 'GET'])
+def myfood():
+    f = foodservice()
+    f.myfood()
+    return 'hhh'
+
+
 @app.route('/test')
 def test():
     #test 如果不用 记得删掉
