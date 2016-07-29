@@ -1,5 +1,12 @@
 var services = angular.module('MyService', []);
 var root_url = 'http://183.175.12.178:5000/';
+var transform = function(data){
+    return $.param(data);
+}
+var postCfg= {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+    transformRequest: transform
+};
 
 services.factory('LogService', ['$q', '$http',
     function ($q, $http) {
@@ -26,7 +33,7 @@ services.factory('LogService', ['$q', '$http',
                 $http.post(root_url + 'login', {
                     UserPhone: logdata.name,
                     PassWord: md5_s(logdata.pass)
-                }).success(function (iflogin) {
+                },postCfg).success(function (iflogin) {
                     delay.resolve(iflogin);
                 }).error(function () {
                     delay.reject('Unable to connect');
@@ -51,7 +58,6 @@ services.factory('LogService', ['$q', '$http',
 services.factory('RegistService', ['$q', '$http',
     function ($q, $http) {
         var phone = '';
-        var code=false;
         return {
             regist: function (regdata) {
                 var delay = $q.defer();
@@ -64,11 +70,6 @@ services.factory('RegistService', ['$q', '$http',
                     promise.then(null, fn);
                     return promise;
                 };
-                this.phone(regdata.phone).success(function () {
-                    $http.post(root_url + 'register3', {}).success(function (data) {
-
-                    });
-                }).error()
             },
             phone: function (number) {
                 var delay = $q.defer();
@@ -81,15 +82,14 @@ services.factory('RegistService', ['$q', '$http',
                     promise.then(null, fn);
                     return promise;
                 };
-                $http.post(root_url + 'register1', {}).success(function (data) {
-                    if (data.msg == '1') {
+                $http.post(root_url + 'register1', {
+                    UserPhone: number
+                }).success(function (data) {
+                    if (data.state == '1') {
                         phone = number;
                         delay.resolve(phone);
-                    }
-                    else if (data.msg == '2')
+                    } else
                         delay.reject('手机号已被注册');
-                    else
-                        delay.reject("验证手机号失败");
                     return promise;
                 })
             },
@@ -103,6 +103,14 @@ services.factory('RegistService', ['$q', '$http',
                     pass: '密码长度错误',
                     ifpass1: false,
                     pass1: '两次密码不一致'
+                }
+            },
+            setUser: function () {
+                return {
+                    phone: '',
+                    vcode: 'vcode',
+                    pass: 'pass',
+                    pass1: 'pass1'
                 }
             }
         }
