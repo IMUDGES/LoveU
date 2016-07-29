@@ -51,7 +51,6 @@ services.factory('LogService', ['$q', '$http',
 services.factory('RegistService', ['$q', '$http',
     function ($q, $http) {
         var phone = '';
-        var code=false;
         return {
             regist: function (regdata) {
                 var delay = $q.defer();
@@ -64,11 +63,6 @@ services.factory('RegistService', ['$q', '$http',
                     promise.then(null, fn);
                     return promise;
                 };
-                this.phone(regdata.phone).success(function () {
-                    $http.post(root_url + 'register3', {}).success(function (data) {
-
-                    });
-                }).error()
             },
             phone: function (number) {
                 var delay = $q.defer();
@@ -81,15 +75,14 @@ services.factory('RegistService', ['$q', '$http',
                     promise.then(null, fn);
                     return promise;
                 };
-                $http.post(root_url + 'register1', {}).success(function (data) {
-                    if (data.msg == '1') {
+                $http.post(root_url + 'register1', {
+                    UserPhone: number
+                }).success(function (data) {
+                    if (data.state == '1') {
                         phone = number;
                         delay.resolve(phone);
-                    }
-                    else if (data.msg == '2')
+                    } else
                         delay.reject('手机号已被注册');
-                    else
-                        delay.reject("验证手机号失败");
                     return promise;
                 })
             },
@@ -103,6 +96,14 @@ services.factory('RegistService', ['$q', '$http',
                     pass: '密码长度错误',
                     ifpass1: false,
                     pass1: '两次密码不一致'
+                }
+            },
+            setUser: function () {
+                return {
+                    phone: '',
+                    vcode: 'vcode',
+                    pass: 'pass',
+                    pass1: 'pass1'
                 }
             }
         }

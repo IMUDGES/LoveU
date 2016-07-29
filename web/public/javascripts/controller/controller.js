@@ -9,7 +9,12 @@ app.controller('LogCtrl', ['$scope', 'RegistService', 'LogService',
         $scope.msg=LogService.setMsg();
         $scope.login = function () {
             LogService.login($scope.user).success(function (data) {
+                if(data.state=='1')
                 setCookie('key', data.SecretKey);
+                else {
+                    $scope.msg.ifshow=true;
+                    $scope.msg.text=data.msg;
+                }
             }).error(function (msg) {
                 $scope.msg.text = msg;
             })
@@ -17,6 +22,12 @@ app.controller('LogCtrl', ['$scope', 'RegistService', 'LogService',
     }]);
 app.controller('RegCtrl',['$scope','RegistService',function ($scope,RegistService) {
     $scope.msg=RegistService.setError();
+    $scope.data=RegistService.setUser();
+    $scope.vcode=function () {
+        RegistService.phone($scope.data.phone).error(function (msg) {
+
+        })
+    }
 }]);
 
 app.config(['$routeProvider', function ($routeProvider, $scope) {
