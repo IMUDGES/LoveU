@@ -1,5 +1,12 @@
 var services = angular.module('MyService', []);
 var root_url = 'http://183.175.12.178:5000/';
+var transform = function(data){
+    return $.param(data);
+}
+var postCfg= {
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+    transformRequest: transform
+};
 
 services.factory('LogService', ['$q', '$http',
     function ($q, $http) {
@@ -26,7 +33,7 @@ services.factory('LogService', ['$q', '$http',
                 $http.post(root_url + 'login', {
                     UserPhone: logdata.name,
                     PassWord: md5_s(logdata.pass)
-                }).success(function (iflogin) {
+                },postCfg).success(function (iflogin) {
                     delay.resolve(iflogin);
                 }).error(function () {
                     delay.reject('Unable to connect');

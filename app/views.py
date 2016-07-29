@@ -12,7 +12,7 @@ from app.controller.service.retrieve2 import Retrieve2
 from app.controller.service.retrieve3 import Retrieve3
 from app.controller.service.sendmessage import SendMessage
 from app.controller.service.login import dologin
-from app.controller.foodservice.food import foodservice
+from app.controller.foodService.food import foodservice
 from app.controller.service.data import data
 from app.controller.jwxtservice.upjwxtservice import upjwxtService
 from app.controller.runservice.run import runservice
@@ -21,7 +21,7 @@ import json
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('/index.html')
+    return render_template('index.html')
 
 
 @app.route('/login', methods=['POST'])
