@@ -21,7 +21,7 @@ import json
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('/index.html')
+    return render_template('index.html')
 
 
 @app.route('/login', methods=['POST'])
@@ -63,42 +63,6 @@ def register3():
         return jsonify(array)
 # 注册模块结束-----------------------------------------------注册模块结束
 
-#food模块
-@app.route('/food', methods = ['POST', 'GET'])
-def food():
-    f = foodservice()
-    return jsonify(f.food())
-
-
-@app.route('/creatfood', methods = ['POST', 'GET'])
-def creatfood():
-    f = foodservice()
-    return jsonify(f.creat())
-
-
-@app.route('/getfood', methods=['POST', 'GET'])
-def getfood():
-    f = foodservice()
-    return jsonify(f.get())
-
-
-@app.route('/canclefood', methods = ['POST', 'GET'])
-def canclefood():
-    f = foodservice()
-    return jsonify(f.cancle())
-
-
-@app.route('/myfood', methods = ['POST', 'GET'])
-def myfood():
-    f = foodservice()
-    return jsonify(f.myfood())
-
-
-@app.route('/thisfood', methods = ['GET', 'POST'])
-def thisfood():
-    f= foodservice()
-    return jsonify(f.thisfood())
-#food模块结束
 
 @app.route('/data', methods = ['POST', 'GET'])
 def getdata():

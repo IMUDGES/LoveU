@@ -8,12 +8,13 @@ class foodservice():
         #SecretKey = '0a6b58441e5069288e0f95939a2c4375'
         #UserPhone = '2147483647'
         #page = 1
-        f = Food.query.paginate(page,10,False)
+        f = Food.query.filter_by(State = 1).paginate(page, 10, False)
         p = f.items
         if len(p) > 0:
             array = {
                 'msg': '成功',
-                'state': '1'
+                'state': '1',
+                'num' : len(p)
             }
             list1 = [array]
             for i in range(0,len(p)):
@@ -33,7 +34,8 @@ class foodservice():
         else:
             array = {
                 'msg': '信息为空',
-                'state': '0'
+                'state': '0',
+                'num' : 0
             }
     def creat(self):
         form = request.form
@@ -44,26 +46,31 @@ class foodservice():
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone = UserPhone).first()
             if u.SecretKey == SecretKey:
-                FoodArea = form.get('FoodArea')
-                FoodInformation = form.args.get('FoodInformation')
-                FoodTime = form.args.get('FoodTime')
-                FoodWay = form.args.get('FoodWay')
-                #FoodArea = 'hhh'
-                #FoodInformation = 'hhh'
-                #FoodTime = '2016-07-28 15:31:41'
-                #FoodWay = 'hhh'
                 UserId = u.UserId
-                f =  Food()
-                f.UserId = UserId
-                f.FoodArea = FoodArea
-                f.FoodInformation = FoodInformation
-                f.FoodTime = FoodTime
-                f.FoodWay = FoodWay
-                f.State = 1
-                db.session.add(f)
-                db.session.commit()
-                state = '1'
-                msg = '创建成功'
+                p = Food.query.filter_by(UserId = UserId, State = 1).first()
+                if p is None:
+                    FoodArea = form.get('FoodArea')
+                    FoodInformation = form.args.get('FoodInformation')
+                    FoodTime = form.args.get('FoodTime')
+                    FoodWay = form.args.get('FoodWay')
+                    #FoodArea = 'hhh'
+                    #FoodInformation = 'hhh'
+                    #FoodTime = '2016-07-28 15:31:41'
+                    #FoodWay = 'hhh'
+                    f =  Food()
+                    f.UserId = UserId
+                    f.FoodArea = FoodArea
+                    f.FoodInformation = FoodInformation
+                    f.FoodTime = FoodTime
+                    f.FoodWay = FoodWay
+                    f.State = 1
+                    db.session.add(f)
+                    db.session.commit()
+                    state = '1'
+                    msg = '创建成功'
+                else:
+                    state = '0'
+                    msg = '已有约会，创建失败'
             else:
                 state = '0'
                 msg = '创建失败'
@@ -187,6 +194,50 @@ class foodservice():
                 'msg': '失败',
                 'state': '0',
             }
+        return array
+    def accept(self):
+        UserPhone = request.args.get('UserPhone')
+        SecretKey = request.args.get('SecretKey')
+        FoodId = int(request.args.get('FoodId'))
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                f = Food.query.filter_by(FoodId=FoodId).first()
+                f.State = 1
+                msg = '成功'
+                state = '1'
+            else:
+                msg = '请登录'
+                state = '0'
+        else:
+            msg = '请登录'
+            state = '0'
+        array = {
+            'state': state,
+            'msg': msg
+        }
+        return array
+    def refuse(self):
+        UserPhone = request.args.get('UserPhone')
+        SecretKey = request.args.get('SecretKey')
+        FoodId = int(request.args.get('FoodId'))
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                f = Food.query.filter_by(FoodId=FoodId).first()
+                f.GetUser = None
+                msg = '已拒绝'
+                state = '1'
+            else:
+                msg = '请登录'
+                state = '0'
+        else:
+            msg = '请登录'
+            state = '0'
+        array = {
+            'state': state,
+            'msg': msg
+        }
         return array
 
 

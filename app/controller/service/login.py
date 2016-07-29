@@ -11,11 +11,11 @@ def dologin():
     PassWord = form.get('PassWord')
     u = User.query.filter_by(UserPhone=UserPhone).first()
     if u is None:
-        msg = '账号或密码错误'
+        msg = '用户不存在'
         state = '0'
         SecretKey = None
     else:
-        m = PassWord
+        m = PassWord.encode('utf-8')
         password = hashlib.md5()
         password.update(m)
         psw = password.hexdigest()
