@@ -10,8 +10,10 @@ class Register3(object):
         try:
             nq = User.query.filter_by(UserPhone=UserPhone).all()
             if len(nq) != 0:
-                msg = 2
+                state = 0
+                msg = "此手机号已经被注册了亲！"
                 array = {
+                    'state': state,
                     'msg': msg
                 }
                 return array
@@ -23,15 +25,19 @@ class Register3(object):
             self.user.UserPhone = UserPhone
             db.session.add(self.user)
             db.session.commit()
-            msg = 1
+            state = 1
+            msg = "成功！"
             array = {
+                'state': state,
                 'msg': msg
             }
             return array
         except Exception as e:
             print(e)
-            msg = 0
+            state = 0
+            msg = "出现奇怪的错误了，一会再试试吧！"
             array = {
+                'state': state,
                 'msg': msg
             }
             return array

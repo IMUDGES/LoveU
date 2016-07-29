@@ -30,8 +30,10 @@ def register1():
     UserPhone = form.get('UserPhone')
     sendMessage = SendMessage()
     sendMessage.sendmessage(UserPhone)
-    msg = 1
+    state = 1
+    msg = "注册成功了，快去登陆吧！"
     array = {
+        'state':state,
         'msg': msg,
     }
     return jsonify(array)
@@ -122,3 +124,8 @@ def upjwxtservice():
     JwxtPassword = form.get('JwxtPassword')
     upjwxtserviceinfo = upjwxtService()
     return jsonify(upjwxtserviceinfo.check(UserPhone,Secretkey,JwxtNumber,JwxtPassword))
+
+@app.route('/run', methods=['POST','GET'])
+def run():
+    #此模块未完成
+    pass
