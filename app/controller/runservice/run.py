@@ -36,43 +36,49 @@ class runservice():
             }
 
     def creat(self):
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        SecretKey = form.get('SecretKey')
-        #UserPhone = '2147483647'
-        #SecretKey = '8fe98a41f795497799ef3ade6ee02366'
-        if UserPhone and SecretKey:
-            u = User.query.filter_by(UserPhone = UserPhone).first()
-            if u.SecretKey == SecretKey:
-                RunArea = form.get('RunArea')
-                RunInformation = form.args.get('RunInformation')
-                RunTime = form.args.get('RunTime')
-                #FoodArea = 'hhh'
-                #FoodInformation = 'hhh'
-                #FoodTime = '2016-07-28 15:31:41'
-                #FoodWay = 'hhh'
-                UserId = u.UserId
-                f = Run()
-                f.UserId = UserId
-                f.RunArea = RunArea
-                f.RunInformation = RunInformation
-                f.RunTime = RunTime
-                f.State = 1
-                db.session.add(f)
-                db.session.commit()
-                state = '1'
-                msg = '创建成功'
+        def creat(self):
+            form = request.form
+            UserPhone = form.get('UserPhone')
+            SecretKey = form.get('SecretKey')
+            # UserPhone = '2147483647'
+            # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
+            if UserPhone and SecretKey:
+                u = User.query.filter_by(UserPhone=UserPhone).first()
+                if u.SecretKey == SecretKey:
+                    UserId = u.UserId
+                    p = Run.query.filter_by(UserId=UserId, State=1).first()
+                    if p is None:
+                        RunArea = form.get('RunArea')
+                        RunInformation = form.args.get('RunInformation')
+                        RunTime = form.args.get('RunTime')
+                        # FoodArea = 'hhh'
+                        # FoodInformation = 'hhh'
+                        # FoodTime = '2016-07-28 15:31:41'
+                        # FoodWay = 'hhh'
+                        f = Run()
+                        f.UserId = UserId
+                        f.FoodArea = RunArea
+                        f.FoodInformation = RunInformation
+                        f.FoodTime = RunTime
+                        f.State = 1
+                        db.session.add(f)
+                        db.session.commit()
+                        state = '1'
+                        msg = '创建成功'
+                    else:
+                        state = '0'
+                        msg = '已有约会，创建失败'
+                else:
+                    state = '0'
+                    msg = '创建失败'
             else:
                 state = '0'
                 msg = '创建失败'
-        else:
-            state = '0'
-            msg = '创建失败'
-        array = {
-            'state' : state,
-            'msg' : msg
-        }
-        return array
+            array = {
+                'state': state,
+                'msg': msg
+            }
+            return array
     def get(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
@@ -185,6 +191,49 @@ class runservice():
                 'state': '0',
             }
         return array
-    #此模块未完成！
+
     def accept(self):
-        pass
+        UserPhone = request.args.get('UserPhone')
+        SecretKey = request.args.get('SecretKey')
+        RunId = int(request.args.get('RunId'))
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                f = Run.query.filter_by(RunId=RunId).first()
+                f.State = 1
+                msg = '成功'
+                state = '1'
+            else:
+                msg = '请登录'
+                state = '0'
+        else:
+            msg = '请登录'
+            state = '0'
+        array = {
+            'state': state,
+            'msg': msg
+        }
+        return array
+
+    def refuse(self):
+        UserPhone = request.args.get('UserPhone')
+        SecretKey = request.args.get('SecretKey')
+        RunId = int(request.args.get('RunId'))
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                f = Run.query.filter_by(FoodId=RunId).first()
+                f.GetUser = None
+                msg = '已拒绝'
+                state = '1'
+            else:
+                msg = '请登录'
+                state = '0'
+        else:
+            msg = '请登录'
+            state = '0'
+        array = {
+            'state': state,
+            'msg': msg
+        }
+        return array
