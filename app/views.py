@@ -93,70 +93,40 @@ def upjwxtservice():
     upjwxtserviceinfo = upjwxtService()
     return jsonify(upjwxtserviceinfo.check(UserPhone,Secretkey,JwxtNumber,JwxtPassword))
 
-#run模块-------------------------------------------------------------run模块
-@app.route('/run', methods = ['POST', 'GET'])
-def run():
-    pass
 
-
-@app.route('/creatrun', methods = ['POST', 'GET'])
-def creatrun():
-    pass
-
-
-@app.route('/getrun', methods=['POST', 'GET'])
-def getrun():
-    pass
-
-
-@app.route('/canclerun', methods = ['POST', 'GET'])
-def canclerun():
-    pass
-
-
-@app.route('/myrun', methods = ['POST', 'GET'])
-def myrun():
-    pass
-
-
-@app.route('/thisrun', methods = ['GET', 'POST'])
-def thisrun():
-    pass
-
-#run模块结束---------------------------------------------------run模块结束
 
 #找回密码模块-----------------------------------------------找回密码模块
-    @app.route('/retrieve1', methods=['POST'])
-    def retrieve1():
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        retrieve1q = Retrieve1()
-        return jsonify(retrieve1q.retrieve1(UserPhone))
+@app.route('/retrieve1', methods=['POST'])
+def retrieve1():
+    form = request.form
+    UserPhone = form.get('UserPhone')
+    retrieve1q = Retrieve1()
+    return jsonify(retrieve1q.retrieve1(UserPhone))
 
 
 
-    @app.route('/retrieve2', methods=['POST'])
-    def retrieve2():
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        CheckCode = form.get('CheckCode')
-        retrieve2q = Retrieve2()
-        return jsonify(retrieve2q.Retrieve2(UserPhone, CheckCode))
+@app.route('/retrieve2', methods=['POST'])
+def retrieve2():
+    form = request.form
+    UserPhone = form.get('UserPhone')
+    CheckCode = form.get('CheckCode')
+    retrieve2q = Retrieve2()
+    return jsonify(retrieve2q.Retrieve2(UserPhone, CheckCode))
 
-    @app.route('/retrieve3', methods=['POST'])
-    def retrieve3():
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        PassWord = form.get('PassWord')
-        CheckCode = form.get('CheckCode')
-        retrieve2q = Retrieve2()
+@app.route('/retrieve3', methods=['POST'])
+def retrieve3():
+    form = request.form
+    UserPhone = form.get('UserPhone')
+    PassWord = form.get('PassWord')
+    CheckCode = form.get('CheckCode')
+    retrieve2q = Retrieve2()
+    retrieve3q = Retrieve3()
+    array = retrieve2q.register2(UserPhone, CheckCode)
+    q = int(array['state'])
+    if q == 1:
         retrieve3q = Retrieve3()
-        array = retrieve2q.register2(UserPhone, CheckCode)
-        q = int(array['state'])
-        if q == 1:
-            retrieve3q = Retrieve3()
-            return jsonify(retrieve3q.retrieve3(UserPhone, PassWord))
-        else:
-            return jsonify(array)
+        return jsonify(retrieve3q.retrieve3(UserPhone, PassWord))
+    else:
+        return jsonify(array)
 
 #找回密码模块结束-----------------------------------------------找回密码模块结束

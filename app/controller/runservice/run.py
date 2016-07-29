@@ -170,7 +170,7 @@ class runservice():
                 'state': '0'
             }
             return array
-    def thisfood(self):
+    def thisrun(self):
         RunId = int(request.args.get('RunId'))
         p = Run.query.filter_by(RunId = RunId).first()
         if p is not None:
