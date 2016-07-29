@@ -7,6 +7,9 @@ from app.db import User
 from app.controller.service.register1 import Register1
 from app.controller.service.register2 import Register2
 from app.controller.service.register3 import Register3
+from app.controller.service.retrieve1 import Retrieve1
+from app.controller.service.retrieve2 import Retrieve2
+from app.controller.service.retrieve3 import Retrieve3
 from app.controller.service.sendmessage import SendMessage
 from app.controller.service.login import dologin
 from app.controller.foodservice.food import foodservice
@@ -25,7 +28,7 @@ def index():
 def login():
     return jsonify(dologin())
 
-
+#注册模块-----------------------------------------------注册模块
 @app.route('/register1', methods=['POST'])
 def register1():
     form = request.form
@@ -52,12 +55,13 @@ def register3():
     CheckCode = form.get('CheckCode')
     register2q = Register2()
     array = register2q.register2(UserPhone, CheckCode)
-    q = int(array['msg'])
+    q = int(array['state'])
     if q == 1:
         register3 = Register3()
         return jsonify(register3.register3(UserPhone, PassWord, NickName))
     else:
         return jsonify(array)
+# 注册模块结束-----------------------------------------------注册模块结束
 
 #food模块
 @app.route('/food', methods = ['POST', 'GET'])
@@ -156,3 +160,39 @@ def thisrun():
     pass
 
 #run模块结束---------------------------------------------------run模块结束
+
+#找回密码模块-----------------------------------------------找回密码模块
+    @app.route('/retrieve1', methods=['POST'])
+    def retrieve1():
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        retrieve1q = Retrieve1()
+        return jsonify(retrieve1q.retrieve1(UserPhone))
+
+
+
+    @app.route('/retrieve2', methods=['POST'])
+    def retrieve2():
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        CheckCode = form.get('CheckCode')
+        retrieve2q = Retrieve2()
+        return jsonify(retrieve2q.Retrieve2(UserPhone, CheckCode))
+
+    @app.route('/retrieve3', methods=['POST'])
+    def retrieve3():
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        PassWord = form.get('PassWord')
+        CheckCode = form.get('CheckCode')
+        retrieve2q = Retrieve2()
+        retrieve3q = Retrieve3()
+        array = retrieve2q.register2(UserPhone, CheckCode)
+        q = int(array['state'])
+        if q == 1:
+            retrieve3q = Retrieve3()
+            return jsonify(retrieve3q.retrieve3(UserPhone, PassWord))
+        else:
+            return jsonify(array)
+
+#找回密码模块结束-----------------------------------------------找回密码模块结束
