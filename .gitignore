@@ -1,1 +1,6 @@
-.idea/*
+
+.idea/
+app/__pycache__/
+app/bean/__pycache__/
+app/controller/__pycache__/
+app/controller/service/__pycache__/
