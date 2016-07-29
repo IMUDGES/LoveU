@@ -126,7 +126,8 @@ class runservice():
             'msg' : msg
         }
         return array
-    def myfood(self):
+
+    def myrun(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
         if UserPhone and SecretKey:
@@ -141,13 +142,12 @@ class runservice():
                     list1 = [array]
                     for i in range(0,len(p)):
                         array = {
-                            'FoodId': p[i].FoodId,
+                            'FoodId': p[i].RunId,
                             'UserId': p[i].UserId,
-                            'FoodArea': p[i].FoodArea,
-                            'FoodInformation': p[i].FoodInformation,
+                            'FoodArea': p[i].RunArea,
+                            'FoodInformation': p[i].RunInformation,
                             'GetUser': p[i].GetUser,
-                            'FoodTime': p[i].FoodTime,
-                            'FoodWay': p[i].FoodWay,
+                            'FoodTime': p[i].RunTime,
                             'State': p[i].State
                         }
                         list1.append(array)
@@ -166,18 +166,17 @@ class runservice():
             return array
     def thisfood(self):
         RunId = int(request.args.get('RunId'))
-        p = Run.query.filter_by(FoodId = RunId).first()
+        p = Run.query.filter_by(RunId = RunId).first()
         if p is not None:
             array  = {
                 'msg' : '成功',
                 'state' : '1',
-                'FoodId': p.FoodId,
+                'FoodId': p.RunId,
                 'UserId': p.UserId,
-                'FoodArea': p.FoodArea,
-                'FoodInformation': p.FoodInformation,
+                'FoodArea': p.RunArea,
+                'FoodInformation': p.RunInformation,
                 'GetUser': p.GetUser,
-                'FoodTime': p.FoodTime,
-                'FoodWay': p.FoodWay,
+                'FoodTime': p.RunTime,
                 'State': p.State
             }
         else:
