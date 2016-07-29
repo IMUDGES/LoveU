@@ -10,6 +10,7 @@ from app.controller.service.sendmessage import SendMessage
 from app.controller.service.login import dologin
 from app.controller.foodservice.food import foodservice
 from app.controller.service.data import data
+from app.controller.jwxtservice.upjwxtservice import upjwxtService
 import json
 
 @app.route('/')
@@ -93,10 +94,17 @@ def mydata():
 
 @app.route('/test')
 def test():
+    #test 如果不用 记得删掉
     u = User.query.filter_by(UserPhone='18548186741').first()
     print (u.NickName)
     return u.NickName
 
-
-
-
+@app.route('/upjwxtservice', methods = ['POST', 'GET'])
+def upjwxtservice():
+    form = request.form
+    UserPhone = form.get('UserPhone')
+    Secretkey = form.get('SecretKey')
+    JwxtNumber = form.get('JwxtNumber')
+    JwxtPassword = form.get('JwxtPassword')
+    upjwxtserviceinfo = upjwxtService()
+    return jsonify(upjwxtserviceinfo.check(UserPhone,Secretkey,JwxtNumber,JwxtPassword))

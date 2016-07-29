@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
 import httplib2
-from app.db import db, Class, User
+from app.db import db, Class, User, Jwxt
 import json
 
 
-class Jwxt(object):
+class JwxtService(object):
     def loginService(self, jwxtnumber, jwxtpassword):
         url = "http://183.175.14.250:8080/JwxtInterface/check.html?zjh=" + jwxtnumber + "&mm=" + jwxtpassword
         conn = httplib2.Http()
@@ -66,5 +66,18 @@ class Jwxt(object):
             User.UserSex = 0
         db.session.commit()
 
+    def addjwxtinfoService(self, jwxtnumber, jwxtpassword, userid):
+        jwxt = Jwxt()
+        jwxt.UserId = userid
+        jwxt.JwxtNumber = jwxtnumber
+        jwxt.JwxtPassword = jwxtpassword
+        db.session.add(jwxt)
+        db.session.commit()
+
+    def updatajwxtinfoService(self, jwxtnumber, jwxtpassword, userid):
+        u = Jwxt.query.filter_by(UserId=userid).first()
+        u.JwxtNumber = jwxtnumber
+        u.JwxtPassword = jwxtpassword
+        db.session.commit()
 
 
