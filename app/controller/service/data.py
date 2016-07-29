@@ -6,14 +6,22 @@ class data():
     def GetOthersData(self):
         UserId = request.args.get('UserId')
         u = User.query.filter_by(UserId = UserId).first()
-        array = {
-            'UserId' : u.UserId,
-            'NickName' : u.NickName,
-            'UserSex' : u.UserSex,
-            'UserPhoto' : u.UserPhoto
-        }
-        list1 = [array]
-        return list1
+        if u is not None:
+            array = {
+                'msg' : '成功',
+                'state' : '1',
+                'UserId' : u.UserId,
+                'NickName' : u.NickName,
+                'UserSex' : u.UserSex,
+                'UserPhoto' : u.UserPhoto
+            }
+            return array
+        else:
+            array = {
+                'msg' : '不存在此ID',
+                'state' : '0'
+            }
+            return array
     def GetMyData(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
@@ -21,6 +29,8 @@ class data():
             u = User.query.filter_by(UserPhone = UserPhone).first()
             if u.SecretKey == SecretKey:
                 array = {
+                    'state' : '1',
+                    'msg' : '成功',
                     'UserId': u.UserId,
                     'UserPhone' : u.UserPhone,
                     'NickName': u.NickName,
@@ -30,9 +40,16 @@ class data():
                     'UserPhoto': u.UserPhoto,
                     'UserMajor' : u.UserMajor
                 }
-                list1 = [array]
-                return list1
+                return array
             else:
-                return None
+                array = {
+                    'state': '0',
+                    'msg': '不存在此ID',
+                }
+                return array
         else:
-            return None
+            array = {
+                'state': '0',
+                'msg': '不存在此ID',
+            }
+            return array
