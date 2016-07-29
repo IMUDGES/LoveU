@@ -4,7 +4,7 @@ from app.db import User
 
 class data():
     def GetOthersData(self):
-        UserId = request.args.get('UserId')
+        UserId = int(request.args.get('UserId'))
         u = User.query.filter_by(UserId = UserId).first()
         if u is not None:
             array = {
