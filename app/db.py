@@ -13,15 +13,15 @@ manager = Manager(app)
 
 class User(db.Model):
     UserId = db.Column(db.Integer, primary_key=True)
-    UserPhone = db.Column(db.String, unique=True)
-    PassWord = db.Column(db.String, unique=True)
-    NickName = db.Column(db.String, unique=True)
-    TrueName = db.Column(db.String, unique=True)
-    UserSex = db.Column(db.Integer, unique=True)
-    UserGrade = db.Column(db.String, unique=True)
-    UserPhoto = db.Column(db.String, unique=True)
-    SecretKey = db.Column(db.String, unique=True)
-    UserMajor = db.Column(db.String, unique=True)
+    UserPhone = db.Column(db.String)
+    PassWord = db.Column(db.String)
+    NickName = db.Column(db.String)
+    TrueName = db.Column(db.String)
+    UserSex = db.Column(db.Integer)
+    UserGrade = db.Column(db.String)
+    UserPhoto = db.Column(db.String)
+    SecretKey = db.Column(db.String)
+    UserMajor = db.Column(db.String)
 
     def __repr__(self):
         return '<User %r>' % self.UserPhone
@@ -30,7 +30,7 @@ class User(db.Model):
 class Checkcode(db.Model):
     CheckId = db.Column(db.Integer, primary_key=True)
     UserPhone = db.Column(db.String)
-    CheckCode = db.Column(db.Integer)
+    CheckCode = db.Column(db.String)
 
     def __repr__(self):
         return '<User %r>' % self.UserPhone + "&" + str(self.CheckCode)
@@ -38,10 +38,10 @@ class Checkcode(db.Model):
 
 class Class(db.Model):
     ClassId = db.Column(db.Integer, primary_key=True)
-    UserId = db.Column(db.Integer, unique=True)
-    Day = db.Column(db.Integer, unique=True)
-    Number = db.Column(db.Integer, unique=True)
-    Information = db.Column(db.String(120), unique=True)
+    UserId = db.Column(db.Integer)
+    Day = db.Column(db.Integer)
+    Number = db.Column(db.Integer)
+    Information = db.Column(db.String(120))
 
     def __repr__(self):
         return '<User %r>' % self.UserId
@@ -49,8 +49,8 @@ class Class(db.Model):
 
 class Config(db.Model):
     ConfigId = db.Column(db.Integer, primary_key=True)
-    Version = db.Column(db.Integer, unique=True)
-    Url = db.Column(db.String(120), unique=True)
+    Version = db.Column(db.Integer)
+    Url = db.Column(db.String(120))
 
     def __repr__(self):
         return '<User %r>' % self.ConfigId
@@ -58,10 +58,10 @@ class Config(db.Model):
 
 class Food(db.Model):
     FoodId = db.Column(db.Integer, primary_key=True)
-    UserId = db.Column(db.Integer, unique=True)
-    FoodArea = db.Column(db.String(120), unique=True)
-    FoodInformation = db.Column(db.String(120), unique=True)
-    GetUser = db.Column(db.String(120), unique=True)
+    UserId = db.Column(db.Integer)
+    FoodArea = db.Column(db.String(120))
+    FoodInformation = db.Column(db.String(120))
+    GetUser = db.Column(db.String(120))
     FoodTime = db.Column(db.DateTime)
     FoodWay = db.Column(db.String)
     State = db.Column(db.Integer)
@@ -72,10 +72,10 @@ class Food(db.Model):
 
 class Give(db.Model):
     GiveId = db.Column(db.Integer, primary_key=True)
-    UserId = db.Column(db.Integer, unique=True)
-    GiveInformatinon = db.Column(db.String, unique=True)
-    GiveImage = db.Column(db.String, unique=True)
-    GetUser = db.Column(db.Integer, unique=True)
+    UserId = db.Column(db.Integer)
+    GiveInformatinon = db.Column(db.String)
+    GiveImage = db.Column(db.String)
+    GetUser = db.Column(db.Integer)
     State = db.Column(db.Integer)
 
     def __repr__(self):
@@ -84,9 +84,9 @@ class Give(db.Model):
 
 class GiveComment(db.Model):
     CommentId = db.Column(db.Integer, primary_key=True)
-    UserId = db.Column(db.Integer, unique=True)
-    CommentInformation = db.Column(db.String, unique=True)
-    GiveId = db.Column(db.Integer, unique=True)
+    UserId = db.Column(db.Integer)
+    CommentInformation = db.Column(db.String)
+    GiveId = db.Column(db.Integer)
 
     def __repr__(self):
         return '<User %r>' % self.UserId
@@ -94,11 +94,11 @@ class GiveComment(db.Model):
 
 class Help(db.Model):
     HelpId = db.Column(db.Integer, primary_key=True)
-    UserId = db.Column(db.Integer, unique=True)
-    HelpMoney = db.Column(db.Integer, unique=True)
+    UserId = db.Column(db.Integer)
+    HelpMoney = db.Column(db.Integer)
     DownTime = db.Column(db.DateTime)
-    HelpInformation = db.Column(db.String, unique=True)
-    GetUser = db.Column(db.Integer, unique=True)
+    HelpInformation = db.Column(db.String)
+    GetUser = db.Column(db.Integer)
     State = db.Column(db.Integer)
     Finish = db.Column(db.Integer)
 
@@ -108,9 +108,9 @@ class Help(db.Model):
 
 class Jwxt(db.Model):
     JwxtId = db.Column(db.Integer, primary_key=True)
-    UserId = db.Column(db.Integer, unique=True)
-    JwxtNumber = db.Column(db.String, unique=True)
-    JwxtPassword = db.Column(db.String, unique=True)
+    UserId = db.Column(db.Integer)
+    JwxtNumber = db.Column(db.String)
+    JwxtPassword = db.Column(db.String)
 
     def __repr__(self):
         return '<User %r>' % self.UserId
@@ -118,9 +118,9 @@ class Jwxt(db.Model):
 
 class Money(db.Model):
     MoneyId = db.Column(db.Integer, primary_key=True)
-    UserId = db.Column(db.Integer, unique=True)
-    Money = db.Column(db.Integer, unique=True)
-    PayPassword = db.Column(db.Integer, unique=True)
+    UserId = db.Column(db.Integer)
+    Money = db.Column(db.Integer)
+    PayPassword = db.Column(db.Integer)
 
     def __repr__(self):
         return '<User %r>' % self.UserId
@@ -128,14 +128,14 @@ class Money(db.Model):
 
 class Pai(db.Model):
     PaiId = db.Column(db.Integer, primary_key=True)
-    UserId = db.Column(db.Integer, unique=True)
-    PaiMoney = db.Column(db.Integer, unique=True)
+    UserId = db.Column(db.Integer)
+    PaiMoney = db.Column(db.Integer)
     UpTime = db.Column(db.DateTime)
     DownTime = db.Column(db.DateTime)
-    PaiInformation = db.Column(db.String, unique=True)
-    PaiImage = db.Column(db.String, unique=True)
-    PaiTitle = db.Column(db.String, unique=True)
-    GetUser = db.Column(db.Integer, unique=True)
+    PaiInformation = db.Column(db.String)
+    PaiImage = db.Column(db.String)
+    PaiTitle = db.Column(db.String)
+    GetUser = db.Column(db.Integer)
     State = db.Column(db.String)
 
     def __repr__(self):
@@ -144,9 +144,9 @@ class Pai(db.Model):
 
 class PaiComment(db.Model):
     CommentId = db.Column(db.Integer, primary_key=True)
-    UserId = db.Column(db.Integer, unique=True)
-    CommentInformation = db.Column(db.String, unique=True)
-    PaiId = db.Column(db.String, unique=True)
+    UserId = db.Column(db.Integer)
+    CommentInformation = db.Column(db.String)
+    PaiId = db.Column(db.String)
 
     def __repr__(self):
         return '<User %r>' % self.UserId
@@ -167,10 +167,10 @@ class Run(db.Model):
 
 class Xue(db.Model):
     XueId = db.Column(db.Integer, primary_key=True)
-    UserId = db.Column(db.Integer, unique=True)
-    XueArea = db.Column(db.String, unique=True)
-    XueInformation = db.Column(db.String, unique=True)
-    GetUser = db.Column(db.Integer, unique=True)
+    UserId = db.Column(db.Integer)
+    XueArea = db.Column(db.String)
+    XueInformation = db.Column(db.String)
+    GetUser = db.Column(db.Integer)
     XueTime = db.Column(db.DateTime)
     State = db.Column(db.Integer)
 

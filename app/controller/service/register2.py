@@ -14,7 +14,7 @@ class Register2(object):
                 }
                 return array
             m = Checkcode.query.filter_by(UserPhone=phone).all()
-            if m[len(m)-1].CheckCode == int(checkcode):
+            if m[len(m)-1].CheckCode == checkcode:
                 state = 1
                 msg = "成功!"
                 array = {

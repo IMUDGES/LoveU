@@ -58,8 +58,10 @@ def register3():
     q = int(array['state'])
     if q == 1:
         register3 = Register3()
+        print(array)
         return jsonify(register3.register3(UserPhone, PassWord, NickName))
     else:
+        print(array)
         return jsonify(array)
 # 注册模块结束-----------------------------------------------注册模块结束
 

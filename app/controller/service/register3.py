@@ -19,12 +19,15 @@ class Register3(object):
                 return array
             m = hashlib.md5()
             m.update(PassWord.encode('utf-8'))
+
             PassWord = m.hexdigest()
             self.user.PassWord = PassWord
             self.user.NickName = NickName
             self.user.UserPhone = UserPhone
+            print(self.user)
             db.session.add(self.user)
             db.session.commit()
+
             state = 1
             msg = "成功！"
             array = {
