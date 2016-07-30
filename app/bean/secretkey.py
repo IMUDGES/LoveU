@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 import string, random, hashlib
+from app.bean.md5 import encrypt
 
 
 class Secretkey():
@@ -9,7 +10,5 @@ class Secretkey():
         for i in str2:
             str3 = str3 + i
         str4 = str3.encode('utf-8')
-        m = hashlib.md5()
-        m.update(str4)
-        psw = m.hexdigest()
+        psw = encrypt(str4)
         return psw

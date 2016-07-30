@@ -112,10 +112,14 @@ class helpservice():
             if u.SecretKey == SecretKey:
                 f = Help.query.filter_by(HelpId=HelpId).first()
                 if f.UserId == u.UserId:
-                    db.session.delete(f)
-                    db.session.commit()
-                    msg = '撤销成功'
-                    state = '1'
+                    if f.GetUser is not None:
+                        db.session.delete(f)
+                        db.session.commit()
+                        msg = '撤销成功'
+                        state = '1'
+                    else:
+                        msg = '已经有人要帮助您了'
+                        state = '0'
                 else:
                     msg = '操作非法'
                     state = '0'
@@ -131,7 +135,7 @@ class helpservice():
         }
         return array
 
-    def myfood(self):
+    def myhelp(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
         if UserPhone and SecretKey:
@@ -170,7 +174,7 @@ class helpservice():
             }
             return array
 
-    def thisfood(self):
+    def thishelp(self):
         FoodId = int(request.args.get('FoodId'))
         p = Help.query.filter_by(FoodId=FoodId).first()
         if p is not None:

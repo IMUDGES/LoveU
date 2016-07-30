@@ -9,3 +9,4 @@ def rand(n):
         q = q + i
     return q
 
+

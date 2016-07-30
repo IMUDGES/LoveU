@@ -19,6 +19,8 @@ def dologin():
         password = hashlib.md5()
         password.update(m)
         psw = password.hexdigest()
+        print (psw)
+        print (u.PassWord)
         if psw == u.PassWord:
             state = '1'
             msg = '登陆成功'
