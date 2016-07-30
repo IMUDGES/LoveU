@@ -10,22 +10,22 @@ class Message(object):
     m = hashlib.md5()
     m.update(PassWord)
     PassWord = m.hexdigest()
-    len = 6
-    CheckCode = rand(len)
-    content = "【爱大学】，您的验证码为" + CheckCode + "在3分钟内有效"
     def sendMessage(self, phone):
         try:
+            len = 6
+            CheckCode = rand(len)
+            print(CheckCode)
+            content = "【爱大学】，您的验证码为" + CheckCode + "在3分钟内有效"
             url = "http://www.smsbao.com/sms?u=" + str(self.UserName)
             url = url + "&p=" + self.PassWord
             url = url + "&m="
             url = url + str(phone)
-            url = url + "&c=" + self.content
+            url = url + "&c=" + content
             conn = httplib2.Http()
             resp, content = conn.request(url, "GET")
+            return CheckCode
         except Exception as e:
             print(e)
-        finally:
-            return self.CheckCode
 
 
 

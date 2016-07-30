@@ -5,21 +5,30 @@ from app.controller.service.sendmessage import SendMessage
 
 class Register1(object):
     def register1(self,UserPhone):
-        n = User.query.filter_by(UserPhone=UserPhone).all()
-        if len(n) != 0:
-            state = 0
-            msg = "此手机号已经被注册过了亲!"
+        if len(UserPhone)==11:
+            n = User.query.filter_by(UserPhone=UserPhone).all()
+            if len(n) != 0:
+                state = 0
+                msg = "此手机号已经被注册过了亲!"
+                array = {
+                    'state': state,
+                    'msg': msg
+                }
+                return array
+            sendMessage = SendMessage()
+            sendMessage.sendmessage(UserPhone)
+            state = 1
+            msg = "成功"
             array = {
-                'state': state,
-                'msg': msg
+                'state':state,
+                'msg': msg,
             }
             return array
-        sendMessage = SendMessage()
-        sendMessage.sendmessage(UserPhone)
-        state = 1
-        msg = "成功"
-        array = {
-            'state':state,
-            'msg': msg,
-        }
-        return array
+        else:
+            state = 0
+            msg = "手机号码输错了吧~"
+            array = {
+                'state': state,
+                'msg': msg,
+            }
+            return array
