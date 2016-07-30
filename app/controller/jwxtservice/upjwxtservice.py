@@ -5,25 +5,26 @@ from app.controller.jwxtservice.jwxtservice import JwxtService
 
 
 class upjwxtService(object):
-    jwxtservice = JwxtService()
+
     def check(self, userphone, secretkey, jwxtnumber, jwxtpassword):
+        jwxtservice = JwxtService()
         user = User.query.filter_by(UserPhone=userphone).first()
         print(type(user))
         if user and user['SecretKey'] == secretkey:
-            if self.jwxtservice.loginService(jwxtnumber, jwxtpassword):
+            if jwxtservice.loginService(jwxtnumber, jwxtpassword):
                 classesid = Class()
                 classesidinfo = classesid.query.filter_by(UserId=user['UserId']).first()
                 if classesidinfo:
-                    self.jwxtservice.classupdataService(jwxtnumber,jwxtpassword,user['UserId'])
+                    jwxtservice.classupdataService(jwxtnumber,jwxtpassword,user['UserId'])
                 else:
-                    self.jwxtservice.classService(jwxtnumber, jwxtpassword,user['UserId'])
-                self.jwxtservice.inforService(jwxtnumber, user['UserId'])
+                    jwxtservice.classService(jwxtnumber, jwxtpassword,user['UserId'])
+                jwxtservice.inforService(jwxtnumber, user['UserId'])
                 jwxt = Jwxt()
                 jwxtinfo = jwxt.query.filter_by(UserId=user['UserId']).first()
                 if jwxtinfo:
-                    self.jwxtservice.updatajwxtinfoService(jwxtnumber,jwxtpassword, user['UserId'])
+                    jwxtservice.updatajwxtinfoService(jwxtnumber,jwxtpassword, user['UserId'])
                 else:
-                    self.jwxtservice.addjwxtinfoService(jwxtnumber,jwxtpassword, user['UserId'])
+                    jwxtservice.addjwxtinfoService(jwxtnumber,jwxtpassword, user['UserId'])
                 state = 1
                 msg = "成功"
                 array = {

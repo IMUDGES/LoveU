@@ -4,10 +4,11 @@ import hashlib
 
 
 class Register3(object):
-    user = User()
+
 
     def register3(self, UserPhone, PassWord, NickName):
         try:
+            user = User()
             nq = User.query.filter_by(UserPhone=UserPhone).all()
             if len(nq) != 0:
                 state = 0
@@ -21,11 +22,11 @@ class Register3(object):
             m.update(PassWord.encode('utf-8'))
 
             PassWord = m.hexdigest()
-            self.user.PassWord = PassWord
-            self.user.NickName = NickName
-            self.user.UserPhone = UserPhone
-            print(self.user)
-            db.session.add(self.user)
+            user.PassWord = PassWord
+            user.NickName = NickName
+            user.UserPhone = UserPhone
+            print(user)
+            db.session.add(user)
             db.session.commit()
 
             state = 1

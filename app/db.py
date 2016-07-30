@@ -4,7 +4,8 @@ from flask_script import Manager
 from flask.ext.sqlalchemy import SQLAlchemy
 import pymysql
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@183.175.14.250:3306/loveu'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@127.0.0.1:3306/loveu'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@183.175.14.250:3306/loveu'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
 db = SQLAlchemy(app)
@@ -154,9 +155,9 @@ class PaiComment(db.Model):
 
 class Run(db.Model):
     RunId = db.Column(db.Integer, primary_key=True)
-    UserId = db.Column(db.Integer, unique=True)
-    RunInformation = db.Column(db.String, unique=True)
-    GetUser = db.Column(db.Integer, unique=True)
+    UserId = db.Column(db.Integer)
+    RunInformation = db.Column(db.String)
+    GetUser = db.Column(db.Integer)
     RunTime = db.Column(db.DateTime)
     State = db.Column(db.Integer)
     RunArea = db.Column(db.String, unique=True)

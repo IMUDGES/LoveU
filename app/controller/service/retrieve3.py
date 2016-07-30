@@ -4,7 +4,7 @@ import hashlib
 
 
 class Retrieve3(object):
-    user = User()
+
 
     def retrieve3(self, UserPhone, PassWord):
         try:
