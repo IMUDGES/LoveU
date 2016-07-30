@@ -11,4 +11,4 @@ def nickname():
     UserPhone = form.get('UserPhone')
     SecretKey = form.get('SecretKey')
     NickName = form.get('NickName')
-    return jsonify(nicknameq.change(UserPhone,SecretKey,NickName))
+    return jsonify(nicknameq.change(UserPhone, SecretKey, NickName))
