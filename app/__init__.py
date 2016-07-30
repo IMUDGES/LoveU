@@ -7,3 +7,4 @@ from app import views
 from app.view import foodview
 from app.view import helpview
 from app.view import runview
+from app.view import xueview

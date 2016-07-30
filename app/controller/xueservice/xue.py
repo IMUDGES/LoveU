@@ -1,14 +1,14 @@
 # -*- coding:utf-8 -*-
 from flask import request
-from app.db import User, Run, db
+from app.db import User, Xue, db
 
-class runservice():
-    def run(self):
+class xueservice():
+    def xue(self):
         page = int(request.args.get('page'))
         #SecretKey = '0a6b58441e5069288e0f95939a2c4375'
         #UserPhone = '2147483647'
         #page = 1
-        f = Run.query.paginate(page,10,False)
+        f = Xue.query.paginate(page,10,False)
         p = f.items
         if len(p) > 0:
             array = {
@@ -19,12 +19,12 @@ class runservice():
             for i in range(0,len(p)):
                 if p[i] is not None:
                     array = {
-                        'RunId': p[i].RunId,
+                        'XueId': p[i].XueId,
                         'UserId' : p[i].UserId,
-                        'RunArea' : p[i].RunArea,
-                        'RunInformation' : p[i].RunInformation,
+                        'XueArea' : p[i].XueArea,
+                        'XueInformation' : p[i].XueInformation,
                         'GetUser' : p[i].GetUser,
-                        'RunTime' : p[i].RunTime,
+                        'XueTime' : p[i].XueTime,
                         'State' : p[i].State
                     }
                     list1.append(array)
@@ -46,20 +46,20 @@ class runservice():
                 u = User.query.filter_by(UserPhone=UserPhone).first()
                 if u.SecretKey == SecretKey:
                     UserId = u.UserId
-                    p = Run.query.filter_by(UserId=UserId, State=1).first()
+                    p = Xue.query.filter_by(UserId=UserId, State=1).first()
                     if p is None:
-                        RunArea = form.get('RunArea')
-                        RunInformation = form.args.get('RunInformation')
-                        RunTime = form.args.get('RunTime')
+                        XueArea = form.get('XueArea')
+                        XueInformation = form.args.get('XueInformation')
+                        XueTime = form.args.get('XueTime')
                         # FoodArea = 'hhh'
                         # FoodInformation = 'hhh'
                         # FoodTime = '2016-07-28 15:31:41'
                         # FoodWay = 'hhh'
-                        f = Run()
+                        f = Xue()
                         f.UserId = UserId
-                        f.RunArea = RunArea
-                        f.RunInformation = RunInformation
-                        f.RunTime = RunTime
+                        f.XueArea = XueArea
+                        f.XueInformation = XueInformation
+                        f.XueTime = XueTime
                         f.State = 1
                         db.session.add(f)
                         db.session.commit()
@@ -82,14 +82,14 @@ class runservice():
     def get(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
-        RunId = int(request.args.get('RunId'))
+        XueId = int(request.args.get('XueId'))
         #UserPhone = '2147483647'
         #SecretKey = '8fe98a41f795497799ef3ade6ee02366'
         #FoodId = 3
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone = UserPhone).first()
             if u.SecretKey == SecretKey:
-                f = Run.query.filter_by(RunId=RunId).first()
+                f = Xue.query.filter_by(XueId=XueId).first()
                 if f.State == 1:
                     f.GetUser = u.UserId
                     f.State = 0
@@ -112,11 +112,11 @@ class runservice():
     def cancle(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
-        RunId = int(request.args.get('RunId'))
+        XueId = int(request.args.get('XueId'))
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone = UserPhone).first()
             if u.SecretKey == SecretKey:
-                f = Run.query.filter_by(FoodId = RunId).first()
+                f = Xue.query.filter_by(XueId=XueId).first()
                 db.session.delete(f)
                 db.session.commit()
                 msg = '撤销成功'
@@ -139,7 +139,7 @@ class runservice():
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
-                p = Run.query.filter_by(UserId = u.UserId).all()
+                p = Xue.query.filter_by(UserId = u.UserId).all()
                 if p is not None:
                     array = {
                         'msg' : '成功',
@@ -148,12 +148,12 @@ class runservice():
                     list1 = [array]
                     for i in range(0,len(p)):
                         array = {
-                            'RunId': p[i].RunId,
+                            'XueId': p[i].XueId,
                             'UserId': p[i].UserId,
-                            'RunArea': p[i].RunArea,
-                            'RunInformation': p[i].RunInformation,
+                            'XueArea': p[i].XueArea,
+                            'XueInformation': p[i].XueInformation,
                             'GetUser': p[i].GetUser,
-                            'RunTime': p[i].RunTime,
+                            'XueTime': p[i].XueTime,
                             'State': p[i].State
                         }
                         list1.append(array)
@@ -171,18 +171,18 @@ class runservice():
             }
             return array
     def thisrun(self):
-        RunId = int(request.args.get('RunId'))
-        p = Run.query.filter_by(RunId = RunId).first()
+        XueId = int(request.args.get('XueId'))
+        p = Xue.query.filter_by(RunId = XueId).first()
         if p is not None:
             array  = {
                 'msg' : '成功',
                 'state' : '1',
-                'RunId': p.RunId,
+                'XueId': p.XueId,
                 'UserId': p.UserId,
-                'RunArea': p.RunArea,
-                'RunInformation': p.RunInformation,
+                'XueArea': p.XueArea,
+                'XueInformation': p.XueInformation,
                 'GetUser': p.GetUser,
-                'RunTime': p.RunTime,
+                'XueTime': p.XueTime,
                 'State': p.State
             }
         else:
@@ -195,11 +195,11 @@ class runservice():
     def accept(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
-        RunId = int(request.args.get('RunId'))
+        XueId = int(request.args.get('XueId'))
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
-                f = Run.query.filter_by(RunId=RunId).first()
+                f = Xue.query.filter_by(RunId=XueId).first()
                 f.State = 1
                 msg = '成功'
                 state = '1'
@@ -218,11 +218,11 @@ class runservice():
     def refuse(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
-        RunId = int(request.args.get('RunId'))
+        XueId = int(request.args.get('XueId'))
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
-                f = Run.query.filter_by(RunId=RunId).first()
+                f = Xue.query.filter_by(XueId=XueId).first()
                 f.GetUser = None
                 msg = '已拒绝'
                 state = '1'
