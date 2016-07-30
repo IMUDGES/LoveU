@@ -80,10 +80,33 @@ class moneyservice():
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
-
+                paypassword = encrypt(form.get('PayPassword').encode('utf-8'))
+                mym = Money.query.filter_by(UserPhone = UserPhone, PayPassword = paypassword).first()
+                if mym is not None:
+                    money = int(form.get('Money'))
+                    mym.Money = mym.Money - money
+                    msg = '支付成功'
+                    state = '1'
+                else:
+                    mym = Money.query.filter_by(UserPhone=UserPhone).first()
+                    mym.Num = mym.Num + 1
+                    msg = '支付密码错误，还有今天两次错误机会'
+                    state = '0'
             else:
                 msg = '请登录'
                 state = '0'
+        else:
+            msg = '请登录'
+            state = '0'
+        array = {
+            'msg' : msg,
+            'state' : state
+        }
+        return array
+
+    def recharge(self):
+        pass
+
 
 
 
