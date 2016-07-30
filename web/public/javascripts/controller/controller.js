@@ -1,6 +1,15 @@
 //"use strict";
 
 var app = angular.module('main', ['ngRoute', 'MyService']);
+app.controller('Navctrl',['$scope',function ($scope) {
+    $scope.change=function () {
+        if($scope.elem=='block')
+        $('#collapse').click();
+    };
+    setInterval(function () {
+        $scope.elem=getComputedStyle(document.getElementById('collapse')).display;
+    },500);
+}]);
 app.controller('MainCtrl', ['$scope', '$']);
 app.controller('LogCtrl', ['$scope', 'RegistService', 'LogService',
     function ($scope, $rootScope, LogService) {
@@ -47,5 +56,7 @@ app.config(['$routeProvider', function ($routeProvider, $scope) {
     }).when('/regist',{
         controller:'RegCtrl',
         templateUrl:'views/user.regist.html'
+    }).when('/test',{
+        templateUrl:'views/scroll.html'
     })
 }]);

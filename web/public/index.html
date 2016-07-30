@@ -10,10 +10,10 @@
 </head>
 <body>
 
-<div>
+<div ng-controller="Navctrl">
     <nav class="navbar navbar-default navbar-loveu" role="navigation">
         <div class="navbar-header col-lg-offset-2">
-            <button class="navbar-toggle pull-left" data-toggle="collapse" data-target="#sg-header">
+            <button class="navbar-toggle pull-left" data-toggle="collapse" data-target="#sg-header" id="collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
             </button>
@@ -22,11 +22,11 @@
 
         <div class="collapse navbar-collapse" id="sg-header">
             <ul class="nav navbar-nav">
-                <li class="li"><a class="nav-a" href="#/">测试首页</a></li>
-                <li class="li"><a class="nav-a" href="#/login">登录</a></li>
-                <li class="li"><a class="nav-a" href="#/regist">注册</a></li>
-                <li class="li"><a class="nav-a" href="#/profile">通知</a></li>
-                <li class="li"><a class="nav-a" >登出</a></li>
+                <li class="li"><a class="nav-a" href="#/" ng-click="change()">测试首页</a></li>
+                <li class="li"><a class="nav-a" href="#/login" ng-click="change()">登录</a></li>
+                <li class="li"><a class="nav-a" href="#/regist" ng-click="change()">注册</a></li>
+                <li class="li"><a class="nav-a" href="#/profile" ng-click="change()">通知</a></li>
+                <li class="li"><a class="nav-a" href="#/test" >插件测试</a></li>
             </ul>
 
         </div>
@@ -40,6 +40,7 @@
 <script src="javascripts/vendor/bootstrap.js"></script>
 <!--<script src="javascripts/vendor/angular-1.0.4.js"></script>-->
 <!--angular版本选择-->
+<script src="javascripts/vendor/iscroll.js"></script>
 <script src="javascripts/vendor/md5.js"></script>
 <script src="javascripts/vendor/cookie.js"></script>
 <script src="javascripts/vendor/angular.js"></script>
