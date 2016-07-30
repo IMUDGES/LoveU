@@ -39,6 +39,8 @@
                     <div class="alert alert-warning margin-10px col-xs-12" ng-show="msg.ifvcode">
                         <p class="text-center" ng-bind="msg.vcode"></p>
                     </div>
+                    昵称：<input class="form-control margin-10px" type="text"
+                              placeholder="LoveU 昵称" ng-model="data.nick" ng-change="autoCheck()">
                     密码：<input class="form-control margin-10px" type="password"
                               placeholder="6到18位" ng-model="data.pass" ng-change="autoCheck()">
                     <div class="alert alert-warning margin-10px col-xs-12" ng-show="msg.ifpass">

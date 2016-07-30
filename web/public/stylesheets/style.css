@@ -28,6 +28,16 @@ a,.btn {
 .li:hover {
     background-color: skyblue;
 }
+.test{
+
+}
+.test li{
+    text-align: center;
+    color: black;
+    background-color: #4dc71f;
+    padding: 15px;
+    margin-bottom: 5px;
+}
 .nav-a{
     font-size: 18px;
     color: white !important;

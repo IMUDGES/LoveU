@@ -1,5 +1,6 @@
 var services = angular.module('MyService', []);
-var root_url = 'http://183.175.12.178:5000/';
+var root_url = 'http://183.175.14.250:5000/';
+//var root_url = '/';
 var transform = function (data) {
     return $.param(data);
 };
@@ -57,7 +58,7 @@ services.factory('LogService', ['$q', '$http',
 ]);
 services.factory('RegistService', ['$q', '$http',
     function ($q, $http) {
-        var phone = '';
+        var save = '';
         return {
             regist: function (regdata) {
                 var delay = $q.defer();
@@ -70,6 +71,36 @@ services.factory('RegistService', ['$q', '$http',
                     promise.then(null, fn);
                     return promise;
                 };
+                if (save.length !== 11) {
+                    delay.reject('phone');
+                    return promise;
+                }
+                if(regdata.pass.length<6){
+                    delay.reject('pass1');
+                    return promise;
+                }
+                if(regdata.pass.length>18){
+                    delay.reject('pass2');
+                    return promise;
+                }
+                if (regdata.pass != regdata.pass1) {
+                    delay.reject('pass');
+                    return promise;
+                }
+                $http.post(root_url + 'register3', {
+                    UserPhone: regdata.phone,
+                    PassWord: md5_s(regdata.pass),
+                    NickName: regdata.nick,
+                    CheckCode: regdata.vcode
+                }, postCfg).success(function (data) {
+                    if(data.state=='1')
+                        delay.resolve('成功');
+                    else
+                    delay.reject('vcode');
+                }).error(function (data) {
+                    delay.reject('Unable');
+                });
+                return promise;
             },
             phone: function (number) {
                 var delay = $q.defer();
@@ -82,16 +113,20 @@ services.factory('RegistService', ['$q', '$http',
                     promise.then(null, fn);
                     return promise;
                 };
+                 if (number.length != 11) {
+                 delay.reject('请填写正确的手机号码');
+                 return promise;
+                 }
                 $http.post(root_url + 'register1', {
                     UserPhone: number
-                }).success(function (data) {
-                    if (data.state == '1') {
-                        phone = number;
-                        delay.resolve(phone);
+                }, postCfg).success(function (data) {
+                    if (data.state=='1') {
+                        save = number;
+                        delay.resolve(data.msg);
                     } else
                         delay.reject('手机号已被注册');
-                    return promise;
-                })
+                });
+                return promise;
             },
             setError: function () {
                 return {
@@ -108,9 +143,10 @@ services.factory('RegistService', ['$q', '$http',
             setUser: function () {
                 return {
                     phone: '',
-                    vcode: 'vcode',
-                    pass: 'pass',
-                    pass1: 'pass1'
+                    vcode: '',
+                    nick: '',
+                    pass: '',
+                    pass1: ''
                 }
             }
         }
