@@ -39,3 +39,4 @@ def thishelp():
 def confirm():
     h = helpservice()
     return jsonify(h.confirm())
+#结束

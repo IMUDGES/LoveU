@@ -4,6 +4,7 @@ from app.db import User, Help, db
 
 
 class helpservice():
+
     def help(self):
         page = int(request.args.get('page'))
         # SecretKey = '0a6b58441e5069288e0f95939a2c4375'

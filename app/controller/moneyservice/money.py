@@ -5,7 +5,8 @@ from app.db import Checkcode
 from app.controller.service.sendmessage import SendMessage
 from app.bean.md5 import encrypt
 
-class money():
+class moneyservice():
+
     def sendcheck(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
@@ -29,6 +30,7 @@ class money():
             'state' : state
         }
         return array
+
     def setpsw(self):
         form = request.form
         UserPhone = form.get('UserPhone')
@@ -63,6 +65,25 @@ class money():
         else:
             msg = '请登录'
             state = '0'
+        array = {
+            'msg' :msg,
+            'state' : state
+        }
+        return array
+
+    def pay(self):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        # UserPhone = '2147483647'
+        # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+
+            else:
+                msg = '请登录'
+                state = '0'
 
 
 
