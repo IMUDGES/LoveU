@@ -10,4 +10,6 @@ from app.view import foodview
 from app.view import helpview
 from app.view import runview
 from app.view import xueview
+from app.view import giveview
 from app.view import personalview
+

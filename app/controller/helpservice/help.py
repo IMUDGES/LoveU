@@ -12,7 +12,7 @@ class helpservice():
         # page = 1
         f = Help.query.filter_by(State = 1).paginate(page, 10, False)
         p = f.items
-        if len(p) > 0:
+        if p is not  None:
             array = {
                 'msg': '成功',
                 'state': '1',

@@ -3,9 +3,8 @@ from flask import Flask
 from flask_script import Manager
 from flask.ext.sqlalchemy import SQLAlchemy
 import pymysql
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@127.0.0.1:3306/loveu'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@183.175.14.250:3306/loveu'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@127.0.0.1:3306/loveu'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@183.175.14.250:3306/loveu'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 
 db = SQLAlchemy(app)
@@ -74,7 +73,7 @@ class Food(db.Model):
 class Give(db.Model):
     GiveId = db.Column(db.Integer, primary_key=True)
     UserId = db.Column(db.Integer)
-    GiveInformatinon = db.Column(db.String)
+    GiveInformation = db.Column(db.String)
     GiveImage = db.Column(db.String)
     GetUser = db.Column(db.Integer)
     State = db.Column(db.Integer)
@@ -181,3 +180,4 @@ class Xue(db.Model):
 
 if __name__ == '__main__':
     manager.run()
+
