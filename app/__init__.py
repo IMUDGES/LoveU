@@ -12,4 +12,5 @@ from app.view import runview
 from app.view import xueview
 from app.view import giveview
 from app.view import personalview
+from app.view import userphoto
 

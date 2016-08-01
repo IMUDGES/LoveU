@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 from flask import request
-from app.db import User, Give, db, GiveComment
+from app.db import User, Give, db, Givecomment
 
 
 

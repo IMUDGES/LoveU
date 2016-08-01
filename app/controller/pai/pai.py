@@ -20,12 +20,13 @@ class paiservice():
                 if p[i] is not None:
                     array = {
                         'PaiId': p[i].FoodId,
+                        'PaiTitle':p[i].PaiTitle,
                         'UserId': p[i].UserId,
                         'PaiMoney':p[i].PaiMoney,
-                        'UpTime':
+                        'UpTime':p[i].UpTime,
                         'PaiInformation': p[i].PaiInformation,
-                        'GetUser': p[i].GetUser,
-                        'State': p[i].State
+                        'PaiImage':p[i].PaiImage,
+                        'DownTime':p[i].DownTime
                     }
                     list1.append(array)
             return list1
@@ -35,5 +36,7 @@ class paiservice():
                 'state': '0'
             }
             return array
-    def creat(self):
+
+    def get(self):
+        pass
 
