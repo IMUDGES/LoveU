@@ -130,7 +130,8 @@ class helpservice():
                 if f.UserId == u.UserId:
                     if f.GetUser is not None:
                         UserId = u.UserId
-                        m = Money.query
+                        m = Money.query.filter_by(UserId=UserId).first()
+                        m.Money = m.Money + f.HelpMoney
                         db.session.delete(f)
                         db.session.commit()
                         msg = '撤销成功'
@@ -216,14 +217,17 @@ class helpservice():
         return array
 
     def confirm(self):
-        UserPhone = request.args.get('UserPhone')
-        SecretKey = request.args.get('SecretKey')
-        FoodId = int(request.args.get('FoodId'))
+        form = request.form
+        UserPhone = form.get('UserPhone').encode('utf-8')
+        SecretKey = form.get('SecretKey').encode('utf-8')
+        HelpId = int(form.get('HelpId'))
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
-                f = Help.query.filter_by(FoodId=FoodId).first()
+                f = Help.query.filter_by(HelpId=HelpId).first()
                 if f.UserId == u.UserId:
+                    m = Money.fiter_by(UserId=f.GetUser).first()
+                    m.Money = m.Money + f.HelpMoney
                     f.Finish = 1
                     msg = '成功'
                     state = '1'

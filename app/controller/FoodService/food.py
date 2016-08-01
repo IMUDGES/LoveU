@@ -85,9 +85,10 @@ class foodservice():
         return array
 
     def get(self):
-        UserPhone = request.args.get('UserPhone')
-        SecretKey = request.args.get('SecretKey')
-        FoodId = int(request.args.get('FoodId'))
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        FoodId = int(form.get('FoodId'))
         #UserPhone = '2147483647'
         #SecretKey = '8fe98a41f795497799ef3ade6ee02366'
         #FoodId = 3
@@ -115,9 +116,10 @@ class foodservice():
         return array
 
     def cancle(self):
-        UserPhone = request.args.get('UserPhone')
-        SecretKey = request.args.get('SecretKey')
-        FoodId = int(request.args.get('FoodId'))
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        FoodId = int(form.get('FoodId'))
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone = UserPhone).first()
             if u.SecretKey == SecretKey:
