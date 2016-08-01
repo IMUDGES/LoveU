@@ -75,13 +75,18 @@ app.controller('RegCtrl', ['$scope', 'RegistService', '$rootScope', '$location',
             }
         })
     }
-    $scope.check=function () {
-        
+    $scope.check = function () {
+
     }
 }]);
-
+app.controller('ScrollCtrl', ['$scope',function ($scope) {
+    var myScroll;
+    myScroll = new IScroll('#wrapper', {
+        mouseWheel: false,
+        scrollbars: true
+    });
+}]);
 app.config(['$routeProvider', function ($routeProvider, $scope) {
-
     $routeProvider
         .when('/', {
             controller: "MainCtrl",
@@ -98,6 +103,7 @@ app.config(['$routeProvider', function ($routeProvider, $scope) {
         controller: 'RegCtrl',
         templateUrl: 'views/user.regist.html'
     }).when('/test', {
+        controller: 'ScrollCtrl',
         templateUrl: 'views/scroll.html'
     })
 }]);
