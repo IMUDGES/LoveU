@@ -79,7 +79,7 @@ class moneyservice():
         if userphone and secretkey:
             u = User.query.filter_by(UserPhone=userphone).first()
             if u.SecretKey == secretkey:
-                paypassword = PayPassword
+                paypassword = encrypt(PayPassword)
                 userid = u.UserId
                 mym = Money.query.filter_by(UserId=userid, PayPassword = paypassword).first()
                 if mym is not None:
@@ -89,8 +89,8 @@ class moneyservice():
                     state = '1'
                 else:
                     mym = Money.query.filter_by(UserPhone=UserPhone).first()
-                    mym.Num = mym.Num + 1
-                    msg = '支付密码错误，还有今天两次错误机会'
+                    mym.Num = mym.Num - 1
+                    msg = '支付密码错误，今天还有' + mym.Num + '次机会'
                     state = '0'
             else:
                 msg = '请登录'

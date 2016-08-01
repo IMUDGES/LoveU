@@ -2,6 +2,7 @@
 from flask import request
 from app.db import User, Money, db
 from app.db import Pai
+from app.controller.moneyservice.money import moneyservice
 
 
 class paiservice():
@@ -38,5 +39,44 @@ class paiservice():
             return array
 
     def get(self):
-        pass
+        UserPhone = request.args.get('UserPhone')
+        SecretKey = request.args.get('SecretKey')
+        u = User.query.filter_by(UserPhone=UserPhone, SecretKey=SecretKey).first()
+        if u is None:
+            state = '0'
+            msg = '请登录'
+        else:
+            form = request.form
+            UserId = u.UserId
+            PaiId = int(form.get('PaiId'))
+            PaiMoney = int(form.get('PaiMoney'))
+            PayPassword = form.get('PayPassword').encode('utf-8')
+            p = Pai.query.filter_by(PaiId=PaiId).first()
+            if p.State == 0:
+                state = '0'
+                msg = '拍卖已结束'
+            else:
+                if p.PaiMoney >= PaiMoney:
+                    state = '0'
+                    msg = '竞拍价格须高于当前价格'
+                else:
+                    m = moneyservice()
+                    result = m.pay(UserPhone, SecretKey, PayPassword, PaiMoney)
+                    if result['state'] == '1':
+                        state = '1'
+                        msg = '竞拍成功'
+                        M = Money.query.filter_by(UserId=p.GetUser).first()
+                        M.Money = M.Money+p.PaiMoney
+                        p.GetUser = UserId
+                        p.PaiMoney = PaiMoney
+                    else:
+                        state = '0'
+                        msg = result['msg']
+            array = {
+                'state':state,
+                'msg':msg
+            }
+            return array
+
+
 
