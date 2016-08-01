@@ -3,6 +3,7 @@ from flask import Flask
 from flask_script import Manager
 from flask.ext.sqlalchemy import SQLAlchemy
 import pymysql
+
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@127.0.0.1:3306/loveu'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@183.175.14.250:3306/loveu'
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
@@ -82,7 +83,7 @@ class Give(db.Model):
         return '<User %r>' % self.UserId
 
 
-class GiveComment(db.Model):
+class Givecomment(db.Model):
     CommentId = db.Column(db.Integer, primary_key=True)
     UserId = db.Column(db.Integer)
     CommentInformation = db.Column(db.String)
@@ -142,7 +143,7 @@ class Pai(db.Model):
         return '<User %r>' % self.UserId
 
 
-class PaiComment(db.Model):
+class Paicomment(db.Model):
     CommentId = db.Column(db.Integer, primary_key=True)
     UserId = db.Column(db.Integer)
     CommentInformation = db.Column(db.String)
@@ -180,4 +181,3 @@ class Xue(db.Model):
 
 if __name__ == '__main__':
     manager.run()
-
