@@ -1,6 +1,8 @@
 # -*- coding:utf-8 -*-
 from flask import request
 from app.db import User, Help, db
+from app.db import Money
+from app.controller.moneyservice.money import moneyservice
 
 
 class helpservice():
@@ -44,23 +46,31 @@ class helpservice():
         form = request.form
         UserPhone = form.get('UserPhone')
         SecretKey = form.get('SecretKey')
+        PayPassword = form.get('PayPassword').encode('utf-8')
+        HelpMoney = int(form.get('HelpMoney'))
         # UserPhone = '2147483647'
         # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone = UserPhone).first()
             if u.SecretKey == SecretKey:
                 UserId = u.UserId
-                h = Help()
-                h.UserId = int(UserId)
-                h.HelpMoney = int(form.get('HelpMoney'))
-                h.DownTime = form.get('DownTime')
-                h.HelpInformation = form.get('HelpInformation').encode('utf-8')
-                h.State = 1
-                h.Finish = 0
-                db.session.add(h)
-                db.session.commit()
-                state = '1'
-                msg = '创建成功'
+                m = moneyservice()
+                result = m.pay(UserPhone, SecretKey, PayPassword, HelpMoney)
+                if result['state'] == 1:
+                    h = Help()
+                    h.UserId = int(UserId)
+                    h.HelpMoney = HelpMoney
+                    h.DownTime = form.get('DownTime')
+                    h.HelpInformation = form.get('HelpInformation').encode('utf-8')
+                    h.State = 1
+                    h.Finish = 0
+                    db.session.add(h)
+                    db.session.commit()
+                    state = '1'
+                    msg = '创建成功'
+                else:
+                    state = '0'
+                    msg = result['msg']
             else:
                 state = '0'
                 msg = '请登录'
@@ -74,11 +84,16 @@ class helpservice():
         return array
 
     def get(self):
-        UserPhone = request.args.get('UserPhone')
-        SecretKey = request.args.get('SecretKey')
-        HelpId = int(request.args.get('HelpId'))
-        # UserPhone = '2147483647'
-        # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
+        form = request.form
+        UserPhone = form.get('UserPhone').encode('utf-8')
+        SecretKey = form.get('SecretKey').encode('utf-8')
+        HelpId = int(form.get('HelpId'))
+        # print(UserPhone)
+        # print(SecretKey)
+        # print(HelpId)
+        # UserPhone = '11111111111'
+        # SecretKey = 'b7db48afb289f63d04d8f053824955bb'
+        # HelpId = 1
         # FoodId = 3
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
@@ -104,15 +119,18 @@ class helpservice():
         return array
 
     def cancle(self):
-        UserPhone = request.args.get('UserPhone')
-        SecretKey = request.args.get('SecretKey')
-        HelpId = int(request.args.get('HelpId'))
+        form = request.form
+        UserPhone = form.get('UserPhone').encode('utf-8')
+        SecretKey = form.get('SecretKey').encode('utf-8')
+        HelpId = int(form.get('HelpId'))
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
                 f = Help.query.filter_by(HelpId=HelpId).first()
                 if f.UserId == u.UserId:
                     if f.GetUser is not None:
+                        UserId = u.UserId
+                        m = Money.query
                         db.session.delete(f)
                         db.session.commit()
                         msg = '撤销成功'

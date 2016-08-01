@@ -8,8 +8,9 @@ from app.bean.md5 import encrypt
 class moneyservice():
 
     def sendcheck(self):
-        UserPhone = request.args.get('UserPhone')
-        SecretKey = request.args.get('SecretKey')
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
         # UserPhone = '2147483647'
         # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
         if UserPhone and SecretKey:
@@ -84,9 +85,13 @@ class moneyservice():
                 mym = Money.query.filter_by(UserId=userid, PayPassword = paypassword).first()
                 if mym is not None:
                     money = Money
-                    mym.Money = mym.Money - money
-                    msg = '支付成功'
-                    state = '1'
+                    if mym.Money<money:
+                        mym.Money = mym.Money - money
+                        msg = '支付成功'
+                        state = '1'
+                    else:
+                        msg = '余额不足,请充值'
+                        state = '0'
                 else:
                     mym = Money.query.filter_by(UserPhone=UserPhone).first()
                     mym.Num = mym.Num - 1
