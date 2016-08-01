@@ -5,8 +5,10 @@
     <title>Title</title>
 </head>
 <body>
-<form action="/userphoto" method="post">
-    <input type="file" name="photo">
+<form action="/userphoto" enctype="multipart/form-data" method="post">
+    <input  type="text" name="UserPhone">
+    <input  type="text" name="SecretKey">
+    <input  type="file" name="photo">
     <input type="submit" value="tijiao">
     </form>
 </body>

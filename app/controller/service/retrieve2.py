@@ -4,7 +4,12 @@ from app.db import db, Checkcode, User
 class Retrieve2(object):
     def Retrieve2(self, phone, checkcode):
         try:
+            print(checkcode)
+            print(phone)
             n = User.query.filter_by(UserPhone=phone).all()
+            m = Checkcode.query.filter_by(UserPhone=phone).all()
+
+            print(n)
             if len(n) == 0:
                 state = 0
                 msg = "此手机号还没有被注册!"
@@ -13,8 +18,9 @@ class Retrieve2(object):
                     'msg': msg
                 }
                 return array
-            m = Checkcode.query.filter_by(UserPhone=phone).all()
-            if m[len(m)-1].CheckCode == int(checkcode):
+
+            if m[len(m)-1].CheckCode == checkcode:
+
                 state = 1
                 msg = "成功!"
                 array = {

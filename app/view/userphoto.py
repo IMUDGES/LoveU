@@ -1,16 +1,17 @@
 # -*- coding:utf-8 -*-
 from flask import jsonify,request
 from app import app
-from app.controller.runservice.run import runservice
 from app.controller.service.photoservice import Upphoto
+#未完成
 
 
 @app.route('/userphoto', methods = ['POST', 'GET'])
 def userphoto():
+    form = request.form
+    UserPhone = form.get('UserPhone')
+    SecretKey = form.get('SecretKey')
+    file = request.files['photo']
     upphoto = Upphoto()
-    if request.method == 'POST':
-        file = request.files['file']
-        if file and upphoto.allowed_file(file.filename):
-            #未完成
-            pass
-    return '1'
+    return jsonify(upphoto.upuserphoto(file,UserPhone,SecretKey))
+
+

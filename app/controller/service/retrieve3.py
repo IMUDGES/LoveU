@@ -9,7 +9,9 @@ class Retrieve3(object):
     def retrieve3(self, UserPhone, PassWord):
         try:
             nq = User.query.filter_by(UserPhone=UserPhone).all()
+            print(nq)
             if len(nq) == 0:
+
                 state = 0
                 msg = "此手机号还没有被注册！"
                 array = {
@@ -22,7 +24,7 @@ class Retrieve3(object):
             PassWord = m.hexdigest()
             nq = User.query.filter_by(UserPhone=UserPhone).first()
             nq.PassWord = PassWord
-            nq.user.UserPhone = UserPhone
+            nq.UserPhone = UserPhone
             db.session.commit()
             state = 1
             msg = "成功！"

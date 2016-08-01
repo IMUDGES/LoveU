@@ -40,7 +40,7 @@ class giveservice():
     def givecomment(self):
         GiveId = request.args.get('GiveId')
         print(GiveId)
-        g = GiveComment.query.filter_by(GiveId=GiveId).first()
+        g = Givecomment.query.filter_by(GiveId=GiveId).first()
         print (g)
         if g is not None:
             array = {

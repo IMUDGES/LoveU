@@ -13,7 +13,6 @@ from app.controller.service.retrieve3 import Retrieve3
 from app.controller.service.sendmessage import SendMessage
 from app.controller.service.login import dologin
 from app.controller.service.data import data
-from app.controller.jwxtservice.upjwxtservice import upjwxtService
 from app.controller.runservice.run import runservice
 import json
 
@@ -84,15 +83,7 @@ def test():
     print (u.NickName)
     return u.NickName
 
-@app.route('/upjwxtservice', methods = ['POST', 'GET'])
-def upjwxtservice():
-    form = request.form
-    UserPhone = form.get('UserPhone')
-    Secretkey = form.get('SecretKey')
-    JwxtNumber = form.get('JwxtNumber')
-    JwxtPassword = form.get('JwxtPassword')
-    upjwxtserviceinfo = upjwxtService()
-    return jsonify(upjwxtserviceinfo.check(UserPhone,Secretkey,JwxtNumber,JwxtPassword))
+
 
 
 
@@ -122,7 +113,7 @@ def retrieve3():
     CheckCode = form.get('CheckCode')
     retrieve2q = Retrieve2()
     retrieve3q = Retrieve3()
-    array = retrieve2q.register2(UserPhone, CheckCode)
+    array = retrieve2q.Retrieve2(UserPhone, CheckCode)
     q = int(array['state'])
     if q == 1:
         retrieve3q = Retrieve3()
