@@ -12,7 +12,7 @@ class helpservice():
         # SecretKey = '0a6b58441e5069288e0f95939a2c4375'
         # UserPhone = '2147483647'
         # page = 1
-        f = Help.query.filter_by(State = 1).paginate(page, 10, False)
+        f = Help.query.order_by(-Help.HelpId).filter_by(State = 1).paginate(page, 10, False)
         p = f.items
         if p is not  None:
             array = {
