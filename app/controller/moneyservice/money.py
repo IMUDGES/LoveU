@@ -71,19 +71,19 @@ class moneyservice():
         }
         return array
 
-    def pay(self):
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        SecretKey = form.get('SecretKey')
+    def pay(self, UserPhone, SecretKey, PayPassword, Money):
+        userphone = UserPhone
+        secretkey = SecretKey
         # UserPhone = '2147483647'
         # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
-        if UserPhone and SecretKey:
-            u = User.query.filter_by(UserPhone=UserPhone).first()
-            if u.SecretKey == SecretKey:
-                paypassword = encrypt(form.get('PayPassword').encode('utf-8'))
-                mym = Money.query.filter_by(UserPhone = UserPhone, PayPassword = paypassword).first()
+        if userphone and secretkey:
+            u = User.query.filter_by(UserPhone=userphone).first()
+            if u.SecretKey == secretkey:
+                paypassword = PayPassword
+                userid = u.UserId
+                mym = Money.query.filter_by(UserId=userid, PayPassword = paypassword).first()
                 if mym is not None:
-                    money = int(form.get('Money'))
+                    money = Money
                     mym.Money = mym.Money - money
                     msg = '支付成功'
                     state = '1'
@@ -104,16 +104,13 @@ class moneyservice():
         }
         return array
 
-    def recharge(self):
-        UserPhone = request.args.get('UserPhone')
-        SecretKey = request.args.get('SecretKey')
+    def recharge(self, UserPhone, SecretKey, Money):
         # UserPhone = '2147483647'
         # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
                 UserId = u.UserId
-                Money = int(request.args.get('Money'))
                 m = Money.query.filter_by(UserId=UserId).first()
                 m.Money = m.Money+Money
                 msg = '充值成功'

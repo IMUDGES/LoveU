@@ -15,3 +15,4 @@ def dendcheck():
 def setpsw():
     m = moneyservice()
     return jsonify(m.setpsw())
+#end
