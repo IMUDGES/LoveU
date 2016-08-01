@@ -86,7 +86,6 @@ class helpservice():
                 h = Help.query.filter_by(HelpId=HelpId).first()
                 if h.State == 1:
                     h.GetUser = u.UserId
-                    h.State = 0
                     msg = '成功'
                     state = '1'
                 else:

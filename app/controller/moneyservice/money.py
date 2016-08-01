@@ -105,7 +105,32 @@ class moneyservice():
         return array
 
     def recharge(self):
-        pass
+        UserPhone = request.args.get('UserPhone')
+        SecretKey = request.args.get('SecretKey')
+        # UserPhone = '2147483647'
+        # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                UserId = u.UserId
+                Money = int(request.args.get('Money'))
+                m = Money.query.filter_by(UserId=UserId).first()
+                m.Money = m.Money+Money
+                msg = '充值成功'
+                state = '1'
+            else:
+                msg = '请登录'
+                state = '0'
+        else:
+            msg = '请登录'
+            state = '0'
+        array = {
+            'msg':msg,
+            'state':state
+        }
+        return array
+
+
 
 
 
