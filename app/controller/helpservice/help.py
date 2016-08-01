@@ -2,6 +2,7 @@
 from flask import request
 from app.db import User, Help, db
 from app.db import Money
+from app.controller.service.data import data
 from app.controller.moneyservice.money import moneyservice
 
 
@@ -20,10 +21,14 @@ class helpservice():
                 'state': '1',
                 'num' : len(p)
             }
+            d = data()
             list1 = [array]
             for i in range(0, len(p)):
                 if p[i] is not None:
+                    a = d.GetOthersData(p[i].UserId)
                     array = {
+                        'UserPhoto':a['UserPhoto'],
+                        'NickName':a['NickName'],
                         'HelpId': p[i].HelpId,
                         'UserId': p[i].UserId,
                         'HelpInformation': p[i].HelpInformation,
@@ -85,8 +90,8 @@ class helpservice():
 
     def get(self):
         form = request.form
-        UserPhone = form.get('UserPhone').encode('utf-8')
-        SecretKey = form.get('SecretKey').encode('utf-8')
+        UserPhone = form.get('UserPhone').decode('utf-8')
+        SecretKey = form.get('SecretKey').decode('utf-8')
         HelpId = int(form.get('HelpId'))
         # print(UserPhone)
         # print(SecretKey)

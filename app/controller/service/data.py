@@ -3,8 +3,7 @@ from app.db import User
 
 
 class data():
-    def GetOthersData(self):
-        UserId = int(request.args.get('UserId'))
+    def GetOthersData(self,UserId):
         u = User.query.filter_by(UserId = UserId).first()
         if u is not None:
             array = {

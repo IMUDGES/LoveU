@@ -66,8 +66,9 @@ def register3():
 
 @app.route('/data', methods = ['POST', 'GET'])
 def getdata():
+    UserId = int(request.args.get('UserId'))
     d = data()
-    return jsonify(d.GetOthersData())
+    return jsonify(d.GetOthersData(UserId))
 
 
 @app.route('/mydata', methods = ['POST', 'GET'])
