@@ -2,7 +2,6 @@
 from flask import jsonify,request
 from app import app
 from app.controller.service.photoservice import Upphoto
-#未完成
 
 
 @app.route('/userphoto', methods = ['POST', 'GET'])
