@@ -29,6 +29,7 @@ class helpservice():
                     array = {
                         'UserPhoto':a['UserPhoto'],
                         'NickName':a['NickName'],
+                        'UserSex':a['UserSex'],
                         'HelpId': p[i].HelpId,
                         'UserId': p[i].UserId,
                         'HelpInformation': p[i].HelpInformation,
@@ -40,12 +41,15 @@ class helpservice():
                     list1.append(array)
             return list1
         else:
+
             array = {
                 'msg': '信息为空',
                 'state': '0',
                 'num' : 0
             }
-            return array
+            list1 =[array]
+            list1.append(array)
+            return list1
 
     def creat(self):
         form = request.form
@@ -106,6 +110,7 @@ class helpservice():
                 h = Help.query.filter_by(HelpId=HelpId).first()
                 if h.State == 1:
                     h.GetUser = u.UserId
+                    h.State = 0
                     msg = '成功'
                     state = '1'
                 else:
