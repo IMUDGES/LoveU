@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from flask import request
 from app.db import User, Run, db
+from app.controller.service.data import data
 
 class runservice():
     def run(self):
@@ -15,10 +16,14 @@ class runservice():
                 'msg': '成功',
                 'state': '1'
             }
+            d = data()
             list1 = [array]
             for i in range(0,len(p)):
                 if p[i] is not None:
+                    a = d.GetOthersData(p[i].UserId)
                     array = {
+                        'UserPhoto':a['UserPhoto'],
+                        'NickName':a['NickName'],
                         'RunId': p[i].RunId,
                         'UserId' : p[i].UserId,
                         'RunArea' : p[i].RunArea,

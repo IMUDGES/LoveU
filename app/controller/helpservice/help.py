@@ -90,8 +90,8 @@ class helpservice():
 
     def get(self):
         form = request.form
-        UserPhone = form.get('UserPhone').decode('utf-8')
-        SecretKey = form.get('SecretKey').decode('utf-8')
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
         HelpId = int(form.get('HelpId'))
         # print(UserPhone)
         # print(SecretKey)

@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from flask import request
 from app.db import User, Xue, db
+from app.controller.service.data import data
 
 class xueservice():
     def xue(self):
@@ -15,10 +16,14 @@ class xueservice():
                 'msg': '成功',
                 'state': '1'
             }
+            d = data()
             list1 = [array]
             for i in range(0,len(p)):
                 if p[i] is not None:
+                    a = d.GetOthersData(p[i].UserId)
                     array = {
+                        'UserPhoto': a['UserPhoto'],
+                        'NickName': a['NickName'],
                         'XueId': p[i].XueId,
                         'UserId' : p[i].UserId,
                         'XueArea' : p[i].XueArea,

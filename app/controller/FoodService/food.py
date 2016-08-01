@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 from flask import request
 from app.db import User, Food, db
+from app.controller.service.data import data
 
 class foodservice():
 
@@ -9,17 +10,21 @@ class foodservice():
         #SecretKey = '0a6b58441e5069288e0f95939a2c4375'
         #UserPhone = '2147483647'
         #page = 1
-        f = Food.query.filter_by(State = 1).paginate(page,10,False)
+        f = Food.query.order_by(-Food.FoodId).filter_by(State=1).paginate(page,10,False)
         p = f.items
         if p is not None:
             array = {
                 'msg': '成功',
                 'state': '1'
             }
+            d = data()
             list1 = [array]
             for i in range(0,len(p)):
                 if p[i] is not None:
+                    a = d.GetOthersData(p[i].UserId)
                     array = {
+                        'UserPhoto':a['UserPhoto'],
+                        'NickName':a['NickName'],
                         'FoodId': p[i].FoodId,
                         'UserId' : p[i].UserId,
                         'FoodArea' : p[i].FoodArea,
