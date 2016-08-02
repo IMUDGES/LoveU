@@ -9,12 +9,13 @@ class xueservice():
         #SecretKey = '0a6b58441e5069288e0f95939a2c4375'
         #UserPhone = '2147483647'
         #page = 1
-        f = Xue.query.paginate(page,10,False)
+        f = Xue.query.order_by(-Xue.XueId).filter_by(State=1).paginate(page,10,False)
         p = f.items
         if len(p) > 0:
             array = {
                 'msg': '成功',
-                'state': '1'
+                'state': '1',
+                'num':len(p)
             }
             d = data()
             list1 = [array]
@@ -24,6 +25,7 @@ class xueservice():
                     array = {
                         'UserPhoto': a['UserPhoto'],
                         'NickName': a['NickName'],
+                        'UserSex':a['UserSex'],
                         'XueId': p[i].XueId,
                         'UserId' : p[i].UserId,
                         'XueArea' : p[i].XueArea,
@@ -36,9 +38,13 @@ class xueservice():
             return list1
         else:
             array = {
+                'num':0,
                 'msg': '信息为空',
                 'state': '0'
             }
+            list1 = [array]
+            list1.append(array)
+            return list1
 
     def creat(self):
         def creat(self):
@@ -84,6 +90,7 @@ class xueservice():
                 'msg': msg
             }
             return array
+
     def get(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
@@ -114,6 +121,7 @@ class xueservice():
             'state' : state
         }
         return array
+
     def cancle(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
@@ -175,6 +183,7 @@ class xueservice():
                 'state': '0'
             }
             return array
+
     def thisrun(self):
         XueId = int(request.args.get('XueId'))
         p = Xue.query.filter_by(RunId = XueId).first()

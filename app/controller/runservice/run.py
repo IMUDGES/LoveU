@@ -4,15 +4,17 @@ from app.db import User, Run, db
 from app.controller.service.data import data
 
 class runservice():
+
     def run(self):
         page = int(request.args.get('page'))
         #SecretKey = '0a6b58441e5069288e0f95939a2c4375'
         #UserPhone = '2147483647'
         #page = 1
-        f = Run.query.paginate(page,10,False)
+        f = Run.query.order_by(-Run.RunId).filter_by(State=1).paginate(page, 10, False)
         p = f.items
         if len(p) > 0:
             array = {
+                'num':len(p),
                 'msg': '成功',
                 'state': '1'
             }
@@ -24,6 +26,7 @@ class runservice():
                     array = {
                         'UserPhoto':a['UserPhoto'],
                         'NickName':a['NickName'],
+                        'UserSex':a['UserSex'],
                         'RunId': p[i].RunId,
                         'UserId' : p[i].UserId,
                         'RunArea' : p[i].RunArea,
@@ -36,9 +39,12 @@ class runservice():
             return list1
         else:
             array = {
+                'num':0,
                 'msg': '信息为空',
                 'state': '0'
             }
+            list1 = [array]
+            list1.append(array)
 
     def creat(self):
         def creat(self):
@@ -84,6 +90,7 @@ class runservice():
                 'msg': msg
             }
             return array
+
     def get(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
@@ -114,6 +121,7 @@ class runservice():
             'state' : state
         }
         return array
+
     def cancle(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
@@ -175,6 +183,7 @@ class runservice():
                 'state': '0'
             }
             return array
+
     def thisrun(self):
         RunId = int(request.args.get('RunId'))
         p = Run.query.filter_by(RunId = RunId).first()

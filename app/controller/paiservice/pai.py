@@ -9,23 +9,25 @@ from app.controller.service.data import data
 class paiservice():
 
     def pai(self):
-        page = request.args.get('page')
-        P = Pai.query.filter_by(State=1).paginate(page,10,False)
+        page = int(request.args.get('page'))
+        P = Pai.query.filter_by(State=1).paginate(page, 10, False)
         p = P.items
         if p is not None:
             array = {
                 'msg': '成功',
-                'state': '1'
+                'state': '1',
+                'num':len(p)
             }
             list1 = [array]
             d = data()
             for i in range(0, len(p)):
                 if p[i] is not None:
+                    print(p[i].UserId)
                     a = d.GetOthersData(p[i].UserId)
                     array = {
-                        'UserPhoto':p[i].UserPhoto,
-                        'NickName':p[i].NickName,
-                        'PaiId': p[i].FoodId,
+                        'UserPhoto':a['UserPhoto'],
+                        'NickName':a['NickName'],
+                        'PaiId': p[i].PaiId,
                         'PaiTitle':p[i].PaiTitle,
                         'UserId': p[i].UserId,
                         'PaiMoney':p[i].PaiMoney,
@@ -38,10 +40,13 @@ class paiservice():
             return list1
         else:
             array = {
+                'num':0,
                 'msg': '信息为空',
                 'state': '0'
             }
-            return array
+            list1 = [array]
+            list1.append(array)
+            return list1
 
     def get(self):
         UserPhone = request.args.get('UserPhone')
