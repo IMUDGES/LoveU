@@ -123,4 +123,19 @@ class giveservice():
         }
         return array
 
+    def select(self):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        # UserPhone = '2147483647'
+        # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                UserId = u.UserId
+
+
+
+
+
 

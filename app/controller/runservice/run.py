@@ -45,6 +45,7 @@ class runservice():
             }
             list1 = [array]
             list1.append(array)
+            return list1
 
     def creat(self):
         def creat(self):
