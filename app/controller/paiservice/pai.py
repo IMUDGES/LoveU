@@ -3,6 +3,7 @@ from flask import request
 from app.db import User, Money, db
 from app.db import Pai
 from app.controller.moneyservice.money import moneyservice
+from app.controller.service.data import data
 
 
 class paiservice():
@@ -17,9 +18,13 @@ class paiservice():
                 'state': '1'
             }
             list1 = [array]
+            d = data()
             for i in range(0, len(p)):
                 if p[i] is not None:
+                    a = d.GetOthersData(p[i].UserId)
                     array = {
+                        'UserPhoto':p[i].UserPhoto,
+                        'NickName':p[i].NickName,
                         'PaiId': p[i].FoodId,
                         'PaiTitle':p[i].PaiTitle,
                         'UserId': p[i].UserId,
@@ -77,6 +82,7 @@ class paiservice():
                 'msg':msg
             }
             return array
+
 
 
 

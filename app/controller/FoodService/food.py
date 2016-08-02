@@ -15,7 +15,8 @@ class foodservice():
         if p is not None:
             array = {
                 'msg': '成功',
-                'state': '1'
+                'state': '1',
+                'num':len(p)
             }
             d = data()
             list1 = [array]
@@ -25,6 +26,7 @@ class foodservice():
                     array = {
                         'UserPhoto':a['UserPhoto'],
                         'NickName':a['NickName'],
+                        'UserSex':a['UserSex'],
                         'FoodId': p[i].FoodId,
                         'UserId' : p[i].UserId,
                         'FoodArea' : p[i].FoodArea,
@@ -38,10 +40,13 @@ class foodservice():
             return list1
         else:
             array = {
+                'num':0,
                 'msg': '信息为空',
                 'state': '0'
             }
-            return array
+            list1 = [array]
+            list1.append(array)
+            return list1
 
     def creat(self):
         form = request.form
