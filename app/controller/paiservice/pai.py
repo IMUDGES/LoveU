@@ -101,27 +101,58 @@ class paiservice():
             list1 = [array]
             d = data()
             for i in range(0, len(pc)):
-                if pc[i] is not None:
+                if len(pc)>0:
                     a = d.GetOthersData(pc[i].UserId)
                     array = {
                         'UserPhoto': a['UserPhoto'],
                         'NickName': a['NickName'],
-                        'UserSex':a['UserSEX'],
+                        'UserSex':a['UserSex'],
                         'CommentId':pc[i].CommentId,
-                        'CommentInformation':pc[i].ommentInformation,
+                        'CommentInformation':pc[i].CommentInformation,
                         'PaiId':pc[i].PaiId
                     }
                     list1.append(array)
             return list1
         else:
             array = {
-                'msg': '成功',
-                'state': '1',
-                'num': len(pc)
+                'msg': '失败',
+                'state': '0',
+                'num': 0
             }
             list1 = [array]
             list1.append(array)
             return list1
+
+    def sendcomment(self):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        PaiId =  form.get('PaiId')
+        CommentInformation = form.get('CommentInformation')
+        u = User.query.filter_by(UserPhone=UserPhone, SecretKey=SecretKey).first()
+        if u.UserId is None:
+            state = '0'
+            msg = '请登录'
+        else:
+            if CommentInformation is None:
+                state = '0'
+                msg = '评论内容不能为空'
+            else:
+                state = '1'
+                msg = '评论成功'
+                p = Paicomment()
+                p.CommentInformation = CommentInformation
+                p.PaiId = PaiId
+                p.UserId = u.UserId
+                db.session.add(p)
+                db.session.commit()
+        array = {
+            'state':state,
+            'msg':msg
+        }
+        return array
+
+
 
 
 
