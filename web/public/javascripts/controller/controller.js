@@ -1,7 +1,7 @@
 //"use strict";
 
 var app = angular.module('main', ['ngRoute', 'MyService', 'directs']);
-app.controller('Navctrl', ['$scope', 'SecretKey', function ($scope, SecretKey) {
+app.controller('Navctrl', ['$scope', 'SecretKey','$interval','$timeout', function ($scope, SecretKey,$interval,$timeout) {
     $scope.iflogin = function () {
         return SecretKey.ifKey();
     };
@@ -9,8 +9,8 @@ app.controller('Navctrl', ['$scope', 'SecretKey', function ($scope, SecretKey) {
         if ($scope.elem == 'block')
             $('#collapse').click();
     };
-    setTimeout(function () {
-        setInterval(function () {
+    $timeout(function () {
+        $interval(function () {
             $scope.elem = getComputedStyle(document.getElementById('collapse')).display;
         }, 500);
     }, 100);
@@ -109,9 +109,17 @@ app.controller('ScrollCtrl', ['$scope', function ($scope) {
 app.controller('FoodCtrl',['$scope','$rootScope','foodlist',function ($scope, $rootScope,foodlist) {
     $rootScope.web='LoveU - food';
     $scope.list=foodlist;
-    $scope.accept=function (index) {
-        alert(foodlist[index].FoodInformation);
-    }
+    /*$scope.accept=function (index) {
+        $('#btn'+foodlist[index].FoodId).click();
+    }*/
+}]);
+app.controller('RunCtrl',['$scope','$rootScope','runlist',function ($scope,$rootScope,runlist) {
+    $rootScope.web='LoveU - run';
+    $scope.list=runlist;
+}]);
+app.controller('AuctionCtrl',['$scope','$rootScope','auctionlist',function ($scope,$rootScope,auctionlist) {
+    $rootScope.web='LoveU - auction';
+    $scope.list=auctionlist;
 }]);
 app.config(['$routeProvider', function ($routeProvider, $scope) {
     $routeProvider
@@ -137,5 +145,24 @@ app.config(['$routeProvider', function ($routeProvider, $scope) {
                 return FoodService.foodlist();
             }]
         }
+    }).when('/run',{
+        templateUrl:'views/run.html',
+        controller:'RunCtrl',
+        resolve:{
+            runlist:['RunService',function (RunService) {
+                return RunService.runlist();
+            }]
+        }
+    }).when('/auction',{
+        templateUrl:'views/auction.html',
+        controller:'AuctionCtrl',
+        resolve:{
+            auctionlist:['AuctionService',function (AuctionService) {
+                return AuctionService.auctionlist();
+            }]
+        }
+    })
+        .when('/test',{
+        templateUrl:"views/test.html"
     })
 }]);

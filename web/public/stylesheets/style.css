@@ -123,6 +123,10 @@ a, .btn {
     backface-visibility: visible !important
 }
 
+.dropdown-menu{
+    z-index: 20160803;
+}
+
 .navbar-loveu {
     padding: 1% !important;
     background-color: #48CFAD;
@@ -288,7 +292,7 @@ li {
     bottom: 0;
     left: 0;
     background: #ffffff url("../images/loading.gif") no-repeat center center;
-    z-index: 1000;
+    z-index: 100;
 }
 .load p{
    position: relative;

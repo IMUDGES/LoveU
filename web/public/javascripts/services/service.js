@@ -185,6 +185,52 @@ services.factory('FoodService', ['$q', '$http', function ($q, $http) {
         }
     }
 }]);
+services.factory('RunService',['$q','$http',function ($q, $http) {
+    return{
+        runlist: function () {
+            var delay = $q.defer();
+            var promise = delay.promise;
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            };
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            };
+            $http.get(root_url + 'run?page=1').success(function (data) {
+                data.shift();
+                delay.resolve(data);
+            }).error(function () {
+                delay.reject('Unable t connect');
+            });
+            return promise;
+        }
+    }
+}]);
+services.factory('AuctionService',['$q','$http',function ($q, $http) {
+    return{
+        auctionlist: function () {
+            var delay = $q.defer();
+            var promise = delay.promise;
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            };
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            };
+            $http.get(root_url + 'pai?page=1').success(function (data) {
+                data.shift();
+                delay.resolve(data);
+            }).error(function () {
+                delay.reject('Unable t connect');
+            });
+            return promise;
+        }
+    }
+}]);
 services.factory('SecretKey', function () {
     var key = '';
     return {
