@@ -3,38 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     <link href="stylesheets/bootstrap.min.css" rel="stylesheet">
     <link href="stylesheets/style.css" rel="stylesheet">
     <title ng-bind="web" ng-init="404"></title>
 </head>
 <body>
 
-<div ng-controller="Navctrl" >
-    <nav class="navbar navbar-default navbar-loveu" role="navigation">
-       <div class="container">
+<div ng-controller="Navctrl">
+    <nav class="navbar navbar-default navbar-loveu" role="navigation" id="header">
+        <div class="container">
             <div class="navbar-header">
-            <button class="navbar-toggle pull-left" data-toggle="collapse" data-target="#sg-header" id="collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
-            </button>
-            <img class="img-responsive nav-img" src="images/logo.png">
+                <button class="navbar-toggle pull-left" data-toggle="collapse" data-target="#sg-header" id="collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                </button>
+                <img class="img-responsive nav-img" src="images/logo.png">
+            </div>
+            <div class="collapse navbar-collapse" id="sg-header" style="text-align: center;">
+                <ul class="nav navbar-nav">
+                    <li class="li"><a class="nav-a" href="#/" ng-click="change()">测试首页</a></li>
+                    <li class="li">
+                        <a data-toggle="dropdown" class="dropdown-toggle nav-a">功能区<strong class="caret"></strong></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#/food" ng-click="change()">约饭</a></li>
+                            <li><a href="#/run" ng-click="change()">跑步</a></li>
+                            <li><a href="#/auction" ng-click="change()">拍卖</a></li>
+                            <li><a href="#/send" ng-click="change()">赠送</a></li>
+                            <li><a href="#/mutual" ng-click="change()">互助</a></li>
+                            <li><a href="#/jwxt" ng-click="change()">教务系统</a></li>
+                        </ul>
+                    </li>
+                    <li class="li"><a class="nav-a" href="#/login" ng-click="change()" ng-show="!iflogin()">登录</a></li>
+                    <li class="li"><a class="nav-a" href="#/msg" ng-click="change()">通知</a></li>
+                    <li class="li" ng-show="iflogin()"><a class="nav-a" href="#/profile" ng-click="change()">个人资料</a>
+                    </li>
+                    <li class="li" ng-show="iflogin()"><a class="nav-a" href="#/logout" ng-click="change()">登出</a></li>
+                </ul>
+            </div>
         </div>
-        <div class="collapse navbar-collapse" id="sg-header">
-            <ul class="nav navbar-nav">
-                <li class="li"><a class="nav-a" href="#/" ng-click="change()">测试首页</a></li>
-                <li class="li"><a class="nav-a" href="#/login" ng-click="change()">登录</a></li>
-                <li class="li"><a class="nav-a" href="#/regist" ng-click="change()">注册</a></li>
-                <li class="li"><a class="nav-a" href="#/profile" ng-click="change()">通知</a></li>
-                <li class="li"><a class="nav-a" href="#/test" ng-click="change()">插件测试</a></li>
-            </ul>
-        </div>
-       </div>
     </nav>
 </div>
-
+<div load class="load">
+    <p>页面加载中</p>
+</div>
 <div class="row">
-    <div class="col-lg-12" ng-view></div>
+    <div ng-view></div>
 </div>
 <script src="javascripts/vendor/jQuery.js"></script>
 <script src="javascripts/vendor/bootstrap.js"></script>
@@ -42,10 +56,25 @@
 <!--angular版本选择-->
 <script src="javascripts/vendor/md5.js"></script>
 <script src="javascripts/vendor/cookie.js"></script>
+<script src="javascripts/vendor/headroom.js"></script>
 <script src="javascripts/vendor/angular.js"></script>
 <script src="javascripts/vendor/angular-route.js"></script>
 <!--<script src="javascripts/vendor/angular-resource.js"></script>-->
 <script src="javascripts/controller/controller.js"></script>
 <script src="javascripts/services/service.js"></script>
+<script src="javascripts/directive/directive.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#header").headroom({
+            "tolerance": 5,
+            "offset": 200,
+            "classes": {
+                "initial": "animated",
+                "pinned": "swingInX",
+                "unpinned": "swingOutX"
+            }
+        });
+    })
+</script>
 </body>
 </html>

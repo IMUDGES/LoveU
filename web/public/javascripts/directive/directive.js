@@ -1,12 +1,16 @@
-app.directive('info', function ($rootScope) {
-    return {
-        restrict: 'E',
-        template: '<ul class="nav navbar-nav">' +
-        '<li class="li"><a href="#/">首页</a></li>' +
-        '<li class="li" ng-hide="iflogin"><a href="#/login">登录</a></li>' +
-        '<li class="li" ng-show="iflogin"><a href="#/profile">我的信息</a></li>' +
-        '<li class="li" ng-show="iflogin"><a ng-click="logout()">登出</a></li>' +
-        '</ul>',
-        replace: true
-    };
-});
+var app=angular.module('directs',[]);
+
+app.directive('load',['$rootScope',function ($rootScope) {
+    return{
+        link:function (scope, element, attrs) {
+            element.addClass('hide');
+            $rootScope.$on('$routeChangeStart',function () {
+                $rootScope.web='加载中';
+                element.removeClass('hide');
+            });
+            $rootScope.$on('$routeChangeSuccess',function () {
+                element.addClass('hide');
+            })
+        }
+    }
+}]);

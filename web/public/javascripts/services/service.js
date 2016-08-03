@@ -1,6 +1,16 @@
 var services = angular.module('MyService', []);
 var root_url = 'http://183.175.14.250:5000/';
 //var root_url = '/';
+/*var delay = $q.defer();
+ var promise = delay.promise;
+ promise.success = function (fn) {
+ promise.then(fn);
+ return promise;
+ };
+ promise.error = function (fn) {
+ promise.then(null, fn);
+ return promise;
+ };*/
 var transform = function (data) {
     return $.param(data);
 };
@@ -49,7 +59,7 @@ services.factory('LogService', ['$q', '$http',
             },
             setMsg: function () {
                 return {
-                    ifshow: true,
+                    ifshow: false,
                     text: '测试'
                 };
             }
@@ -75,11 +85,11 @@ services.factory('RegistService', ['$q', '$http',
                     delay.reject('phone');
                     return promise;
                 }
-                if(regdata.pass.length<6){
+                if (regdata.pass.length < 6) {
                     delay.reject('pass1');
                     return promise;
                 }
-                if(regdata.pass.length>18){
+                if (regdata.pass.length > 18) {
                     delay.reject('pass2');
                     return promise;
                 }
@@ -93,10 +103,10 @@ services.factory('RegistService', ['$q', '$http',
                     NickName: regdata.nick,
                     CheckCode: regdata.vcode
                 }, postCfg).success(function (data) {
-                    if(data.state=='1')
+                    if (data.state == '1')
                         delay.resolve('成功');
                     else
-                    delay.reject('vcode');
+                        delay.reject('vcode');
                 }).error(function (data) {
                     delay.reject('Unable');
                 });
@@ -113,14 +123,14 @@ services.factory('RegistService', ['$q', '$http',
                     promise.then(null, fn);
                     return promise;
                 };
-                 if (number.length != 11) {
-                 delay.reject('请填写正确的手机号码');
-                 return promise;
-                 }
+                if (number.length != 11) {
+                    delay.reject('请填写正确的手机号码');
+                    return promise;
+                }
                 $http.post(root_url + 'register1', {
                     UserPhone: number
                 }, postCfg).success(function (data) {
-                    if (data.state=='1') {
+                    if (data.state == '1') {
                         save = number;
                         delay.resolve(data.msg);
                     } else
@@ -151,16 +161,49 @@ services.factory('RegistService', ['$q', '$http',
             }
         }
     }]);
-services.factory('SecretKey', [function () {
+
+services.factory('FoodService', ['$q', '$http', function ($q, $http) {
+    return {
+        foodlist: function () {
+            var delay = $q.defer();
+            var promise = delay.promise;
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            };
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            };
+            $http.get(root_url + 'food?page=1').success(function (data) {
+                data.shift();
+                delay.resolve(data);
+            }).error(function () {
+                delay.reject('Unable t connect');
+            });
+            return promise;
+        }
+    }
+}]);
+services.factory('SecretKey', function () {
     var key = '';
     return {
         Set: function (value) {
             key = value;
+            setCookie('key', value);
         },
         Get: function () {
             key = getCookie('key');
             return getCookie('key');
+        },
+        ifKey: function () {
+            this.Get();
+            if (key.length > 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
-}]);
+});
 

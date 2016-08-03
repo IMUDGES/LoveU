@@ -1,0 +1,22 @@
+<div  class="display">
+    <div ng-repeat="item in list">
+        <div class="col-lg-12 col-xs-12 item" ng-click="accept($index)">
+            <div class="col-lg-3 col-xs-4">
+                <img class="avator img-circle" ng-src="{{ item.UserPhoto }}" alt="avator">
+                <p ng-bind="item.NickName"></p>
+                <p>Lv.5 超能力者</p>
+            </div>
+            <div class="col-lg-9 col-xs-8">
+                <div class="col-lg-8">
+                    <p ng-bind="item.FoodArea"></p>
+                </div>
+                <div class="col-lg-4 col-sm-12">
+                    <p ng-bind="item.FoodTime"></p>
+                </div>
+                <div class="col-lg-12">
+                    <p ng-bind="item.FoodInformation"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

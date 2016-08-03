@@ -1,13 +1,126 @@
 body {
+    width: 100%;
     color: #555;
+    /*#2b3e50*/
+    overflow-x: hidden ;
     background-color: white;
     font-weight: 300;
-    overflow-x: hidden;
     font-family: "Microsoft YaHei UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 a, .btn {
     outline: none !important;
+}
+
+.animated {
+    -webkit-animation-duration: .5s;
+    -moz-animation-duration: .5s;
+    -o-animation-duration: .5s;
+    animation-duration: .5s;
+    -webkit-animation-fill-mode: both;
+    -moz-animation-fill-mode: both;
+    -o-animation-fill-mode: both;
+    animation-fill-mode: both
+}
+
+@-webkit-keyframes swingInX {
+    0% {
+        -webkit-transform: perspective(400px) rotateX(-90deg)
+    }
+    100% {
+        -webkit-transform: perspective(400px) rotateX(0deg)
+    }
+}
+
+@-moz-keyframes swingInX {
+    0% {
+        -moz-transform: perspective(400px) rotateX(-90deg)
+    }
+    100% {
+        -moz-transform: perspective(400px) rotateX(0deg)
+    }
+}
+
+@-o-keyframes swingInX {
+    0% {
+        -o-transform: perspective(400px) rotateX(-90deg)
+    }
+    100% {
+        -o-transform: perspective(400px) rotateX(0deg)
+    }
+}
+
+@keyframes swingInX {
+    0% {
+        transform: perspective(400px) rotateX(-90deg)
+    }
+    100% {
+        transform: perspective(400px) rotateX(0deg)
+    }
+}
+
+.animated.swingInX {
+    -webkit-transform-origin: top;
+    -moz-transform-origin: top;
+    -ie-transform-origin: top;
+    -o-transform-origin: top;
+    transform-origin: top;
+    -webkit-backface-visibility: visible !important;
+    -webkit-animation-name: swingInX;
+    -moz-backface-visibility: visible !important;
+    -moz-animation-name: swingInX;
+    -o-backface-visibility: visible !important;
+    -o-animation-name: swingInX;
+    backface-visibility: visible !important;
+    animation-name: swingInX
+}
+
+@-webkit-keyframes swingOutX {
+    0% {
+        -webkit-transform: perspective(400px) rotateX(0deg)
+    }
+    100% {
+        -webkit-transform: perspective(400px) rotateX(-90deg)
+    }
+}
+
+@-moz-keyframes swingOutX {
+    0% {
+        -moz-transform: perspective(400px) rotateX(0deg)
+    }
+    100% {
+        -moz-transform: perspective(400px) rotateX(-90deg)
+    }
+}
+
+@-o-keyframes swingOutX {
+    0% {
+        -o-transform: perspective(400px) rotateX(0deg)
+    }
+    100% {
+        -o-transform: perspective(400px) rotateX(-90deg)
+    }
+}
+
+@keyframes swingOutX {
+    0% {
+        transform: perspective(400px) rotateX(0deg)
+    }
+    100% {
+        transform: perspective(400px) rotateX(-90deg)
+    }
+}
+
+.animated.swingOutX {
+    -webkit-transform-origin: top;
+    -webkit-animation-name: swingOutX;
+    -webkit-backface-visibility: visible !important;
+    -moz-animation-name: swingOutX;
+    -moz-backface-visibility: visible !important;
+    -o-animation-name: swingOutX;
+    -o-backface-visibility: visible !important;
+    animation-name: swingOutX;
+    backface-visibility: visible !important
 }
 
 .navbar-loveu {
@@ -18,7 +131,6 @@ a, .btn {
 .nav-img {
     display: inline;
     max-width: 130px;
-    margin-right: 70px;
 }
 
 .nav-a {
@@ -27,9 +139,9 @@ a, .btn {
     margin: 5px 10px 5px 10px;
 }
 
-/*.navbar-nav:first-child{
-    margin-left: 60px;
-}*/
+.nav-divider {
+    margin-right: 50px;
+}
 
 .alert {
     border-radius: 0;
@@ -49,18 +161,6 @@ a, .btn {
     margin: 10px;
 }
 
-.novel {
-    box-shadow: 1px 1px 0 #f5f5f5;
-}
-
-.novel-click {
-    border-bottom: 20px #f5f5f5 solid;
-}
-
-.novel-click:hover {
-    background-color: #f5f5f5;
-}
-
 .margin {
     padding-top: 20px;
     padding-bottom: 20px;
@@ -69,6 +169,11 @@ a, .btn {
 @media (min-width: 1000px) {
     .supper {
         font-size: 4em;
+    }
+
+    .display {
+        width: 70%;
+        margin: 0 auto;
     }
 
     .text {
@@ -91,6 +196,11 @@ a, .btn {
         font-size: 4em;
     }
 
+    .img-display {
+        width: 80%;
+        margin: 0 auto;
+    }
+
     .text {
         font-size: 1em;
     }
@@ -109,6 +219,11 @@ a, .btn {
     .supper {
         word-break: break-all;
         font-size: 2em;
+    }
+
+    .img-display {
+        width: 100%;
+        margin: 0 auto;
     }
 
     .text {
@@ -136,12 +251,22 @@ a, .btn {
 }
 
 .avator {
-    width: 50px;
+    width: 60px;
 }
 
 .margin-10px {
     margin: 10px;
 }
+.func{
+    padding: 10px;
+    margin-top: 10px;
+    background-color: white;
+     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.15);
+}
+.func img{
+    width: 50px;
+}
+
 
 .container1 {
     overflow: hidden;
@@ -153,89 +278,26 @@ a, .btn {
     background: #fcfcfc;
 }
 
-.lighton {
-    background-color: #f5f5f5;
-}
-
 li {
     list-style: none;
 }
-
-.btn {
-    border-radius: 0;
+.load {
+    position: absolute;
+    right: 0;
+    top:0;
+    bottom: 0;
+    left: 0;
+    background: #ffffff url("../images/loading.gif") no-repeat center center;
+    z-index: 1000;
+}
+.load p{
+   position: relative;
+    text-align: center;
+    top: 55%;
 }
 
-.btn-text {
-    font-size: 1.5em;
-}
-
-.title {
-    color: #555;
-    font-weight: 300;
-    margin: 10px;
-    word-break: break-all;
-}
-
-.shadow {
-    box-shadow: 0 1px 1px 0 #a7a7a7;
-}
-
-.divide {
-    height: 20px;
-    width: 100%;
-    background-color: #f5f5f5;
-}
-
-.right-list {
-    background-color: #f5f5f5;
-    padding: 0;
-}
-
-.book {
-    padding: 5%;
-    padding-bottom: 0;
-    margin: 10px;
-}
-
-.content {
-    padding: 5%;
-    background-color: #77C4D3;
-}
-
-.index {
-    padding: 2%;
-    padding-right: 10%;
-    margin-left: 10%;
-    margin-right: -10%;
-    background-color: #F6F792;
-}
-
-.about {
-    margin-left: -10%;
-    padding-right: 10%;
-    width: 120%;
-    background-color: white;
-    opacity: .7;
-}
-
-.authur {
-    padding: 10px;
-    color: white;
-    display: inline;
-    background-color: #EA2E49;
-}
-
-.form {
-    overflow: hidden;
-    max-width: 800px;
-    margin: 0 auto;
-    height: auto;
-    padding: 30px 20px 50px;
-    box-shadow: 0 1px 10px #a7a7a7, inset 0 1px 0 #fff;
-    background: #fcfcfc;
-}
-
-.inner {
-    height: 350px;
-    resize: none;
+.item{
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.15);
 }

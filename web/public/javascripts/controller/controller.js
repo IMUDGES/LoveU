@@ -1,17 +1,40 @@
 //"use strict";
 
-var app = angular.module('main', ['ngRoute', 'MyService']);
-app.controller('Navctrl', ['$scope', function ($scope) {
+var app = angular.module('main', ['ngRoute', 'MyService', 'directs']);
+app.controller('Navctrl', ['$scope', 'SecretKey', function ($scope, SecretKey) {
+    $scope.iflogin = function () {
+        return SecretKey.ifKey();
+    };
     $scope.change = function () {
         if ($scope.elem == 'block')
             $('#collapse').click();
     };
-    setInterval(function () {
-        $scope.elem = getComputedStyle(document.getElementById('collapse')).display;
-    }, 500);
+    setTimeout(function () {
+        setInterval(function () {
+            $scope.elem = getComputedStyle(document.getElementById('collapse')).display;
+        }, 500);
+    }, 100);
 }]);
-app.controller('MainCtrl', ['$scope', '$rootScope', function ($scope, $rootScope) {
-
+app.controller('MainCtrl', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
+    $rootScope.web = 'LoveU | 主页';
+    $scope.tofood = function () {
+        $location.path('/food');
+    };
+    $scope.torun= function () {
+        $location.path('/run');
+    };
+    $scope.topai = function () {
+        $location.path('/auction');
+    };
+    $scope.tosend = function () {
+        $location.path('/send');
+    };
+    $scope.tohelp = function () {
+        $location.path('/mutual');
+    };
+    $scope.tojwxt = function () {
+        $location.path('/jwxt');
+    }
 }]);
 app.controller('LogCtrl', ['$scope', '$location', 'LogService', '$rootScope',
     function ($scope, $location, LogService, $rootScope) {
@@ -33,58 +56,62 @@ app.controller('LogCtrl', ['$scope', '$location', 'LogService', '$rootScope',
             })
         }
     }]);
-app.controller('RegCtrl', ['$scope', 'RegistService', '$rootScope', '$location', function ($scope, RegistService, $rootScope, $location) {
-    $rootScope.web = '创建一个 LoveU 账号';
-    $scope.msg = RegistService.setError();
-    $scope.data = RegistService.setUser();
-    $scope.vcode = function () {
-        RegistService.phone($scope.data.phone).success(function (data) {
-            $scope.msg.phone = data;
-            $scope.msg.ifphone = false;
-        }).error(function (msg) {
-            $scope.msg.phone = msg;
-            $scope.msg.ifphone = true;
-        })
-    };
-    $scope.regist = function () {
-        RegistService.regist($scope.data).success(function (msg) {
-            $location.path('/');
-        }).error(function (msg) {
-            if (msg == 'phone') {
-                $scope.msg.phone = "请验证手机号";
+app.controller('RegCtrl', ['$scope', 'RegistService', '$rootScope', '$location',
+    function ($scope, RegistService, $rootScope, $location) {
+        $rootScope.web = '创建一个 LoveU 账号';
+        $scope.msg = RegistService.setError();
+        $scope.data = RegistService.setUser();
+        $scope.vcode = function () {
+            RegistService.phone($scope.data.phone).success(function (data) {
+                $scope.msg.phone = data;
+                $scope.msg.ifphone = false;
+            }).error(function (msg) {
+                $scope.msg.phone = msg;
                 $scope.msg.ifphone = true;
-            }
-            if (msg == 'pass') {
-                $scope.msg.pass1 = "两次密码不一致";
-                $scope.msg.ifpass1 = true;
-            }
-            if (msg == 'pass1') {
-                $scope.msg.pass1 = "密码太短";
-                $scope.msg.ifpass1 = true;
-            }
-            if (msg == 'pass2') {
-                $scope.msg.pass1 = "密码太长";
-                $scope.msg.ifpass1 = true;
-            }
-            if (msg == 'vcode') {
-                $scope.msg.vcode = '验证码错误';
-                $scope.msg.ifvcode = true;
-            }
-            if (msg == 'Unable') {
-                alert('Unable to Connect');
-            }
-        })
-    }
-    $scope.check = function () {
+            })
+        };
+        $scope.regist = function () {
+            RegistService.regist($scope.data).success(function (msg) {
+                $location.path('/');
+            }).error(function (msg) {
+                if (msg == 'phone') {
+                    $scope.msg.phone = "请验证手机号";
+                    $scope.msg.ifphone = true;
+                }
+                if (msg == 'pass') {
+                    $scope.msg.pass1 = "两次密码不一致";
+                    $scope.msg.ifpass1 = true;
+                }
+                if (msg == 'pass1') {
+                    $scope.msg.pass1 = "密码太短";
+                    $scope.msg.ifpass1 = true;
+                }
+                if (msg == 'pass2') {
+                    $scope.msg.pass1 = "密码太长";
+                    $scope.msg.ifpass1 = true;
+                }
+                if (msg == 'vcode') {
+                    $scope.msg.vcode = '验证码错误';
+                    $scope.msg.ifvcode = true;
+                }
+                if (msg == 'Unable') {
+                    alert('Unable to Connect');
+                }
+            })
+        };
+        $scope.check = function () {
 
-    }
-}]);
-app.controller('ScrollCtrl', ['$scope',function ($scope) {
+        }
+    }]);
+app.controller('ScrollCtrl', ['$scope', function ($scope) {
     var myScroll;
-    myScroll = new IScroll('#wrapper', {
-        mouseWheel: false,
-        scrollbars: true
-    });
+}]);
+app.controller('FoodCtrl',['$scope','$rootScope','foodlist',function ($scope, $rootScope,foodlist) {
+    $rootScope.web='LoveU - food';
+    $scope.list=foodlist;
+    $scope.accept=function (index) {
+        alert(foodlist[index].FoodInformation);
+    }
 }]);
 app.config(['$routeProvider', function ($routeProvider, $scope) {
     $routeProvider
@@ -102,8 +129,13 @@ app.config(['$routeProvider', function ($routeProvider, $scope) {
     }).when('/regist', {
         controller: 'RegCtrl',
         templateUrl: 'views/user.regist.html'
-    }).when('/test', {
-        controller: 'ScrollCtrl',
-        templateUrl: 'views/scroll.html'
+    }).when('/food', {
+        controller: 'FoodCtrl',
+        templateUrl: 'views/food.html',
+        resolve:{
+            foodlist:['FoodService',function (FoodService) {
+                return FoodService.foodlist();
+            }]
+        }
     })
 }]);
