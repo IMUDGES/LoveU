@@ -72,7 +72,7 @@ class moneyservice():
         }
         return array
 
-    def pay(self, UserPhone, SecretKey, PayPassword, Money):
+    def pay(self, UserPhone, SecretKey, PayPassword, MoneyNum):
         userphone = UserPhone
         secretkey = SecretKey
         # UserPhone = '2147483647'
@@ -80,23 +80,28 @@ class moneyservice():
         if userphone and secretkey:
             u = User.query.filter_by(UserPhone=userphone).first()
             if u.SecretKey == secretkey:
-                paypassword = encrypt(PayPassword)
+                paypassword = encrypt(PayPassword.encode('utf-8'))
                 userid = u.UserId
-                mym = Money.query.filter_by(UserId=userid, PayPassword = paypassword).first()
-                if mym is not None:
-                    money = Money
-                    if mym.Money<money:
-                        mym.Money = mym.Money - money
-                        msg = '支付成功'
-                        state = '1'
-                    else:
-                        msg = '余额不足,请充值'
-                        state = '0'
-                else:
-                    mym = Money.query.filter_by(UserPhone=UserPhone).first()
-                    mym.Num = mym.Num - 1
-                    msg = '支付密码错误，今天还有' + mym.Num + '次机会'
+                temp = Money.query.filter_by(UserId=userid).first()
+                if temp is None:
+                    msg = '请注册钱包'
                     state = '0'
+                else:
+                    mym = Money.query.filter_by(UserId=userid, PayPassword=paypassword).first()
+                    if mym is not None:
+                        money = MoneyNum
+                        if mym.Money<money:
+                            mym.Money = mym.Money - money
+                            msg = '支付成功'
+                            state = '1'
+                        else:
+                            msg = '余额不足,请充值'
+                            state = '0'
+                    else:
+                        mym = Money.query.filter_by(UserPhone=UserPhone).first()
+                        mym.Num = mym.Num - 1
+                        msg = '支付密码错误，今天还有' + mym.Num + '次机会'
+                        state = '0'
             else:
                 msg = '请登录'
                 state = '0'
@@ -131,6 +136,8 @@ class moneyservice():
             'state':state
         }
         return array
+m = moneyservice()
+print (m.pay('15248113901', 'bb62207dfbde0e150e7727a5bf619209', '123456', 1))
 
 
 

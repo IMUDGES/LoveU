@@ -49,14 +49,14 @@ class paiservice():
             return list1
 
     def get(self):
-        UserPhone = request.args.get('UserPhone')
-        SecretKey = request.args.get('SecretKey')
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
         u = User.query.filter_by(UserPhone=UserPhone, SecretKey=SecretKey).first()
         if u is None:
             state = '0'
             msg = '请登录'
         else:
-            form = request.form
             UserId = u.UserId
             PaiId = int(form.get('PaiId'))
             PaiMoney = int(form.get('PaiMoney'))

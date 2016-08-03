@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 import httplib2
-from app.db import db, Class, User, Jwxt
+from app.db import Class, User, Jwxt
 from app.controller.jwxtservice.jwxtservice import JwxtService
 
 
@@ -9,22 +9,21 @@ class upjwxtService(object):
     def check(self, userphone, secretkey, jwxtnumber, jwxtpassword):
         jwxtservice = JwxtService()
         user = User.query.filter_by(UserPhone=userphone).first()
-        print(type(user))
-        if user and user['SecretKey'] == secretkey:
+        if  user.SecretKey == secretkey:
             if jwxtservice.loginService(jwxtnumber, jwxtpassword):
                 classesid = Class()
-                classesidinfo = classesid.query.filter_by(UserId=user['UserId']).first()
+                classesidinfo = classesid.query.filter_by(UserId=user.UserId).first()
                 if classesidinfo:
-                    jwxtservice.classupdataService(jwxtnumber,jwxtpassword,user['UserId'])
+                    jwxtservice.classupdataService(jwxtnumber,jwxtpassword,user.UserId)
                 else:
-                    jwxtservice.classService(jwxtnumber, jwxtpassword,user['UserId'])
-                jwxtservice.inforService(jwxtnumber, user['UserId'])
+                    jwxtservice.classService(jwxtnumber, jwxtpassword,user.UserId)
+                jwxtservice.inforService(jwxtnumber, user.UserId)
                 jwxt = Jwxt()
-                jwxtinfo = jwxt.query.filter_by(UserId=user['UserId']).first()
+                jwxtinfo = jwxt.query.filter_by(UserId=user.UserId).first()
                 if jwxtinfo:
-                    jwxtservice.updatajwxtinfoService(jwxtnumber,jwxtpassword, user['UserId'])
+                    jwxtservice.updatajwxtinfoService(jwxtnumber,jwxtpassword, user.UserId)
                 else:
-                    jwxtservice.addjwxtinfoService(jwxtnumber,jwxtpassword, user['UserId'])
+                    jwxtservice.addjwxtinfoService(jwxtnumber,jwxtpassword, user.UserId)
                 state = 1
                 msg = "成功"
                 array = {

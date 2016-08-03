@@ -9,8 +9,7 @@ class JwxtService(object):
         url = "http://183.175.14.250:8080/JwxtInterface/check.html?zjh=" + jwxtnumber + "&mm=" + jwxtpassword
         conn = httplib2.Http()
         resp, content = conn.request(url, "GET")
-        print(resp)
-        if resp == 1:
+        if int(content) == 1:
             return True
         else:
             return False
@@ -19,7 +18,9 @@ class JwxtService(object):
         url = "http://183.175.14.250:8080/JwxtInterface/course.html?zjh=" + jwxtnumber + "&mm=" + jwxtpassword
         conn = httplib2.Http()
         resp, content = conn.request(url, "GET")
-        array = json.loads(resp)
+        array = content.decode('gbk')
+        array = eval(str(array))
+        print(array)
         i = 0
         while(i<=76):
             classes = Class()
@@ -35,28 +36,31 @@ class JwxtService(object):
         url = "http://183.175.14.250:8080/JwxtInterface/course.html?zjh=" + jwxtnumber + "&mm=" + jwxtpassword
         conn = httplib2.Http()
         resp, content = conn.request(url, "GET")
-        array = json.loads(resp)
-        i = 0
-        classes1 = Class()
-        classes1.UserId = userid
-        db.session.delete(classes1)
-        db.session.commit()
-        while (i <= 76):
+        array = content.decode('gbk')
+        array = eval(str(array))
+        print(array)
+        q = 0
+        classes1 = Class.query.filter_by(UserId=userid).all()
+        for i in range(0, len(classes1)):
+            db.session.delete(classes1[i])
+            db.session.commit()
+        while (q <= 76):
             classes = Class()
             classes.UserId = userid
-            classes.Day = int(array[i]['day'])
-            classes.Information = array[i]['courseInfo']
-            classes.Number = int(array[i]['no'])
+            classes.Day = int(array[q]['day'])
+            classes.Information = array[q]['courseInfo']
+            classes.Number = int(array[q]['no'])
             db.session.add(classes)
             db.session.commit()
-            i = i + 1
+            q = q + 1
 
     def inforService(self, jwxtnumber, userid):
         url = "http://183.175.14.250:8080/JwxtInterface/info.html?zjh=" + jwxtnumber
         conn = httplib2.Http()
         resp, content = conn.request(url, "GET")
-        user = User.query.filter_by(userid=userid).first()
-        array = json.loads(resp)
+        user = User.query.filter_by(UserId=userid).first()
+        array = content.decode('gbk')
+        array = eval(str(array))
         user.TrueName = array['name']
         user.UserGrade = array['className']
         user.UserMajor = array['profession']

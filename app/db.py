@@ -121,7 +121,8 @@ class Money(db.Model):
     MoneyId = db.Column(db.Integer, primary_key=True)
     UserId = db.Column(db.Integer)
     Money = db.Column(db.Integer)
-    PayPassword = db.Column(db.Integer)
+    PayPassword = db.Column(db.String)
+    Num = db.Column(db.Integer)
 
     def __repr__(self):
         return '<User %r>' % self.UserId
