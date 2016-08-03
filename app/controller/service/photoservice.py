@@ -6,6 +6,7 @@ from app import app
 from app.config import UPLOAD_FOLDER
 from app.db import db,User
 import os
+from app.bean.usetphotorandom import Userphotorandom
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
@@ -18,7 +19,11 @@ class Upphoto(object):
         try:
             if file and self.allowed_file(file.filename):
                 qiniuup = Qiniuup()
+                userphotorandom = Userphotorandom()
+                # 图片名字
+                file.filename = userphotorandom.getuserphotorandom()
                 fname = secure_filename(file.filename)
+
                 file.save(os.path.join(UPLOAD_FOLDER, fname))
                 print(UPLOAD_FOLDER + file.filename)
                 str = qiniuup.up(UPLOAD_FOLDER + file.filename, 'loveu')

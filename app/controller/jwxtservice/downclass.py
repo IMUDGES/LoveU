@@ -11,10 +11,10 @@ class Downclass(object):
             print(classinfo)
             msg = "成功！"
             state = 1
-            array = {
+            array = [{
                 'state': state,
                 'msg': msg
-            }
+            }]
             return array
         else:
             msg = "请登录！"
