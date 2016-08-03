@@ -16,3 +16,9 @@ def give():
 def givecomment():
     g = giveservice()
     return jsonify(g.givecomment())
+
+
+@app.route('/getgive', methods=['POST', 'GET'])
+def getgive():
+    g = giveservice()
+    return jsonify(g.getgive())

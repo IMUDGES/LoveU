@@ -21,7 +21,7 @@ class Upphoto(object):
                 fname = secure_filename(file.filename)
                 file.save(os.path.join(UPLOAD_FOLDER, fname))
                 print(UPLOAD_FOLDER + file.filename)
-                str = qiniuup.up(UPLOAD_FOLDER + file.filename)
+                str = qiniuup.up(UPLOAD_FOLDER + file.filename, 'loveu')
                 u = User.query.filter_by(UserPhone=UserPhone).first()
                 if u.SecretKey == SecretKey:
                     u.UserPhoto = str

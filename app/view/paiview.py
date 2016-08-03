@@ -8,3 +8,17 @@ from app.controller.paiservice.pai import paiservice
 def pai():
      p = paiservice()
      return jsonify(p.pai())
+
+
+
+@app.route('/getpai', methods=['POST', 'GET'])
+def getpai():
+     p = paiservice()
+     return jsonify(p.get())
+
+
+
+@app.route('/getpaicomment', methods=['POST', 'GET'])
+def getpaicomment():
+     p = paiservice()
+     return jsonify(p.getpaicommment())

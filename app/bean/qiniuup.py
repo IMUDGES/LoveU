@@ -5,9 +5,9 @@ from app.bean.usetphotorandom import Userphotorandom
 
 #此模块未完成
 class Qiniuup(object):
-    def up(self,imagelocation):
+    def up(self,imagelocation,bucketname):
         q = Auth("gFO-8IYwjVPzNAmbAORHJCgGwIHzcyIbFhZ3yVIi", "hllClWcBETkcn0aI8SROEe4Y1blV5gEQwgUHAQQu")
-        bucket_name = 'loveu'
+        bucket_name = bucketname
         userphotorandom = Userphotorandom()
         #图片名字
         key = userphotorandom.getuserphotorandom()

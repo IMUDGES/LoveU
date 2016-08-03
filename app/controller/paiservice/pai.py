@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 from flask import request
 from app.db import User, Money, db
-from app.db import Pai
+from app.db import Pai, Paicomment
 from app.controller.moneyservice.money import moneyservice
 from app.controller.service.data import data
 
@@ -12,7 +12,7 @@ class paiservice():
         page = int(request.args.get('page'))
         P = Pai.query.filter_by(State=1).paginate(page, 10, False)
         p = P.items
-        if p is not None:
+        if len(p)>0:
             array = {
                 'msg': '成功',
                 'state': '1',
@@ -27,6 +27,7 @@ class paiservice():
                     array = {
                         'UserPhoto':a['UserPhoto'],
                         'NickName':a['NickName'],
+                        'UserSex':a['UserSex'],
                         'PaiId': p[i].PaiId,
                         'PaiTitle':p[i].PaiTitle,
                         'UserId': p[i].UserId,
@@ -60,7 +61,7 @@ class paiservice():
             UserId = u.UserId
             PaiId = int(form.get('PaiId'))
             PaiMoney = int(form.get('PaiMoney'))
-            PayPassword = form.get('PayPassword').encode('utf-8')
+            PayPassword = form.get('PayPassword')
             p = Pai.query.filter_by(PaiId=PaiId).first()
             if p.State == 0:
                 state = '0'
@@ -82,11 +83,47 @@ class paiservice():
                     else:
                         state = '0'
                         msg = result['msg']
-            array = {
+        array = {
                 'state':state,
                 'msg':msg
             }
-            return array
+        return array
+
+    def getpaicommment(self):
+        PaiId = int(request.args.get('PaiId'))
+        pc = Paicomment.query.filter_by(PaiId=PaiId).all()
+        if len(pc)>0:
+            array = {
+                'msg': '成功',
+                'state': '1',
+                'num': len(pc)
+            }
+            list1 = [array]
+            d = data()
+            for i in range(0, len(pc)):
+                if pc[i] is not None:
+                    a = d.GetOthersData(pc[i].UserId)
+                    array = {
+                        'UserPhoto': a['UserPhoto'],
+                        'NickName': a['NickName'],
+                        'UserSex':a['UserSEX'],
+                        'CommentId':pc[i].CommentId,
+                        'CommentInformation':pc[i].ommentInformation,
+                        'PaiId':pc[i].PaiId
+                    }
+                    list1.append(array)
+            return list1
+        else:
+            array = {
+                'msg': '成功',
+                'state': '1',
+                'num': len(pc)
+            }
+            list1 = [array]
+            list1.append(array)
+            return list1
+
+
 
 
 

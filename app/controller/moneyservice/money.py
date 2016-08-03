@@ -136,8 +136,6 @@ class moneyservice():
             'state':state
         }
         return array
-m = moneyservice()
-print (m.pay('15248113901', 'bb62207dfbde0e150e7727a5bf619209', '123456', 1))
 
 
 

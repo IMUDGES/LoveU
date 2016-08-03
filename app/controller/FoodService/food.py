@@ -12,7 +12,7 @@ class foodservice():
         #page = 1
         f = Food.query.order_by(-Food.FoodId).filter_by(State=1).paginate(page,10,False)
         p = f.items
-        if p is not None:
+        if len(p)>0:
             array = {
                 'msg': '成功',
                 'state': '1',
