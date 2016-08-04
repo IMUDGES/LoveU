@@ -18,13 +18,13 @@ class paiservice():
                 'state': '1',
                 'num':len(p)
             }
-            list1 = [array]
+            list1 = []
             d = data()
             for i in range(0, len(p)):
                 if p[i] is not None:
                     print(p[i].UserId)
                     a = d.GetOthersData(p[i].UserId)
-                    array = {
+                    array1 = {
                         'UserPhoto':a['UserPhoto'],
                         'NickName':a['NickName'],
                         'UserSex':a['UserSex'],
@@ -37,17 +37,16 @@ class paiservice():
                         'PaiImage':p[i].PaiImage,
                         'DownTime':p[i].DownTime
                     }
-                    list1.append(array)
-            return list1
+                    list1.append(array1)
+            array['paidata'] = list1
+            return array
         else:
             array = {
                 'num':0,
                 'msg': '信息为空',
                 'state': '0'
             }
-            list1 = [array]
-            list1.append(array)
-            return list1
+            return array
 
     def get(self):
         form = request.form
@@ -98,12 +97,12 @@ class paiservice():
                 'state': '1',
                 'num': len(pc)
             }
-            list1 = [array]
+            list1 = []
             d = data()
             for i in range(0, len(pc)):
                 if len(pc)>0:
                     a = d.GetOthersData(pc[i].UserId)
-                    array = {
+                    array1 = {
                         'UserPhoto': a['UserPhoto'],
                         'NickName': a['NickName'],
                         'UserSex':a['UserSex'],
@@ -111,17 +110,16 @@ class paiservice():
                         'CommentInformation':pc[i].CommentInformation,
                         'PaiId':pc[i].PaiId
                     }
-                    list1.append(array)
-            return list1
+                    list1.append(array1)
+            array1['paicommentdata'] = list1
+            return array
         else:
             array = {
                 'msg': '失败',
                 'state': '0',
                 'num': 0
             }
-            list1 = [array]
-            list1.append(array)
-            return list1
+            return array
 
     def sendcomment(self):
         form = request.form

@@ -18,11 +18,11 @@ class xueservice():
                 'num':len(p)
             }
             d = data()
-            list1 = [array]
+            list1 = []
             for i in range(0,len(p)):
                 if p[i] is not None:
                     a = d.GetOthersData(p[i].UserId)
-                    array = {
+                    array1 = {
                         'UserPhoto': a['UserPhoto'],
                         'NickName': a['NickName'],
                         'UserSex':a['UserSex'],
@@ -34,17 +34,16 @@ class xueservice():
                         'XueTime' : p[i].XueTime,
                         'State' : p[i].State
                     }
-                    list1.append(array)
-            return list1
+                    list1.append(array1)
+            array['xuedata'] = list1
+            return array
         else:
             array = {
                 'num':0,
                 'msg': '信息为空',
                 'state': '0'
             }
-            list1 = [array]
-            list1.append(array)
-            return list1
+            return array
 
     def creat(self):
         def creat(self):
@@ -158,9 +157,9 @@ class xueservice():
                         'msg' : '成功',
                         'state' : '1'
                     }
-                    list1 = [array]
+                    list1 = []
                     for i in range(0,len(p)):
-                        array = {
+                        array1 = {
                             'XueId': p[i].XueId,
                             'UserId': p[i].UserId,
                             'XueArea': p[i].XueArea,
@@ -169,8 +168,9 @@ class xueservice():
                             'XueTime': p[i].XueTime,
                             'State': p[i].State
                         }
-                        list1.append(array)
-                    return list1
+                        list1.append(array1)
+                    array['xuedata'] = list1
+                    return array
             else:
                 array = {
                     'msg': '请登录',

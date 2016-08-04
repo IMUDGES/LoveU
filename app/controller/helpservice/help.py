@@ -22,11 +22,11 @@ class helpservice():
                 'num' : len(p)
             }
             d = data()
-            list1 = [array]
+            list1 = []
             for i in range(0, len(p)):
                 if p[i] is not None:
                     a = d.GetOthersData(p[i].UserId)
-                    array = {
+                    array1 = {
                         'UserPhoto':a['UserPhoto'],
                         'NickName':a['NickName'],
                         'UserSex':a['UserSex'],
@@ -38,8 +38,9 @@ class helpservice():
                         'DownTime': p[i].DownTime,
                         'State': p[i].State
                     }
-                    list1.append(array)
-            return list1
+                    list1.append(array1)
+            array['helpdata'] = list1
+            return array
         else:
 
             array = {
@@ -47,9 +48,7 @@ class helpservice():
                 'state': '0',
                 'num' : 0
             }
-            list1 =[array]
-            list1.append(array)
-            return list1
+            return array
 
     def creat(self):
         form = request.form

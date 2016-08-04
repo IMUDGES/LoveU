@@ -22,11 +22,11 @@ class giveservice():
                 'num':len(p)
             }
             d = data()
-            list1 = [array]
+            list1 = []
             for i in range(0, len(p)):
                 if p[i] is not None:
                     a = d.GetOthersData(p[i].UserId)
-                    array = {
+                    array1 = {
                         'UserPhoto':a['UserPhoto'],
                         'UserSex':a['UserSex'],
                         'NickName':a['NickName'],
@@ -36,17 +36,16 @@ class giveservice():
                         'GiveImage' : p[i].GiveImage,
                         'State': p[i].State
                     }
-                    list1.append(array)
-            return list1
+                    list1.append(array1)
+            array['givedata'] = list1
+            return array
         else:
             array = {
                 'msg': '信息为空',
                 'state': '0',
                 'num':0
             }
-            list1 = [array]
-            list1.append(array)
-            return list1
+            return array
 
     def givecomment(self):
         GiveId = int(request.args.get('GiveId'))
@@ -58,27 +57,26 @@ class giveservice():
                 'num':len(g)
             }
             d = data()
-            list1 = [array]
+            list1 = []
             for i in range(0,len(g)):
                 a = d.GetOthersData(g[i].UserId)
-                array = {
+                array1 = {
                     'UserSex':a['UserSex'],
                     'UserPhoto':a['UserPhoto'],
                     'NickName':a['NickName'],
                     'UserId':g[i].UserId,
                     'CommentInformation':g[i].CommentInformation
                 }
-                list1.append(array)
-                return list1
+                list1.append(array1)
+            array['givecommentdata'] = list1
+            return list1
         else:
             array = {
                 'msg':'当前没有评论，赶紧抢占沙发吧！',
                 'state' :'0',
                 'num':0
             }
-            list1 = [array]
-            list1.append(array)
-            return list1
+            return array
 
     def creat(self):
         form = request.form

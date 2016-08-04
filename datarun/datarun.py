@@ -12,7 +12,20 @@ class Datarun(object):
 
     def runRun(self):
         run = Run.query.all()
-        for i in range(0,len(run)):
-            if run[i].RunTime >= self.getnowtime():
-                pass
+        for i in range(0, len(run)):
+            if run[i].RunTime <= self.getnowtime():
+                run[i].state = 0
+                db.session.commit()
+
+    def runXue(self):
+        xue = Xue.query.all()
+        for i in range(0,len(xue)):
+            if xue[i].XueTime <= self.getnowtime():
+                xue[i].state = 0
+                db.session.commit()
+
+    
+
+
+
 

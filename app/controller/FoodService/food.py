@@ -19,11 +19,11 @@ class foodservice():
                 'num':len(p)
             }
             d = data()
-            list1 = [array]
+            list1 = []
             for i in range(0,len(p)):
                 if p[i] is not None:
                     a = d.GetOthersData(p[i].UserId)
-                    array = {
+                    array1 = {
                         'UserPhoto':a['UserPhoto'],
                         'NickName':a['NickName'],
                         'UserSex':a['UserSex'],
@@ -36,17 +36,16 @@ class foodservice():
                         'FoodWay' : p[i].FoodWay,
                         'State' : p[i].State
                     }
-                    list1.append(array)
-            return list1
+                    list1.append(array1)
+            array['fooddata'] = list1
+            return array
         else:
             array = {
                 'num':0,
                 'msg': '信息为空',
                 'state': '0'
             }
-            list1 = [array]
-            list1.append(array)
-            return list1
+            return array
 
     def creat(self):
         form = request.form
