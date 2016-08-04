@@ -78,7 +78,7 @@ class giveservice():
             }
             return array
 
-    def creat(self):
+    def upgiveimage(self):
         form = request.form
         UserPhone = form.get('UserPhone')
         SecretKey = form.get('SecretKey')
@@ -89,7 +89,14 @@ class giveservice():
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
                 UserId = u.UserId
-
+            else:
+                state = '0'
+                msg = '请登录'
+        else:
+            state = '0'
+            msg = '请登录'
+    def creat(self):
+        pass
     def getgive(self):
         form = request.form
         UserPhone = form.get('UserPhone')

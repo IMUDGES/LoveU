@@ -11,11 +11,11 @@ from app.bean.usetphotorandom import Userphotorandom
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
-class Upphoto(object):
+class upimage(object):
     def allowed_file(self, filename):
         return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-    def upuserphoto(self, file, UserPhone, SecretKey):
+    def upuserphoto(self, file,Space):
         try:
             if file and self.allowed_file(file.filename):
                 qiniuup = Qiniuup()
@@ -26,26 +26,13 @@ class Upphoto(object):
 
                 file.save(os.path.join(UPLOAD_FOLDER, fname))
                 print(UPLOAD_FOLDER + file.filename)
-                str = qiniuup.up(UPLOAD_FOLDER + file.filename, 'loveu')
-                u = User.query.filter_by(UserPhone=UserPhone).first()
-                if u.SecretKey == SecretKey:
-                    u.UserPhoto = str
-                    db.session.commit()
-                    msg = "成功！"
-                    state = '1'
-                    array = {
-                        'state': state,
-                        'msg': msg
-                    }
-                    return array
-                else:
-                    msg = '请登录'
-                    state = '0'
-                    array = {
-                        'state': state,
-                        'msg': msg
-                    }
-                    return array
+                str = qiniuup.up(UPLOAD_FOLDER + file.filename, Space)
+                array = {
+                    'state':'1',
+                    'msg':'上传成功',
+                    'url':'str'
+                }
+                return array
             else:
                 msg = "请合法上传！"
                 state = '0'
@@ -62,6 +49,3 @@ class Upphoto(object):
                 'msg': msg
             }
             return array
-
-
-

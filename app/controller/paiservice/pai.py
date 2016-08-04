@@ -1,10 +1,11 @@
 # -*- coding:utf-8 -*-
-from flask import request
+from flask import request, session
 from app.db import User, Money, db
 from app.db import Pai, Paicomment
 from app.controller.moneyservice.money import moneyservice
 from app.controller.service.data import data
-
+from app.bean.upimage import upimage
+import time
 
 class paiservice():
 
@@ -47,6 +48,74 @@ class paiservice():
                 'state': '0'
             }
             return array
+
+    def uppaiimage(self):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        file = request.files['PaiImage']
+        # UserPhone = '2147483647'
+        # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                UserId = u.UserId
+                up = upimage()
+                a = up.upuserphoto(file,'pai')
+                if a['state'] == '1':
+                    state = '1'
+                    msg = '上传成功'
+                    session['imageurl'] = a['url']
+                else:
+                    state = '0'
+                    msg = a['msg']
+            else:
+                state = '0'
+                msg = '请登录'
+        else:
+            state = '0'
+            msg = '请登录'
+        array = {
+            'state':state,
+            'msg':msg
+        }
+        return array
+
+    def creat(self):
+        form = request.form
+        if not form.get('PaiMoney') or not form.get('DownTime') or not form.get('PaiInformation') or not session['imageurl'] or not form.get('PaiTitle'):
+            state = '0'
+            msg = '拍卖信息不完整'
+        else:
+            UserPhone = form.get('UserPhone')
+            SecretKey = form.get('SecretKey')
+            if UserPhone and SecretKey:
+                u = User.query.filter_by(UserPhone=UserPhone).first()
+                if u.SecretKey == SecretKey:
+                    p = Pai()
+                    p.UserId = u.UserId
+                    p.PaiMoney = int(form.get('PaiMoney'))
+                    p.UpTime = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time.time()))
+                    p.DownTime = form.get('DownTime')
+                    p.PaiInformation = form.get('PaiInformation')
+                    p.PaiImage = session['imageurl']
+                    p.PaiTitle = form.get('PaiTitle')
+                    p.State = 1
+                    db.session.add(p)
+                    db.session.commit()
+                    state = '1'
+                    msg = '创建成功'
+                else:
+                    state = '0'
+                    msg = '请登录'
+            else:
+                state = '0'
+                msg = '请登录'
+        array = {
+            'state':state,
+            'msg':msg
+        }
+        return array
 
     def get(self):
         form = request.form
@@ -111,7 +180,7 @@ class paiservice():
                         'PaiId':pc[i].PaiId
                     }
                     list1.append(array1)
-            array1['paicommentdata'] = list1
+            array['paicommentdata'] = list1
             return array
         else:
             array = {

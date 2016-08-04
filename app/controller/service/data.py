@@ -3,6 +3,7 @@ from app.db import User
 
 
 class data():
+
     def GetOthersData(self,UserId):
         u = User.query.filter_by(UserId = UserId).first()
         if u is not None:
@@ -21,6 +22,7 @@ class data():
                 'state' : '0'
             }
             return array
+
     def GetMyData(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')

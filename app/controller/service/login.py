@@ -10,6 +10,7 @@ def dologin():
     UserPhone = form.get('UserPhone')
     PassWord = form.get('PassWord')
     u = User.query.filter_by(UserPhone=UserPhone).first()
+    print (UserPhone)
     if u is None:
         msg = '用户不存在'
         state = '0'
