@@ -12,6 +12,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 class upimage(object):
+
     def allowed_file(self, filename):
         return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 

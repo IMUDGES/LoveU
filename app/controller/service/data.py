@@ -24,8 +24,9 @@ class data():
             return array
 
     def GetMyData(self):
-        UserPhone = request.args.get('UserPhone')
-        SecretKey = request.args.get('SecretKey')
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone = UserPhone).first()
             if u.SecretKey == SecretKey:
