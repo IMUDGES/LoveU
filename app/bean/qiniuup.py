@@ -18,5 +18,9 @@ class Qiniuup(object):
         assert ret['key'] == key
         assert ret['hash'] == etag(localfile)
         print(key)
-        return "http://7xrqhs.com1.z0.glb.clouddn.com/" + key
-
+        if bucketname == "loveu":
+            return "http://7xrqhs.com1.z0.glb.clouddn.com/" + key + "?imageView2/0/w/96/h/96/format/png/interlace/0/"
+        if bucketname == "paimai":
+            return "http://7xrrdm.com1.z0.glb.clouddn.com/" + key + "?imageView2/0/w/96/h/96/format/png/interlace/0/"
+        if bucketname == "give":
+            return "http://7xrxgm.com1.z0.glb.clouddn.com/" + key + "?imageView2/0/w/96/h/96/format/png/interlace/0/"
