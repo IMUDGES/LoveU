@@ -2,7 +2,8 @@
 from flask import request
 from app.db import User, Give, db, Givecomment
 from app.controller.service.data import data
-from app.bean.qiniuup import Qiniuup
+from app.bean.upimage import upimage
+from flask import session
 
 
 
@@ -88,15 +89,54 @@ class giveservice():
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
-                UserId = u.UserId
+                up = upimage()
+                a = up.upuserphoto(file, 'give')
+                if a['state'] == '1':
+                    state = '1'
+                    msg = '上传成功'
+                    session['imageurl'] = a['url']
+                else:
+                    state = '0'
+                    msg = a['msg']
             else:
                 state = '0'
                 msg = '请登录'
         else:
             state = '0'
             msg = '请登录'
+
     def creat(self):
-        pass
+        form = request.form
+        if not form.get('GiveInformation') or not session['imageurl']:
+            state = '0'
+            msg = '请将信息填写完整'
+        else:
+            UserPhone = form.get('UserPhone')
+            SecretKey = form.get('SecretKey')
+            if UserPhone and SecretKey:
+                u = User.query.filter_by(UserPhone=UserPhone).first()
+                if u.SecretKey == SecretKey:
+                    g = Give()
+                    g.UserId = u.UserId
+                    g.GiveInformation = form.get('GiveInformation')
+                    g.GiveImage = session['imageurl']
+                    g.State = 1
+                    db.session.add(g)
+                    db.session.commit()
+                    state = '1'
+                    msg = '创建成功'
+                else:
+                    state = '0'
+                    msg = '请登录'
+            else:
+                state = '0'
+                msg = '请登录'
+        array = {
+            'state': state,
+            'msg': msg
+        }
+        return array
+
     def getgive(self):
         form = request.form
         UserPhone = form.get('UserPhone')

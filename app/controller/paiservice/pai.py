@@ -59,7 +59,6 @@ class paiservice():
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
-                UserId = u.UserId
                 up = upimage()
                 a = up.upuserphoto(file,'pai')
                 if a['state'] == '1':
