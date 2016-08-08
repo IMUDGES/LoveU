@@ -57,16 +57,16 @@ class foodservice():
             u = User.query.filter_by(UserPhone = UserPhone).first()
             if u.SecretKey == SecretKey:
                 UserId = u.UserId
-                myf = Food.query.filter_by(UserId = UserId, State = 1)
+                myf = Food.query.filter_by(UserId = UserId, State = 1).first()
                 if myf is not None:
                     msg = '已有约会'
                     state = '0'
                 else:
                     FoodArea = form.get('FoodArea')
-                    FoodInformation = form.args.get('FoodInformation')
-                    FoodTime = form.args.get('FoodTime')
-                    FoodWay = form.args.get('FoodWay')
-                    #FoodArea = 'hhh'
+                    FoodInformation = form.get('FoodInformation')
+                    FoodTime = form.get('FoodTime')
+                    FoodWay = form.get('FoodWay')
+                    #FoodArea = lll'hhh'
                     #FoodInformation = 'hhh'
                     #FoodTime = '2016-07-28 15:31:41'
                     #FoodWay = 'hhh'

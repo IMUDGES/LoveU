@@ -4,7 +4,6 @@ from app.bean.qiniuup import Qiniuup
 from werkzeug.utils import secure_filename
 from app import app
 from app.config import UPLOAD_FOLDER
-from app.db import db,User
 import os
 from app.bean.usetphotorandom import Userphotorandom
 
@@ -16,13 +15,14 @@ class upimage(object):
     def allowed_file(self, filename):
         return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-    def upuserphoto(self, file,Space):
+    def upuserphoto(self, file, Space):
         try:
+            file.filename = file.filename
             if file and self.allowed_file(file.filename):
                 qiniuup = Qiniuup()
                 userphotorandom = Userphotorandom()
                 # 图片名字
-                file.filename = userphotorandom.getuserphotorandom()
+                file.filename = userphotorandom.getuserphotorandom() + '.png'
                 fname = secure_filename(file.filename)
 
                 file.save(os.path.join(UPLOAD_FOLDER, fname))
@@ -31,7 +31,7 @@ class upimage(object):
                 array = {
                     'state':'1',
                     'msg':'上传成功',
-                    'url':'str'
+                    'url':str
                 }
                 return array
             else:
@@ -39,7 +39,8 @@ class upimage(object):
                 state = '0'
                 array = {
                     'state': state,
-                    'msg': msg
+                    'msg': msg,
+                    'url': ''
                 }
                 return array
         except Exception as e:

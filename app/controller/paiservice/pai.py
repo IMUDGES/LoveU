@@ -60,56 +60,65 @@ class paiservice():
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
                 up = upimage()
-                a = up.upuserphoto(file,'pai')
+                a = up.upuserphoto(file,'paimai')
                 if a['state'] == '1':
                     state = '1'
                     msg = '上传成功'
-                    session['imageurl'] = a['url']
+                    imageurl = a['url']
                 else:
                     state = '0'
                     msg = a['msg']
+                    imageurl = ''
             else:
                 state = '0'
                 msg = '请登录'
+                imageurl = ''
         else:
             state = '0'
             msg = '请登录'
+            imageurl = ''
         array = {
             'state':state,
-            'msg':msg
+            'msg':msg,
+            'imageurl':imageurl
         }
         return array
 
     def creat(self):
-        form = request.form
-        if not form.get('PaiMoney') or not form.get('DownTime') or not form.get('PaiInformation') or not session['imageurl'] or not form.get('PaiTitle'):
-            state = '0'
-            msg = '拍卖信息不完整'
-        else:
-            UserPhone = form.get('UserPhone')
-            SecretKey = form.get('SecretKey')
-            if UserPhone and SecretKey:
-                u = User.query.filter_by(UserPhone=UserPhone).first()
-                if u.SecretKey == SecretKey:
-                    p = Pai()
-                    p.UserId = u.UserId
-                    p.PaiMoney = int(form.get('PaiMoney'))
-                    p.UpTime = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time.time()))
-                    p.DownTime = form.get('DownTime')
-                    p.PaiInformation = form.get('PaiInformation')
-                    p.PaiImage = session['imageurl']
-                    p.PaiTitle = form.get('PaiTitle')
-                    p.State = 1
-                    db.session.add(p)
-                    db.session.commit()
-                    state = '1'
-                    msg = '创建成功'
+        up = self.uppaiimage()
+        if up['state'] == '1':
+            form = request.form
+            if not form.get('DownTime') or not form.get('PaiInformation') or not up['imageurl'] or not form.get('PaiTitle'):
+                state = '0'
+                msg = '拍卖信息不完整'
+            else:
+                UserPhone = form.get('UserPhone')
+                SecretKey = form.get('SecretKey')
+                if UserPhone and SecretKey:
+                    u = User.query.filter_by(UserPhone=UserPhone).first()
+                    if u.SecretKey == SecretKey:
+                        p = Pai()
+                        p.UserId = u.UserId
+                        p.PaiMoney = 1
+                        p.UpTime = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time.time()))
+                        p.DownTime = form.get('DownTime')
+                        p.PaiInformation = form.get('PaiInformation')
+                        p.PaiImage = up['imageurl']
+                        p.PaiTitle = form.get('PaiTitle')
+                        p.State = 1
+                        db.session.add(p)
+                        db.session.commit()
+                        state = '1'
+                        msg = '创建成功'
+                    else:
+                        state = '0'
+                        msg = '请登录'
                 else:
                     state = '0'
                     msg = '请登录'
-            else:
-                state = '0'
-                msg = '请登录'
+        else:
+            state = up['state']
+            msg = up['msg']
         array = {
             'state':state,
             'msg':msg

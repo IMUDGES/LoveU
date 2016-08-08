@@ -54,7 +54,7 @@ class helpservice():
         form = request.form
         UserPhone = form.get('UserPhone')
         SecretKey = form.get('SecretKey')
-        PayPassword = form.get('PayPassword').encode('utf-8')
+        PayPassword = form.get('PayPassword')
         HelpMoney = int(form.get('HelpMoney'))
         # UserPhone = '2147483647'
         # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
@@ -69,7 +69,7 @@ class helpservice():
                     h.UserId = int(UserId)
                     h.HelpMoney = HelpMoney
                     h.DownTime = form.get('DownTime')
-                    h.HelpInformation = form.get('HelpInformation').encode('utf-8')
+                    h.HelpInformation = form.get('HelpInformation')
                     h.State = 1
                     h.Finish = 0
                     db.session.add(h)

@@ -10,6 +10,12 @@ def pai():
      return jsonify(p.pai())
 
 
+@app.route('/creatpai', methods=['POST', 'GET'])
+def creatpai():
+     p = paiservice()
+     return jsonify(p.creat())
+
+
 @app.route('/getpai', methods=['POST', 'GET'])
 def getpai():
      p = paiservice()

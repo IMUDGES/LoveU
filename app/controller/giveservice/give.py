@@ -106,31 +106,36 @@ class giveservice():
             msg = '请登录'
 
     def creat(self):
-        form = request.form
-        if not form.get('GiveInformation') or not session['imageurl']:
-            state = '0'
-            msg = '请将信息填写完整'
-        else:
-            UserPhone = form.get('UserPhone')
-            SecretKey = form.get('SecretKey')
-            if UserPhone and SecretKey:
-                u = User.query.filter_by(UserPhone=UserPhone).first()
-                if u.SecretKey == SecretKey:
-                    g = Give()
-                    g.UserId = u.UserId
-                    g.GiveInformation = form.get('GiveInformation')
-                    g.GiveImage = session['imageurl']
-                    g.State = 1
-                    db.session.add(g)
-                    db.session.commit()
-                    state = '1'
-                    msg = '创建成功'
+        up = self.upgiveimage()
+        if up['state'] == '1':
+            form = request.form
+            if not form.get('GiveInformation') or not session['imageurl']:
+                state = '0'
+                msg = '请将信息填写完整'
+            else:
+                UserPhone = form.get('UserPhone')
+                SecretKey = form.get('SecretKey')
+                if UserPhone and SecretKey:
+                    u = User.query.filter_by(UserPhone=UserPhone).first()
+                    if u.SecretKey == SecretKey:
+                        g = Give()
+                        g.UserId = u.UserId
+                        g.GiveInformation = form.get('GiveInformation')
+                        g.GiveImage = session['imageurl']
+                        g.State = 1
+                        db.session.add(g)
+                        db.session.commit()
+                        state = '1'
+                        msg = '创建成功'
+                    else:
+                        state = '0'
+                        msg = '请登录'
                 else:
                     state = '0'
                     msg = '请登录'
-            else:
-                state = '0'
-                msg = '请登录'
+        else:
+            state = up['state']
+            msg = up['msg']
         array = {
             'state': state,
             'msg': msg

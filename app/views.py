@@ -15,6 +15,7 @@ from app.controller.service.login import dologin
 from app.controller.service.data import data
 from app.controller.runservice.run import runservice
 import json
+from app.test import up
 
 @app.route('/')
 @app.route('/index')
@@ -77,17 +78,6 @@ def mydata():
     return jsonify(d.GetMyData())
 
 
-@app.route('/test')
-def test():
-    #test 如果不用 记得删掉
-    u = User.query.filter_by(UserPhone='18548186741').first()
-    print (u.NickName)
-    return u.NickName
-
-
-
-
-
 #找回密码模块-----------------------------------------------找回密码模块
 @app.route('/retrieve1', methods=['POST'])
 def retrieve1():
@@ -97,7 +87,6 @@ def retrieve1():
     return jsonify(retrieve1q.retrieve1(UserPhone))
 
 
-
 @app.route('/retrieve2', methods=['POST'])
 def retrieve2():
     form = request.form
@@ -105,6 +94,7 @@ def retrieve2():
     CheckCode = form.get('CheckCode')
     retrieve2q = Retrieve2()
     return jsonify(retrieve2q.Retrieve2(UserPhone, CheckCode))
+
 
 @app.route('/retrieve3', methods=['POST'])
 def retrieve3():
@@ -123,3 +113,4 @@ def retrieve3():
         return jsonify(array)
 
 #找回密码模块结束-----------------------------------------------找回密码模块结束
+
