@@ -19,7 +19,7 @@ def creatpai():
 
 
 #网站路由
-@app.route('/creatpai', methods=['POST', 'GET'])
+@app.route('/Creatpai', methods=['POST', 'GET'])
 def creatpai():
      p = paiservice()
      return jsonify(p.Creat())

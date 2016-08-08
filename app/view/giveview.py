@@ -20,7 +20,7 @@ def creatgive():
 
 
 #网站路由
-@app.route('/creatgive', methods=['POST', 'GET'])
+@app.route('/Creatgive', methods=['POST', 'GET'])
 def creatgive():
     g = giveservice()
     return jsonify(g.Creat())
