@@ -180,5 +180,23 @@ class Xue(db.Model):
         return '<User %r>' % self.UserId
 
 
+class Attention(db.Model):
+    AttentionId = db.Column(db.Integer, primary_key=True)
+    UserId = db.Column(db.Integer)
+    BefocusonId = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<User %r>' % self.UserId
+
+
+class Refuse(db.Model):
+    RefuseId = db.Column(db.Integer, primary_key=True)
+    UserId = db.Column(db.Integer)
+    BeRefuseId = db.Column(db.Integer)
+
+    def __repr__(self):
+        return '<User %r>' % self.UserId
+
+
 if __name__ == '__main__':
     manager.run()
