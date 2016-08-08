@@ -21,7 +21,7 @@ def creatgive():
 
 #网站路由
 @app.route('/Creatgive', methods=['POST', 'GET'])
-def creatgive():
+def Creatgive():
     g = giveservice()
     return jsonify(g.Creat())
 ###
