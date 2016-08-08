@@ -6,8 +6,8 @@ CORS(app)
 app.config['Access-Control-Allow-Origin'] = 'http://183.175.12.157/'
 app.config['UPLOAD_FOLDER'] = 'static/'
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
-from app import views
-from app.view import foodview
+from app.view import views
+from app.view import foodview, views
 from app.view import helpview
 from app.view import runview
 from app.view import xueview
