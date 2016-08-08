@@ -11,11 +11,20 @@ def give():
     return jsonify(g.give())
 
 
+#安卓路由
 @app.route('/creatgive', methods=['POST', 'GET'])
 def creatgive():
     g = giveservice()
     return jsonify(g.creat())
+###
 
+
+#网站路由
+@app.route('/creatgive', methods=['POST', 'GET'])
+def creatgive():
+    g = giveservice()
+    return jsonify(g.Creat())
+###
 
 
 @app.route('/givecomment', methods=['POST', 'GET'])

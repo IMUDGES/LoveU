@@ -10,10 +10,20 @@ def pai():
      return jsonify(p.pai())
 
 
+#安卓路由
 @app.route('/creatpai', methods=['POST', 'GET'])
 def creatpai():
      p = paiservice()
      return jsonify(p.creat())
+###
+
+
+#网站路由
+@app.route('/creatpai', methods=['POST', 'GET'])
+def creatpai():
+     p = paiservice()
+     return jsonify(p.Creat())
+###
 
 
 @app.route('/getpai', methods=['POST', 'GET'])

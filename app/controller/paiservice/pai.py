@@ -49,6 +49,8 @@ class paiservice():
             }
             return array
 
+#安卓图片处理
+
     def uppaiimage(self):
         form = request.form
         UserPhone = form.get('UserPhone')
@@ -124,6 +126,89 @@ class paiservice():
             'msg':msg
         }
         return array
+
+###
+
+#网站图片处理
+
+    def Uppaiimage(self):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        file = request.files.getlist('file')
+        # UserPhone = '2147483647'
+        # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                up = upimage()
+                a = up.upuserphoto(file, 'paimai')
+                if a['state'] == '1':
+                    state = '1'
+                    msg = '上传成功'
+                    imageurl = a['url']
+                else:
+                    state = '0'
+                    msg = a['msg']
+                    imageurl = ''
+            else:
+                state = '0'
+                msg = '请登录'
+                imageurl = ''
+        else:
+            state = '0'
+            msg = '请登录'
+            imageurl = ''
+        array = {
+            'state': state,
+            'msg': msg,
+            'imageurl': imageurl
+        }
+        return array
+
+    def Creat(self):
+        up = self.Uppaiimage()
+        if up['state'] == '1':
+            form = request.form
+            if not form.get('DownTime') or not form.get('PaiInformation') or not up['imageurl'] or not form.get(
+                    'PaiTitle'):
+                state = '0'
+                msg = '拍卖信息不完整'
+            else:
+                UserPhone = form.get('UserPhone')
+                SecretKey = form.get('SecretKey')
+                if UserPhone and SecretKey:
+                    u = User.query.filter_by(UserPhone=UserPhone).first()
+                    if u.SecretKey == SecretKey:
+                        p = Pai()
+                        p.UserId = u.UserId
+                        p.PaiMoney = 1
+                        p.UpTime = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
+                        p.DownTime = form.get('DownTime')
+                        p.PaiInformation = form.get('PaiInformation')
+                        p.PaiImage = up['imageurl']
+                        p.PaiTitle = form.get('PaiTitle')
+                        p.State = 1
+                        db.session.add(p)
+                        db.session.commit()
+                        state = '1'
+                        msg = '创建成功'
+                    else:
+                        state = '0'
+                        msg = '请登录'
+                else:
+                    state = '0'
+                    msg = '请登录'
+        else:
+            state = up['state']
+            msg = up['msg']
+        array = {
+            'state': state,
+            'msg': msg
+        }
+        return array
+
+###
 
     def get(self):
         form = request.form

@@ -79,11 +79,13 @@ class giveservice():
             }
             return array
 
+#安卓图片处理
+
     def upgiveimage(self):
         form = request.form
         UserPhone = form.get('UserPhone')
         SecretKey = form.get('SecretKey')
-        file = request.files['photo']
+        file = request.files['GiveImage']
         # UserPhone = '2147483647'
         # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
         if UserPhone and SecretKey:
@@ -94,22 +96,31 @@ class giveservice():
                 if a['state'] == '1':
                     state = '1'
                     msg = '上传成功'
-                    session['imageurl'] = a['url']
+                    imageurl = a['url']
                 else:
                     state = '0'
                     msg = a['msg']
+                    imageurl = ''
             else:
                 state = '0'
                 msg = '请登录'
+                imageurl = ''
         else:
             state = '0'
             msg = '请登录'
+            imageurl = ''
+        array = {
+            'state':state,
+            'msg':msg,
+            'imageurl':imageurl
+        }
+        return array
 
     def creat(self):
         up = self.upgiveimage()
         if up['state'] == '1':
             form = request.form
-            if not form.get('GiveInformation') or not session['imageurl']:
+            if not form.get('GiveInformation') or not up['imageurl']:
                 state = '0'
                 msg = '请将信息填写完整'
             else:
@@ -121,7 +132,7 @@ class giveservice():
                         g = Give()
                         g.UserId = u.UserId
                         g.GiveInformation = form.get('GiveInformation')
-                        g.GiveImage = session['imageurl']
+                        g.GiveImage = up['imageurl']
                         g.State = 1
                         db.session.add(g)
                         db.session.commit()
@@ -141,6 +152,84 @@ class giveservice():
             'msg': msg
         }
         return array
+
+###结束
+
+#网站图片处理
+
+    def Upgiveimage(self):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        file = request.files.getlist('file')
+        # UserPhone = '2147483647'
+        # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                up = upimage()
+                a = up.upuserphoto(file, 'give')
+                if a['state'] == '1':
+                    state = '1'
+                    msg = '上传成功'
+                    imageurl = a['url']
+                else:
+                    state = '0'
+                    msg = a['msg']
+                    imageurl = ''
+            else:
+                state = '0'
+                msg = '请登录'
+                imageurl = ''
+        else:
+            state = '0'
+            msg = '请登录'
+            imageurl = ''
+        array = {
+            'state': state,
+            'msg': msg,
+            'imageurl': imageurl
+        }
+        return array
+
+    def Creat(self):
+        up = self.Upgiveimage()
+        if up['state'] == '1':
+            form = request.form
+            if not form.get('GiveInformation') or not up['imageurl']:
+                state = '0'
+                msg = '请将信息填写完整'
+            else:
+                UserPhone = form.get('UserPhone')
+                SecretKey = form.get('SecretKey')
+                if UserPhone and SecretKey:
+                    u = User.query.filter_by(UserPhone=UserPhone).first()
+                    if u.SecretKey == SecretKey:
+                        g = Give()
+                        g.UserId = u.UserId
+                        g.GiveInformation = form.get('GiveInformation')
+                        g.GiveImage = up['imageurl']
+                        g.State = 1
+                        db.session.add(g)
+                        db.session.commit()
+                        state = '1'
+                        msg = '创建成功'
+                    else:
+                        state = '0'
+                        msg = '请登录'
+                else:
+                    state = '0'
+                    msg = '请登录'
+        else:
+            state = up['state']
+            msg = up['msg']
+        array = {
+            'state': state,
+            'msg': msg
+        }
+        return array
+
+###
 
     def getgive(self):
         form = request.form
