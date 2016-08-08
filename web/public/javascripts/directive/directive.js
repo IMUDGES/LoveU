@@ -7,9 +7,12 @@ app.directive('load',['$rootScope',function ($rootScope) {
             $rootScope.$on('$routeChangeStart',function () {
                 $rootScope.web='加载中';
                 element.removeClass('hide');
+                $("html,body").animate({scrollTop:0},800);
+                $rootScope.loading='load-body';
             });
             $rootScope.$on('$routeChangeSuccess',function () {
                 element.addClass('hide');
+                $rootScope.loading='';
             })
         }
     }

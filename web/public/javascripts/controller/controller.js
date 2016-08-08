@@ -1,26 +1,32 @@
 //"use strict";
 
-var app = angular.module('main', ['ngRoute', 'MyService', 'directs']);
-app.controller('Navctrl', ['$scope', 'SecretKey','$interval','$timeout', function ($scope, SecretKey,$interval,$timeout) {
-    $scope.iflogin = function () {
-        return SecretKey.ifKey();
-    };
-    $scope.change = function () {
-        if ($scope.elem == 'block')
-            $('#collapse').click();
-    };
-    $timeout(function () {
-        $interval(function () {
-            $scope.elem = getComputedStyle(document.getElementById('collapse')).display;
-        }, 500);
-    }, 100);
-}]);
+var app = angular.module('main', ['ngRoute', 'ngImgCrop', 'MyService', 'directs']);
+app.controller('Navctrl', ['$scope', 'SecretKey', '$interval', '$timeout', '$location',
+    function ($scope, SecretKey, $interval, $timeout, $location) {
+        $scope.iflogin = function () {
+            return SecretKey.ifKey();
+        };
+        $scope.change = function () {
+            if ($scope.elem == 'block')
+                $('#collapse').click();
+        };
+        $timeout(function () {
+            $interval(function () {
+                $scope.elem = getComputedStyle(document.getElementById('collapse')).display;
+            }, 500);
+        }, 100);
+        $scope.logout = function () {
+            SecretKey.destory();
+            $scope.change();
+            $location.path('/');
+        }
+    }]);
 app.controller('MainCtrl', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
     $rootScope.web = 'LoveU | 主页';
     $scope.tofood = function () {
         $location.path('/food');
     };
-    $scope.torun= function () {
+    $scope.torun = function () {
         $location.path('/run');
     };
     $scope.topai = function () {
@@ -44,7 +50,6 @@ app.controller('LogCtrl', ['$scope', '$location', 'LogService', '$rootScope',
         $scope.login = function () {
             LogService.login($scope.user).success(function (data) {
                 if (data.state == '1') {
-                    setCookie('key', data.SecretKey);
                     $location.path('/');
                 }
                 else {
@@ -52,6 +57,7 @@ app.controller('LogCtrl', ['$scope', '$location', 'LogService', '$rootScope',
                     $scope.msg.text = data.msg;
                 }
             }).error(function (msg) {
+                $scope.msg.ifshow = true;
                 $scope.msg.text = msg;
             })
         }
@@ -103,66 +109,138 @@ app.controller('RegCtrl', ['$scope', 'RegistService', '$rootScope', '$location',
 
         }
     }]);
-app.controller('ScrollCtrl', ['$scope', function ($scope) {
-    var myScroll;
+app.controller('ProfileCtrl', ['$scope', '$rootScope', 'data', 'ProfileService', function ($scope, $rootScope, data, ProfileService) {
+    $scope.data = data;
+    $rootScope.web = data.NickName + '的个人中心';
+    data.NickNameCopy=data.NickName;
 }]);
-app.controller('FoodCtrl',['$scope','$rootScope','foodlist',function ($scope, $rootScope,foodlist) {
-    $rootScope.web='LoveU - food';
-    $scope.list=foodlist;
-    /*$scope.accept=function (index) {
-        $('#btn'+foodlist[index].FoodId).click();
-    }*/
+app.controller('FoodCtrl', ['$scope', '$rootScope', 'foodlist', function ($scope, $rootScope, foodlist) {
+    $rootScope.web = 'LoveU - food';
+    $scope.list = foodlist;
+    $scope.accept = function (index) {
+        alert(foodlist[index].FoodId);
+    }
 }]);
-app.controller('RunCtrl',['$scope','$rootScope','runlist',function ($scope,$rootScope,runlist) {
-    $rootScope.web='LoveU - run';
-    $scope.list=runlist;
+app.controller('RunCtrl', ['$scope', '$rootScope', 'runlist', function ($scope, $rootScope, runlist) {
+    $rootScope.web = 'LoveU - run';
+    $scope.list = runlist;
 }]);
-app.controller('AuctionCtrl',['$scope','$rootScope','auctionlist',function ($scope,$rootScope,auctionlist) {
-    $rootScope.web='LoveU - auction';
-    $scope.list=auctionlist;
+app.controller('AuctionCtrl', ['$scope', '$rootScope', 'auctionlist', function ($scope, $rootScope, auctionlist) {
+    $rootScope.web = 'LoveU - auction';
+    $scope.list = auctionlist;
 }]);
+
+app.controller('TestCtrl', function ($scope, $http) {
+    $scope.myImage = '';
+    $scope.myCroppedImage = '';
+    $scope.testImage='';
+    var dataURItoBlob = function (dataURI) {
+        var binary = atob(dataURI.split(',')[1]);
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        var array = [];
+        for (var i = 0; i < binary.length; i++) {
+            array.push(binary.charCodeAt(i));
+        }
+        return new Blob([new Uint8Array(array)], {type: mimeString});
+    };
+    var formDataObject = function (data) {
+        var fd = new FormData();
+        angular.forEach(data, function (value, key) {
+            fd.append(key, value);
+        });
+        return fd;
+    };
+    $scope.upload = function () {
+        var blob = dataURItoBlob($scope.myCroppedImage);
+        $http({
+            method: 'POST',
+            url: 'http://183.175.12.178:5000/test',
+            headers: {
+                'Content-Type': undefined
+            },
+            data: {
+                file:blob
+            },
+            transformRequest: formDataObject
+        })
+    };
+    var handleFileSelect = function (evt) {
+        var file = evt.currentTarget.files[0];
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            $scope.$apply(function ($scope) {
+                $scope.myImage = evt.target.result;
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+    angular.element(document.querySelector('#fileInput')).on('change', handleFileSelect);
+});
+
+
 app.config(['$routeProvider', function ($routeProvider, $scope) {
-    $routeProvider
-        .when('/', {
-            controller: "MainCtrl",
-            templateUrl: "views/main.html",
-            resolve: {
-                key: ["SecretKey", function (SecretKey) {
-                    return SecretKey.Get();
-                }]
-            }
-        }).when('/login', {
+    $routeProvider.when('/', {
+        controller: "MainCtrl",
+        templateUrl: "views/main.html",
+        resolve: {
+            key: ["SecretKey", function (SecretKey) {
+                return SecretKey.Get();
+            }]
+        }
+    }).when('/login', {
         controller: "LogCtrl",
         templateUrl: "views/user.login.html"
     }).when('/regist', {
         controller: 'RegCtrl',
         templateUrl: 'views/user.regist.html'
-    }).when('/food', {
-        controller: 'FoodCtrl',
-        templateUrl: 'views/food.html',
-        resolve:{
-            foodlist:['FoodService',function (FoodService) {
-                return FoodService.foodlist();
+    }).when('/profile', {
+        templateUrl: 'views/profile.html',
+        controller: 'ProfileCtrl',
+        resolve: {
+            data: ['ProfileService', '$location', function (ProfileService, $location) {
+                return ProfileService.GetData().success(function (data) {
+                    return data;
+                }).error(function (data) {
+                    if (data == 'error') {
+                        alert('验证用户失败，请重新登录');
+                        $location.path('/login');
+                    }
+                })
             }]
         }
-    }).when('/run',{
-        templateUrl:'views/run.html',
-        controller:'RunCtrl',
-        resolve:{
-            runlist:['RunService',function (RunService) {
+    })
+        .when('/food', {
+            controller: 'FoodCtrl',
+            templateUrl: 'views/food.html',
+            resolve: {
+                foodlist: ['FoodService', '$location', function (FoodService, $location) {
+                    return FoodService.foodlist().success(function (data) {
+                        return data;
+                    }).error(function (status) {
+                        alert(status);
+                        $location.path('/');
+                    })
+                }]
+            }
+        }).when('/run', {
+        templateUrl: 'views/run.html',
+        controller: 'RunCtrl',
+        resolve: {
+            runlist: ['RunService', function (RunService) {
                 return RunService.runlist();
             }]
         }
-    }).when('/auction',{
-        templateUrl:'views/auction.html',
-        controller:'AuctionCtrl',
-        resolve:{
-            auctionlist:['AuctionService',function (AuctionService) {
+    }).when('/auction', {
+        templateUrl: 'views/auction.html',
+        controller: 'AuctionCtrl',
+        resolve: {
+            auctionlist: ['AuctionService', function (AuctionService) {
                 return AuctionService.auctionlist();
             }]
         }
     })
-        .when('/test',{
-        templateUrl:"views/test.html"
-    })
+        .when('/test', {
+            controller: 'TestCtrl',
+            templateUrl: "views/test.html"
+        })
 }]);

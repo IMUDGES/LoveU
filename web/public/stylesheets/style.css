@@ -2,10 +2,15 @@ body {
     width: 100%;
     color: #555;
     /*#2b3e50*/
-    overflow-x: hidden ;
+    overflow-x: hidden;
     background-color: white;
     font-weight: 300;
     font-family: "Microsoft YaHei UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.breadcrumb {
+    background-color: white;
+    margin-bottom: 0;
 }
 
 a, .btn {
@@ -123,13 +128,11 @@ a, .btn {
     backface-visibility: visible !important
 }
 
-.dropdown-menu{
-    z-index: 20160803;
-}
-
 .navbar-loveu {
     padding: 1% !important;
     background-color: #48CFAD;
+    z-index: 1000;
+    margin-bottom: 0;
 }
 
 .nav-img {
@@ -241,7 +244,6 @@ a, .btn {
     .img {
         width: 50px;
     }
-
 }
 
 .banner {
@@ -261,16 +263,18 @@ a, .btn {
 .margin-10px {
     margin: 10px;
 }
-.func{
+
+.func {
+    text-align: center;
     padding: 10px;
     margin-top: 10px;
     background-color: white;
-     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.15);
-}
-.func img{
-    width: 50px;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.15);
 }
 
+.func img {
+    width: 50px;
+}
 
 .container1 {
     overflow: hidden;
@@ -285,23 +289,88 @@ a, .btn {
 li {
     list-style: none;
 }
+
 .load {
     position: absolute;
     right: 0;
-    top:0;
+    top: 0;
     bottom: 0;
     left: 0;
     background: #ffffff url("../images/loading.gif") no-repeat center center;
-    z-index: 100;
-}
-.load p{
-   position: relative;
-    text-align: center;
-    top: 55%;
+    z-index: 1000;
 }
 
-.item{
-    padding: 15px;
+.load p {
+    position: absolute;
+    text-align: center;
+    top: 47%;
+    left: 55%;
+}
+
+.load-body {
+    overflow: hidden !important;
+}
+
+.item {
     margin-bottom: 15px;
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.15);
+}
+
+.person {
+    height: 100%;
+    padding: 15px;
+}
+
+.information {
+    text-indent: 2ch;
+    padding: 15px;
+}
+
+
+
+img-crop {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    overflow: hidden
+}
+
+img-crop canvas {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    outline: 0;
+    -webkit-tap-highlight-color: transparent
+}
+
+.cropArea {
+    background: #E4E4E4;
+    overflow: hidden;
+    width: 500px;
+    height: 350px;
+    margin: 0 auto;
+    text-align: center;
+}
+.profile{
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.15);
+    margin-bottom: 10px;
+}
+.profile .title{
+    background-color: #48CFAD;
+    color: white;
+    text-align: center;
+    font-size: 1.5em;
+    box-shadow: -1px  -1px 4px 0 rgba(0, 0, 0, 0.15);
+    margin-bottom: 0;
+}
+.profile .body{
+    padding: 10px;
+}
+.profile img:hover{
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.15);
+}
+.inline{
+    display: inline;
 }

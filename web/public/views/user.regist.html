@@ -33,7 +33,9 @@
                     <div class="alert alert-warning margin-10px col-xs-12" ng-show="msg.ifphone">
                         <p class="text-center" ng-bind="msg.phone"></p>
                     </div>
-                    <button type="button" class="btn btn-click margin-10px col-lg-12 col-xs-12" ng-click="vcode()">获取验证码</button>
+                    <button type="button" class="btn btn-click margin-10px col-lg-12 col-xs-12" ng-click="vcode()">
+                        获取验证码
+                    </button>
                     验证码：<input class="form-control margin-10px" type="text"
                                placeholder="6 位 LoveU 注册验证码" ng-model="data.vcode" ng-change="autoCheck()">
                     <div class="alert alert-warning margin-10px col-xs-12" ng-show="msg.ifvcode">
@@ -53,6 +55,9 @@
                     </div>
                     <br>
                     <button type="submit" class="btn btn-click margin-10px col-lg-12 col-xs-12">创建</button>
+                    <a class="col-lg-6 col-xs-6 text-left" href="#/">返回首页</a>
+                    <a class="col-lg-6 col-xs-6 text-right" href="#/login">我已注册，去登录</a>
+                    <br>
                 </fieldset>
             </form>
         </div>

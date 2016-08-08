@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="main">
+<html lang="en" ng-app="main" ng-class="loading">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -12,7 +12,7 @@
 
 <div ng-controller="Navctrl">
     <nav class="navbar navbar-default navbar-loveu" role="navigation" id="header">
-        <div class="container">
+        <div class="display">
             <div class="navbar-header">
                 <button class="navbar-toggle pull-left" data-toggle="collapse" data-target="#sg-header" id="collapse">
                     <span class="sr-only">Toggle navigation</span>
@@ -35,10 +35,10 @@
                         </ul>
                     </li>
                     <li class="li"><a class="nav-a" href="#/login" ng-click="change()" ng-show="!iflogin()">登录</a></li>
-                    <li class="li"><a class="nav-a" href="#/msg" ng-click="change()">通知</a></li>
-                    <li class="li" ng-show="iflogin()"><a class="nav-a" href="#/profile" ng-click="change()">个人资料</a>
+                    <li class="li"><a class="nav-a" href="#/msg" ng-click="change()" ng-show="iflogin()">通知</a></li>
+                    <li class="li" ng-show="iflogin()"><a class="nav-a" href="#/profile" ng-click="change()">个人中心</a>
                     </li>
-                    <li class="li" ng-show="iflogin()"><a class="nav-a" href="#/logout" ng-click="change()">登出</a></li>
+                    <li class="li" ng-show="iflogin()"><a class="nav-a" ng-click="logout()">登出</a></li>
                     <li class="li"><a class="nav-a" href="#/test" ng-click="change()">测试</a></li>
                 </ul>
             </div>
@@ -61,6 +61,8 @@
 <script src="javascripts/vendor/angular.js"></script>
 <script src="javascripts/vendor/angular-route.js"></script>
 <!--<script src="javascripts/vendor/angular-resource.js"></script>-->
+<script src="javascripts/vendor/angular-imgcrop.js"></script>
+<script src="javascripts/vendor/ng-file-upload.min.js"></script>
 <script src="javascripts/controller/controller.js"></script>
 <script src="javascripts/services/service.js"></script>
 <script src="javascripts/directive/directive.js"></script>
@@ -68,7 +70,7 @@
     $(document).ready(function () {
         $("#header").headroom({
             "tolerance": 5,
-            "offset": 200,
+            "offset": 10,
             "classes": {
                 "initial": "animated",
                 "pinned": "swingInX",

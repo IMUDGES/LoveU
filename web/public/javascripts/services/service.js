@@ -1,6 +1,7 @@
 var services = angular.module('MyService', []);
 var root_url = 'http://183.175.14.250:5000/';
-//var root_url = '/';
+//var root_url = 'http://183.175.12.157:5000/';
+//var root_url = 'http://183.175.12.178:5000/';
 /*var delay = $q.defer();
  var promise = delay.promise;
  promise.success = function (fn) {
@@ -14,13 +15,14 @@ var root_url = 'http://183.175.14.250:5000/';
 var transform = function (data) {
     return $.param(data);
 };
+
 var postCfg = {
     headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
     transformRequest: transform
 };
 
-services.factory('LogService', ['$q', '$http',
-    function ($q, $http) {
+services.factory('LogService', ['$q', '$http', 'SecretKey',
+    function ($q, $http, SecretKey) {
         return {
             login: function (logdata) {
                 var delay = $q.defer();
@@ -45,6 +47,11 @@ services.factory('LogService', ['$q', '$http',
                     UserPhone: logdata.name,
                     PassWord: md5_s(logdata.pass)
                 }, postCfg).success(function (iflogin) {
+                    //       setCookie('key', data.SecretKey);
+                    if (iflogin.state == '1') {
+                        SecretKey.Set(iflogin.SecretKey);
+                        SecretKey.Phone(logdata.name);
+                    }
                     delay.resolve(iflogin);
                 }).error(function () {
                     delay.reject('Unable to connect');
@@ -161,8 +168,42 @@ services.factory('RegistService', ['$q', '$http',
             }
         }
     }]);
+services.factory('ProfileService', ['$q', '$http', 'SecretKey', '$timeout', function ($q, $http, SecretKey, $timeout) {
+    var key = SecretKey.Get();
+    var phone = SecretKey.GetPhone();
+    return {
+        GetData: function () {
+            var delay = $q.defer();
+            var promise = delay.promise;
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            };
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            };
+            if (key.length == 0 || phone.length == 0) {
+                delay.reject("error");
+                return promise;
+            }
+            $timeout(function () {
+                delay.reject('网络错误');
+            }, 2000);
+            $http.post(root_url + 'mydata', {
+                UserPhone: phone,
+                SecretKey: key
+            }, postCfg).success(function (data) {
+                delay.resolve(data);
+            }).error(function () {
+                delay.reject("Unable to Connect");
+            });
+            return promise;
+        }
+    }
+}]);
 
-services.factory('FoodService', ['$q', '$http', function ($q, $http) {
+services.factory('FoodService', ['$q', '$http', '$timeout', function ($q, $http, $timeout) {
     return {
         foodlist: function () {
             var delay = $q.defer();
@@ -175,18 +216,20 @@ services.factory('FoodService', ['$q', '$http', function ($q, $http) {
                 promise.then(null, fn);
                 return promise;
             };
+            $timeout(function () {
+                delay.reject('网络错误');
+            }, 3000);
             $http.get(root_url + 'food?page=1').success(function (data) {
-                data.shift();
-                delay.resolve(data);
+                delay.resolve(data.fooddata);
             }).error(function () {
-                delay.reject('Unable t connect');
+                delay.reject('Unable to connect');
             });
             return promise;
         }
     }
 }]);
-services.factory('RunService',['$q','$http',function ($q, $http) {
-    return{
+services.factory('RunService', ['$q', '$http', '$timeout',function ($q, $http,$timeout) {
+    return {
         runlist: function () {
             var delay = $q.defer();
             var promise = delay.promise;
@@ -198,9 +241,11 @@ services.factory('RunService',['$q','$http',function ($q, $http) {
                 promise.then(null, fn);
                 return promise;
             };
+            $timeout(function () {
+                delay.reject('网络错误');
+            }, 3000);
             $http.get(root_url + 'run?page=1').success(function (data) {
-                data.shift();
-                delay.resolve(data);
+                delay.resolve(data.rundata);
             }).error(function () {
                 delay.reject('Unable t connect');
             });
@@ -208,8 +253,8 @@ services.factory('RunService',['$q','$http',function ($q, $http) {
         }
     }
 }]);
-services.factory('AuctionService',['$q','$http',function ($q, $http) {
-    return{
+services.factory('AuctionService', ['$q', '$http', function ($q, $http) {
+    return {
         auctionlist: function () {
             var delay = $q.defer();
             var promise = delay.promise;
@@ -222,8 +267,7 @@ services.factory('AuctionService',['$q','$http',function ($q, $http) {
                 return promise;
             };
             $http.get(root_url + 'pai?page=1').success(function (data) {
-                data.shift();
-                delay.resolve(data);
+                delay.resolve(data.paidata);
             }).error(function () {
                 delay.reject('Unable t connect');
             });
@@ -233,22 +277,32 @@ services.factory('AuctionService',['$q','$http',function ($q, $http) {
 }]);
 services.factory('SecretKey', function () {
     var key = '';
+    var phone = '';
     return {
         Set: function (value) {
             key = value;
-            setCookie('key', value);
+            setCookie('key', value,3600);
         },
         Get: function () {
             key = getCookie('key');
             return getCookie('key');
         },
+        Phone: function (number) {
+            phone = number;
+            setCookie('Phone', number,3600);
+        },
+        GetPhone: function () {
+            return getCookie('Phone');
+        },
         ifKey: function () {
             this.Get();
-            if (key.length > 0) {
-                return true;
-            } else {
-                return false;
-            }
+            return (key.length > 0);
+        },
+        destory: function () {
+            clearCookie('key');
+            clearCookie('Phone');
+            key = '';
+            phone = '';
         }
     }
 });

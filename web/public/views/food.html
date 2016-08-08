@@ -1,20 +1,28 @@
 <div class="display">
+    <ol class="breadcrumb text-left">
+        你的位置:&nbsp;&nbsp;&nbsp;
+        <li><a href="#">首页</a></li>
+        <li class="active">约饭</li>
+    </ol>
     <div ng-repeat="item in list">
         <div class="col-lg-12 col-xs-12 item">
-            <div class="col-lg-3 col-xs-4">
+            <div class="col-lg-2 col-xs-3 text-center person" ng-click="more($index)">
                 <img class="avator img-circle" ng-src="{{ item.UserPhoto }}" alt="avator">
                 <p ng-bind="item.NickName"></p>
-                <p>Lv.5 超能力者</p>
+                <p class="small">Lv.5 超能力者</p>
             </div>
-            <div class="col-lg-9 col-xs-8">
-                <div class="col-lg-8">
+            <div class="col-lg-10 col-xs-9 information" ng-click="accept($index)">
+                <div class="col-lg-7 text-left">
                     <p ng-bind="item.FoodArea"></p>
                 </div>
-                <div class="col-lg-4 col-sm-12">
+                <div class="col-lg-5 col-sm-12 text-right">
                     <p ng-bind="item.FoodTime"></p>
                 </div>
                 <div class="col-lg-12">
-                    <p  ng-bind="item.FoodInformation"></p>
+                    <p ng-bind="item.FoodInformation"></p>
+                </div>
+                <div class="pull-right hidden-xs">
+                    <button class="btn btn-click">接受</button>
                 </div>
             </div>
         </div>
