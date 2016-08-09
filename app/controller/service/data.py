@@ -38,14 +38,14 @@ class data():
                         'msg': '成功',
                     }
                     money = m.Money
-                    ispay = '1'
+                    ispay = 1
                 else:
                     array = {
                         'state': '1',
                         'msg': '成功',
                     }
                     money = 0
-                    ispay = '0'
+                    ispay = 0
                 a = {
                     'UserId': u.UserId,
                     'UserPhone': u.UserPhone,
@@ -56,9 +56,9 @@ class data():
                     'money': money,
                 }
                 if u.UserGrade is None:
-                    a['isjwxt'] = '0'
+                    a['isjwxt'] = 0
                 else:
-                    a['isjwxt'] = '1'
+                    a['isjwxt'] = 1
                     a['TrueName'] = u.TrueName
                     a['UserGrade'] = u.UserGrade
                     a['UserMajor'] = u.UserMajor

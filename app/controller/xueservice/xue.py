@@ -145,10 +145,9 @@ class xueservice():
         }
         return array
 
-    def my_issuexue(self,state):
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        SecretKey = form.get('SecretKey')
+    def my_issuexue(self, state, User_Phone, Secret_Key):
+        UserPhone = User_Phone
+        SecretKey = Secret_Key
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
@@ -188,10 +187,9 @@ class xueservice():
             }
         return array
 
-    def my_getxue(self, state):
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        SecretKey = form.get('SecretKey')
+    def my_getxue(self, state, User_Phone, Secret_Key):
+        UserPhone = User_Phone
+        SecretKey = Secret_Key
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:

@@ -163,10 +163,9 @@ class helpservice():
         }
         return array
 
-    def my_issuehelp(self,state):
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        SecretKey = form.get('SecretKey')
+    def my_issuehelp(self, state, User_Phone, Secret_Key):
+        UserPhone = User_Phone
+        SecretKey = Secret_Key
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
@@ -178,7 +177,7 @@ class helpservice():
                     }
                     list1 = []
                     for i in range(0, len(p)):
-                        array = {
+                        array1 = {
                             'HelpId': p[i].HelpId,
                             'UserId': p[i].UserId,
                             'HelpMoney': p[i].HelpMoney,
@@ -188,7 +187,7 @@ class helpservice():
                             'Finish': p[i].Finish,
                             'State': p[i].State
                         }
-                        list1.append(array)
+                        list1.append(array1)
                         array['data'] = list1
                 else:
                     array = {
@@ -207,10 +206,9 @@ class helpservice():
             }
         return array
 
-    def my_gethelp(self, state):
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        SecretKey = form.get('SecretKey')
+    def my_gethelp(self, state, User_Phone, Secret_Key):
+        UserPhone = User_Phone
+        SecretKey = Secret_Key
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
@@ -222,7 +220,7 @@ class helpservice():
                     }
                     list1 = []
                     for i in range(0, len(p)):
-                        array = {
+                        array1 = {
                             'HelpId': p[i].HelpId,
                             'UserId': p[i].UserId,
                             'HelpMoney': p[i].HelpMoney,
@@ -232,7 +230,7 @@ class helpservice():
                             'Finish': p[i].Finish,
                             'State': p[i].State
                         }
-                        list1.append(array)
+                        list1.append(array1)
                         array['data'] = list1
                 else:
                     array = {

@@ -23,6 +23,7 @@ class User(db.Model):
     UserPhoto = db.Column(db.String)
     SecretKey = db.Column(db.String)
     UserMajor = db.Column(db.String)
+    Experience = db.Column(db.Integer)
     Token = db.Column(db.String)
 
     def __repr__(self):

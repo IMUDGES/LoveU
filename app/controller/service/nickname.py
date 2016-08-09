@@ -6,7 +6,7 @@ class Nickname(object):
         user = User.query.filter_by(UserPhone=userphone).first()
         if user.SecretKey == secretkey:
             if usersex is not None:
-                user.UserSex = usersex
+                user.UserSex = int(usersex)
             if newnickname is not None:
                 user.NickName = newnickname
             db.session.commit()

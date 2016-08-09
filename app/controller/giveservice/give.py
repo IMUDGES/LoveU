@@ -300,10 +300,9 @@ class giveservice():
         }
         return array
 
-    def my_issuegive(self, state):
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        SecretKey = form.get('SecretKey')
+    def my_issuegive(self, state, User_Phone, Secret_Key):
+        UserPhone = User_Phone
+        SecretKey = Secret_Key
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
@@ -315,14 +314,14 @@ class giveservice():
                     }
                     list1 = []
                     for i in range(0, len(p)):
-                        array = {
+                        array1 = {
                             'GiveId': p[i].GiveId,
                             'UserId': p[i].UserId,
                             'GiveInformation': p[i].GiveInformation,
                             'GiveImage' : p[i].GiveImage,
                             'State': p[i].State
                         }
-                        list1.append(array)
+                        list1.append(array1)
                     array['data'] = list1
                 else:
                     array = {
@@ -341,10 +340,9 @@ class giveservice():
             }
         return array
 
-    def my_getgive(self, state):
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        SecretKey = form.get('SecretKey')
+    def my_getgive(self, state, User_Phone, Secret_Key):
+        UserPhone = User_Phone
+        SecretKey = Secret_Key
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
@@ -356,14 +354,14 @@ class giveservice():
                     }
                     list1 = []
                     for i in range(0, len(p)):
-                        array = {
+                        array1 = {
                             'GiveId': p[i].GiveId,
                             'UserId': p[i].UserId,
                             'GiveInformation': p[i].GiveInformation,
                             'GiveImage' : p[i].GiveImage,
                             'State': p[i].State
                         }
-                        list1.append(array)
+                        list1.append(array1)
                     array['data'] = list1
                 else:
                     array = {

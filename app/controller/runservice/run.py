@@ -149,10 +149,9 @@ class runservice():
         }
         return array
 
-    def my_issuerun(self,state):
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        SecretKey = form.get('SecretKey')
+    def my_issuerun(self, state, User_Phone, Secret_Key):
+        UserPhone = User_Phone
+        SecretKey = Secret_Key
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
@@ -164,7 +163,7 @@ class runservice():
                     }
                     list1 = []
                     for i in range(0, len(p)):
-                        array = {
+                        array1 = {
                             'RunId': p[i].RunId,
                             'UserId': p[i].UserId,
                             'RunArea': p[i].RunArea,
@@ -173,7 +172,7 @@ class runservice():
                             'RunTime': p[i].RunTime,
                             'State': p[i].State
                         }
-                        list1.append(array)
+                        list1.append(array1)
                         array['data'] = list1
                 else:
                     array = {
@@ -192,10 +191,9 @@ class runservice():
             }
         return array
 
-    def my_getrun(self, state):
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        SecretKey = form.get('SecretKey')
+    def my_getrun(self, state, User_Phone, Secret_Key):
+        UserPhone = User_Phone
+        SecretKey = Secret_Key
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
@@ -207,7 +205,7 @@ class runservice():
                     }
                     list1 = []
                     for i in range(0, len(p)):
-                        array = {
+                        array1 = {
                             'RunId': p[i].RunId,
                             'UserId': p[i].UserId,
                             'RunArea': p[i].RunArea,
@@ -216,7 +214,7 @@ class runservice():
                             'RunTime': p[i].RunTime,
                             'State': p[i].State
                         }
-                        list1.append(array)
+                        list1.append(array1)
                         array['data'] = list1
                 else:
                     array = {
