@@ -80,3 +80,25 @@ class data():
                 'msg': '不存在此ID'
             }
             return array
+
+    def Get_OthersData(self, UserId):
+        u = User.query.filter_by(UserId=UserId).first()
+        if u is not None:
+            array = {
+                'msg': '成功',
+                'state': '1'
+            }
+            a = {
+                'UserId': u.UserId,
+                'NickName': u.NickName,
+                'UserSex': u.UserSex,
+                'UserPhoto': u.UserPhoto
+            }
+            array['data'] = a
+            return array
+        else:
+            array = {
+                'msg': '不存在此ID',
+                'state': '0'
+            }
+            return array
