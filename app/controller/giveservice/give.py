@@ -168,7 +168,7 @@ class giveservice():
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
                 up = upimage()
-                a = up.upuserphoto(file, 'give')
+                a = up.upuserphoto(file[0], 'give')
                 if a['state'] == '1':
                     state = '1'
                     msg = '上传成功'

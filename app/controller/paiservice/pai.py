@@ -142,7 +142,7 @@ class paiservice():
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
                 up = upimage()
-                a = up.upuserphoto(file, 'paimai')
+                a = up.upuserphoto(file[0], 'paimai')
                 if a['state'] == '1':
                     state = '1'
                     msg = '上传成功'
