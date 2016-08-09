@@ -30,42 +30,38 @@ class data():
         SecretKey = form.get('SecretKey')
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
-            if u.UserGrade is None:
-                isjwxt = '0'
-                a = {
-                    'isjwxt': isjwxt
-                }
-            else:
-                isjwxt = '1'
-                a ={
-                    'isjwxt':isjwxt
-                }
-                a['TrueName'] = u.TrueName
-                a['UserGrade'] = u.UserGrade
-                a['UserMajor'] = u.UserMajor
             if u.SecretKey == SecretKey:
                 m = Money.query.filter_by(UserId=u.UserId).first()
                 if m is not None:
                     array = {
                         'state': '1',
                         'msg': '成功',
-                        'ispay': '1',
-                        'money':m.Money
                     }
+                    money = m.Money
+                    ispay = '1'
                 else:
                     array = {
                         'state': '1',
                         'msg': '成功',
-                        'ispay': '0',
-                        'money':0
                     }
+                    money = 0
+                    ispay = '0'
                 a = {
                     'UserId': u.UserId,
                     'UserPhone': u.UserPhone,
                     'NickName': u.NickName,
                     'UserPhoto': u.UserPhoto,
-                    'UserSex': u.UserSex
+                    'UserSex': u.UserSex,
+                    'ispay': ispay,
+                    'money': money,
                 }
+                if u.UserGrade is None:
+                    a['isjwxt'] = '0'
+                else:
+                    a['isjwxt'] = '1'
+                    a['TrueName'] = u.TrueName
+                    a['UserGrade'] = u.UserGrade
+                    a['UserMajor'] = u.UserMajor
                 array['data'] = a
                 return array
             else:
