@@ -175,7 +175,7 @@ class helpservice():
                         'msg': '成功',
                         'state': '1'
                     }
-                    list1 = [array]
+                    list1 = []
                     for i in range(0, len(p)):
                         array = {
                             'HelpId': p[i].HelpId,
@@ -188,7 +188,8 @@ class helpservice():
                             'State': p[i].State
                         }
                         list1.append(array)
-                    return list1
+                        array['data'] = list1
+                    return array
             else:
                 array = {
                     'msg': '请登录',

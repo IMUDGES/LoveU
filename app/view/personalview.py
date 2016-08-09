@@ -5,14 +5,15 @@ from app.controller.service.nickname import Nickname
 from app.controller.jwxtservice.upjwxtservice import upjwxtService
 
 
-@app.route('/nickname', methods = ['POST', 'GET'])
+@app.route('/changemydata', methods = ['POST', 'GET'])
 def nickname():
     nicknameq = Nickname()
     form = request.form()
     UserPhone = form.get('UserPhone')
     SecretKey = form.get('SecretKey')
     NickName = form.get('NickName')
-    return jsonify(nicknameq.change(UserPhone, SecretKey, NickName))
+    UserSex = form.get('UserSex')
+    return jsonify(nicknameq.change(UserPhone, SecretKey, NickName,UserSex))
 
 
 @app.route('/upjwxtservice', methods = ['POST', 'GET'])

@@ -145,7 +145,7 @@ class xueservice():
         }
         return array
 
-    def myrun(self):
+    def myxue(self):
         UserPhone = request.args.get('UserPhone')
         SecretKey = request.args.get('SecretKey')
         if UserPhone and SecretKey:
@@ -169,7 +169,7 @@ class xueservice():
                             'State': p[i].State
                         }
                         list1.append(array1)
-                    array['xuedata'] = list1
+                    array['data'] = list1
                     return array
             else:
                 array = {
@@ -184,7 +184,7 @@ class xueservice():
             }
             return array
 
-    def thisrun(self):
+    def thisxue(self):
         XueId = int(request.args.get('XueId'))
         p = Xue.query.filter_by(RunId=XueId).first()
         if p is not None:
