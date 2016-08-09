@@ -109,10 +109,48 @@ app.controller('RegCtrl', ['$scope', 'RegistService', '$rootScope', '$location',
 
         }
     }]);
+
 app.controller('ProfileCtrl', ['$scope', '$rootScope', 'data', 'ProfileService', function ($scope, $rootScope, data, ProfileService) {
     $scope.data = data;
     $rootScope.web = data.NickName + '的个人中心';
-    data.NickNameCopy=data.NickName;
+    data.NickNameCopy = data.NickName;
+    $scope.msg = ProfileService.SetMsg();
+    /*基础信息部分*/
+    $scope.update = function () {
+        ProfileService.Update($scope.data);
+    };
+    $scope.ChangeAvatar = function () {
+        $scope.msg.ifavatar = true;
+    };
+    $scope.file = function () {
+        $('#fileInput').click();
+    };
+    $scope.upload = function () {
+        ProfileService.SetAvatar($scope.myCroppedImage).success(function (msg) {
+            if (msg.state == '1') {
+                $scope.data.UserPhoto = $scope.myCroppedImage;
+                $scope.msg = ProfileService.SetMsg();
+            }
+        })
+    };
+    $scope.myImage = '';
+    $scope.myCroppedImage = '';
+    var handleFileSelect = function (evt) {
+        var file = evt.currentTarget.files[0];
+        var reader = new FileReader();
+        reader.onload = function (evt) {
+            $scope.$apply(function ($scope) {
+                $scope.myImage = evt.target.result;
+                $scope.msg.croped = true;
+            });
+        };
+        reader.readAsDataURL(file);
+    };
+    angular.element(document.querySelector('#fileInput')).on('change', handleFileSelect);
+    /*教务系统部分*/
+    $scope.jwxt = function () {
+
+    };
 }]);
 app.controller('FoodCtrl', ['$scope', '$rootScope', 'foodlist', function ($scope, $rootScope, foodlist) {
     $rootScope.web = 'LoveU - food';
@@ -133,7 +171,7 @@ app.controller('AuctionCtrl', ['$scope', '$rootScope', 'auctionlist', function (
 app.controller('TestCtrl', function ($scope, $http) {
     $scope.myImage = '';
     $scope.myCroppedImage = '';
-    $scope.testImage='';
+    $scope.testImage = '';
     var dataURItoBlob = function (dataURI) {
         var binary = atob(dataURI.split(',')[1]);
         var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -159,7 +197,7 @@ app.controller('TestCtrl', function ($scope, $http) {
                 'Content-Type': undefined
             },
             data: {
-                file:blob
+                file: blob
             },
             transformRequest: formDataObject
         })
@@ -194,21 +232,21 @@ app.config(['$routeProvider', function ($routeProvider, $scope) {
         controller: 'RegCtrl',
         templateUrl: 'views/user.regist.html'
     }).when('/profile', {
-        templateUrl: 'views/profile.html',
-        controller: 'ProfileCtrl',
-        resolve: {
-            data: ['ProfileService', '$location', function (ProfileService, $location) {
-                return ProfileService.GetData().success(function (data) {
-                    return data;
-                }).error(function (data) {
-                    if (data == 'error') {
-                        alert('验证用户失败，请重新登录');
-                        $location.path('/login');
-                    }
-                })
-            }]
-        }
-    })
+            templateUrl: 'views/profile.html',
+            controller: 'ProfileCtrl',
+            resolve: {
+                data: ['ProfileService', '$location', function (ProfileService, $location) {
+                    return ProfileService.GetData().success(function (data) {
+                        return data;
+                    }).error(function (data) {
+                        if (data == 'error') {
+                            alert('验证用户失败，请重新登录');
+                            $location.path('/login');
+                        }
+                    })
+                }]
+            }
+        })
         .when('/food', {
             controller: 'FoodCtrl',
             templateUrl: 'views/food.html',
@@ -231,14 +269,14 @@ app.config(['$routeProvider', function ($routeProvider, $scope) {
             }]
         }
     }).when('/auction', {
-        templateUrl: 'views/auction.html',
-        controller: 'AuctionCtrl',
-        resolve: {
-            auctionlist: ['AuctionService', function (AuctionService) {
-                return AuctionService.auctionlist();
-            }]
-        }
-    })
+            templateUrl: 'views/auction.html',
+            controller: 'AuctionCtrl',
+            resolve: {
+                auctionlist: ['AuctionService', function (AuctionService) {
+                    return AuctionService.auctionlist();
+                }]
+            }
+        })
         .when('/test', {
             controller: 'TestCtrl',
             templateUrl: "views/test.html"

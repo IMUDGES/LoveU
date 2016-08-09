@@ -8,21 +8,73 @@
         <div class="profile">
             <p class="title">基础信息</p>
             <div class="body">
-                <img class="img-circle center-block" src="{{ data.UserPhoto }}" alt="我的头像">
-                <fieldset>
-                    <p class="inline">昵称：</p><input class="form-control" type="text" ng-model="data.NickNameCopy" placeholder="请输入昵称">
-                </fieldset>
+                头像：<img class="avatar img-circle center-block" ng-hide="msg.ifavatar" ng-src="{{ data.UserPhoto }}" alt="我的头像"
+                        ng-click="ChangeAvatar()">
+                <div ng-show="msg.ifavatar">
+                    <img class="avatar img-circle center-block"
+                         ng-src="{{ myCroppedImage }}" ng-show="msg.croped" ng-click="file()"/>
+                    <button class="btn btn-click col-lg-12 col-xs-12" type="button" ng-click="file()" ng-hide="msg.croped">
+                        点击选择一张图片
+                    </button>
+                    <input class="hide" type="file" id="fileInput"/>
+                    <div class="cropArea" ng-show="msg.croped">
+                        <img-crop image="myImage" result-image="myCroppedImage"></img-crop>
+                    </div>
+                        <div class="col-lg-5">
+                            <button class="btn btn-click col-xs-12" ng-click="upload()" ng-show="msg.croped" style="margin-bottom: 10px;">上传头像</button>
+                        </div>
+                        <div class="col-lg-5 col-lg-offset-2">
+                            <button class="btn btn-click col-xs-12" ng-click="file()" ng-show="msg.croped" style="margin-bottom: 10px;">换一张图片</button>
+                        </div>
+                </div>
+                <form ng-submit="update()">
+                    <fieldset>
+                        <div>
+                            <p>昵称：</p>
+                            <input class="form-control" type="text" ng-model="data.NickNameCopy" placeholder="请输入昵称">
+                        </div>
+                        <div>
+                            <p>性别：</p>
+                            <div class="text-center">
+                                <input type="radio" ng-model="data.UserSex" value="1"> Boy
+                                <input type="radio" ng-model="data.UserSex" value="2"> Girl
+                                <input type="radio" ng-model="data.UserSex" value="0"> Hide
+                            </div>
+                        </div>
+                        <div>
+                            <p class="inline">手机号码：</p>
+                            <p class="text-center" ng-bind="data.UserPhone"></p>
+                        </div>
+                        <br>
+                        <button class="btn btn-click col-lg-12 col-xs-12" type="submit">提交更改 <p class="small" ng-show="msg.croped">注：现在提交将不会保存头像更改</p> </button>
+                    </fieldset>
+                </form>
             </div>
         </div>
     </div>
     <div class="col-lg-6 col-xs-12">
         <div class="profile">
-sd
+            <p class="title">教务系统信息</p>
+            <div class="body" ng-show="data.ifjwxt">
+                真实姓名：<p class="text-center " ng-bind="data.TrueName"></p>
+                专业：<p class="text-center" ng-bind="data.UserMajor"></p>
+                年级：<p class="text-center" ng-bind="data.UserGrade+'级'"></p>
+            </div>
+            <div class="body" ng-show="!data.ifjwxt">
+                <div class="alert alert-info margin-10px" >
+                    <p class="text-center">验证教务系统以获取更多支持</p>
+                </div>
+                <form ng-submit="jwxt()"></form>
+            </div>
         </div>
     </div>
     <div class="col-lg-6 col-xs-12">
         <div class="profile">
-sd
+            <p class="title">钱包信息</p>
+            <div class="body">
+                真实姓名：<p class="text-center " ng-bind="data.TrueName"></p>
+                专业：<p class="text-center ">{{ data.UserGrade+'级'+data.UserMajor }}</p>
+            </div>
         </div>
     </div>
 </div>

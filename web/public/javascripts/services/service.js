@@ -171,7 +171,29 @@ services.factory('RegistService', ['$q', '$http',
 services.factory('ProfileService', ['$q', '$http', 'SecretKey', '$timeout', function ($q, $http, SecretKey, $timeout) {
     var key = SecretKey.Get();
     var phone = SecretKey.GetPhone();
+    var dataURItoBlob = function (dataURI) {
+        var binary = atob(dataURI.split(',')[1]);
+        var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+        var array = [];
+        for (var i = 0; i < binary.length; i++) {
+            array.push(binary.charCodeAt(i));
+        }
+        return new Blob([new Uint8Array(array)], {type: mimeString});
+    };
+    var formDataObject = function (data) {
+        var fd = new FormData();
+        angular.forEach(data, function (value, key) {
+            fd.append(key, value);
+        });
+        return fd;
+    };
     return {
+        SetMsg: function () {
+            return {
+                ifavatar: false,
+                croped: false
+            }
+        },
         GetData: function () {
             var delay = $q.defer();
             var promise = delay.promise;
@@ -194,9 +216,65 @@ services.factory('ProfileService', ['$q', '$http', 'SecretKey', '$timeout', func
                 UserPhone: phone,
                 SecretKey: key
             }, postCfg).success(function (data) {
-                delay.resolve(data);
+                delay.resolve(data.data)
             }).error(function () {
                 delay.reject("Unable to Connect");
+            });
+            return promise;
+        },
+        Update: function (data) {
+            var delay = $q.defer();
+            var promise = delay.promise;
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            };
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            };
+            if (data.NickNameCopy.length <= 0) {
+                delay.reject('nick');
+                return promise;
+            }
+            $http.post(root_url + 'changemydata', {
+                UserPhone:SecretKey.GetPhone(),
+                SecretKey:SecretKey.Get(),
+                NickName:data.NickName,
+                UserSex:data.UserSex
+            }, postCfg).success(function (data) {
+                delay.resolve(data);
+            }).error(function () {
+                delay.reject('Unable to Connect');
+            });
+            return promise;
+        },
+        SetAvatar: function (img) {
+            var blob = dataURItoBlob(img);
+            var delay = $q.defer();
+            var promise = delay.promise;
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            };
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            };
+            $http({
+                method: 'POST', url: root_url+'Userphoto', headers: {
+                    'Content-Type': undefined
+                },
+                data: {
+                    file: blob,
+                    UserPhone: SecretKey.GetPhone(),
+                    SecretKey:SecretKey.Get()
+                },
+                transformRequest: formDataObject
+            }).success(function (data) {
+                delay.resolve(data);
+            }).error(function () {
+                delay.reject('上传失败，请稍后重试');
             });
             return promise;
         }
@@ -228,7 +306,7 @@ services.factory('FoodService', ['$q', '$http', '$timeout', function ($q, $http,
         }
     }
 }]);
-services.factory('RunService', ['$q', '$http', '$timeout',function ($q, $http,$timeout) {
+services.factory('RunService', ['$q', '$http', '$timeout', function ($q, $http, $timeout) {
     return {
         runlist: function () {
             var delay = $q.defer();
@@ -281,22 +359,23 @@ services.factory('SecretKey', function () {
     return {
         Set: function (value) {
             key = value;
-            setCookie('key', value,3600);
+            setCookie('key', value, 3600);
         },
         Get: function () {
-            key = getCookie('key');
-            return getCookie('key');
+            if (key.length > 0)
+                return key;
+            else
+                return getCookie('key');
         },
         Phone: function (number) {
             phone = number;
-            setCookie('Phone', number,3600);
+            setCookie('Phone', number, 3600);
         },
         GetPhone: function () {
             return getCookie('Phone');
         },
         ifKey: function () {
-            this.Get();
-            return (key.length > 0);
+            return (getCookie('key').length > 0);
         },
         destory: function () {
             clearCookie('key');

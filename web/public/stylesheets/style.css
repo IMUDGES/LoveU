@@ -256,8 +256,8 @@ a, .btn {
     line-height: 50px;
 }
 
-.avator {
-    width: 60px;
+.avatar {
+    width: 100px;
 }
 
 .margin-10px {
@@ -348,10 +348,11 @@ img-crop canvas {
 .cropArea {
     background: #E4E4E4;
     overflow: hidden;
-    width: 500px;
     height: 350px;
     margin: 0 auto;
     text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .profile{
     box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.15);
@@ -364,6 +365,7 @@ img-crop canvas {
     font-size: 1.5em;
     box-shadow: -1px  -1px 4px 0 rgba(0, 0, 0, 0.15);
     margin-bottom: 0;
+    padding: 5px;
 }
 .profile .body{
     padding: 10px;
