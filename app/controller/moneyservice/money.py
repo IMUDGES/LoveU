@@ -114,7 +114,7 @@ class moneyservice():
         }
         return array
 
-    def recharge(self, UserPhone, SecretKey, Money):
+    def recharge(self, UserPhone, SecretKey, money):
         # UserPhone = '2147483647'
         # SecretKey = '8fe98a41f795497799ef3ade6ee02366'
         if UserPhone and SecretKey:
@@ -122,9 +122,13 @@ class moneyservice():
             if u.SecretKey == SecretKey:
                 UserId = u.UserId
                 m = Money.query.filter_by(UserId=UserId).first()
-                m.Money = m.Money+Money
-                msg = '充值成功'
-                state = '1'
+                if m is not None:
+                    m.Money = m.Money+money
+                    msg = '充值成功'
+                    state = '1'
+                else:
+                    msg = '请完善钱包信息'
+                    state = '0'
             else:
                 msg = '请登录'
                 state = '0'

@@ -157,10 +157,9 @@ class foodservice():
         }
         return array
 
-    def my_issuefood(self,state):
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        SecretKey = form.get('SecretKey')
+    def my_issuefood(self,state,User_Phone, Secret_Key):
+        UserPhone = User_Phone
+        SecretKey = Secret_Key
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
@@ -172,7 +171,7 @@ class foodservice():
                     }
                     list1 = []
                     for i in range(0,len(p)):
-                        array = {
+                        array1 = {
                             'FoodId': p[i].FoodId,
                             'UserId': p[i].UserId,
                             'FoodArea': p[i].FoodArea,
@@ -182,7 +181,7 @@ class foodservice():
                             'FoodWay': p[i].FoodWay,
                             'State': p[i].State
                         }
-                        list1.append(array)
+                        list1.append(array1)
                     array['data'] = list1
                 else:
                     array = {
@@ -201,10 +200,9 @@ class foodservice():
             }
         return array
 
-    def my_getfood(self, state):
-        form = request.form
-        UserPhone = form.get('UserPhone')
-        SecretKey = form.get('SecretKey')
+    def my_getfood(self, state,User_Phone, Secret_Key):
+        UserPhone = User_Phone
+        SecretKey = Secret_Key
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
@@ -216,7 +214,7 @@ class foodservice():
                     }
                     list1 = []
                     for i in range(0, len(p)):
-                        array = {
+                        array1 = {
                             'FoodId': p[i].FoodId,
                             'UserId': p[i].UserId,
                             'FoodArea': p[i].FoodArea,
@@ -226,7 +224,7 @@ class foodservice():
                             'FoodWay': p[i].FoodWay,
                             'State': p[i].State
                         }
-                        list1.append(array)
+                        list1.append(array1)
                     array['data'] = list1
                 else:
                     array = {
