@@ -24,6 +24,6 @@ def Userphoto():
     SecretKey = form.get('SecretKey')
     file = request.files.getlist('file')
     upphoto = Upphoto()
-    return jsonify(upphoto.upuserphoto(file,UserPhone,SecretKey))
+    return jsonify(upphoto.Upuserphoto(file[0],UserPhone,SecretKey))
 ###
 

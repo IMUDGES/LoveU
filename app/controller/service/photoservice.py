@@ -16,6 +16,7 @@ class Upphoto(object):
     def allowed_file(self, filename):
         return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
+#安卓头像处理
     def upuserphoto(self, file, UserPhone, SecretKey):
         try:
             if file and self.allowed_file(file.filename):
@@ -63,9 +64,12 @@ class Upphoto(object):
                 'msg': msg
             }
             return array
+###
 
+#网站头像处理
     def Upuserphoto(self, file, UserPhone, SecretKey):
         try:
+            file.filename = file.filename + '.png'
             if file and self.allowed_file(file.filename):
                 qiniuup = Qiniuup()
                 userphotorandom = Userphotorandom()
@@ -111,7 +115,7 @@ class Upphoto(object):
                 'msg': msg
             }
             return array
-
+###
 
 
 
