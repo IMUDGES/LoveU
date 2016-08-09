@@ -44,28 +44,28 @@ def sendpaiinformation():
      return jsonify(p.sendcomment())
 
 
-#我发出的未过期的give
+#我发出的未过期的pai
 @app.route('/myissuepai_notoverdue', methods = ['POST', 'GET'])
 def myissuepai_notoverdue():
     p = paiservice()
     return jsonify(p.my_issuepai(1))
 
 
-#我发出的过期的food
+#我发出的过期的pai
 @app.route('/myissuepai_overdue', methods = ['POST', 'GET'])
 def myissuepai_overdue():
     p = paiservice()
     return jsonify(p.my_issuepai(0))
 
 
-#我接受的未过期的food
+#我接受的未过期的pai
 @app.route('/mygetpai_notoverdue', methods = ['POST', 'GET'])
 def mygetpai_notoverdue():
     p = paiservice()
     return jsonify(p.my_getpai(1))
 
 
-#我接受的过期的food
+#我接受的过期的pai
 @app.route('/mygetpai_overdue', methods = ['POST', 'GET'])
 def mygetpai_overdue():
     p = paiservice()

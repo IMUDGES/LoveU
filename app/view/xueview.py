@@ -47,28 +47,28 @@ def refusexue():
     return jsonify(r.refuse())
 
 
-#我发出的未过期的give
+#我发出的未过期的xue
 @app.route('/myissuexue_notoverdue', methods = ['POST', 'GET'])
 def myissuexue_notoverdue():
     x = xueservice()
     return jsonify(x.my_issuexue(1))
 
 
-#我发出的过期的food
+#我发出的过期的xue
 @app.route('/myissuexue_overdue', methods = ['POST', 'GET'])
 def myissuexue_overdue():
     x = xueservice()
     return jsonify(x.my_issuexue(0))
 
 
-#我接受的未过期的food
+#我接受的未过期的xue
 @app.route('/mygetxue_notoverdue', methods = ['POST', 'GET'])
 def mygetxue_notoverdue():
     x = xueservice()
     return jsonify(x.my_getxue(1))
 
 
-#我接受的过期的food
+#我接受的过期的xue
 @app.route('/mygetxue_overdue', methods = ['POST', 'GET'])
 def mygetxue_overdue():
     x = xueservice()

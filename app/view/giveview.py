@@ -52,21 +52,21 @@ def myissuegive_notoverdue():
     return jsonify(g.my_issuegive(1))
 
 
-#我发出的过期的food
+#我发出的过期的give
 @app.route('/myissuegive_overdue', methods = ['POST', 'GET'])
 def myissuegive_overdue():
     g = giveservice()
     return jsonify(g.my_issuegive(0))
 
 
-#我接受的未过期的food
+#我接受的未过期的give
 @app.route('/mygetgive_notoverdue', methods = ['POST', 'GET'])
 def mygetgive_notoverdue():
     g = giveservice()
     return jsonify(g.my_getgive(1))
 
 
-#我接受的过期的food
+#我接受的过期的give
 @app.route('/mygetgive_overdue', methods = ['POST', 'GET'])
 def mygetgive_overdue():
     g = giveservice()
