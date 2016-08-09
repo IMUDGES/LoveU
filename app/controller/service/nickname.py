@@ -3,7 +3,7 @@ from app.db import User, db
 
 class Nickname(object):
     def change(self,userphone,secretkey,newnickname, usersex):
-        user = User.query.filler_by(userphone=userphone).first()
+        user = User.query.filter_by(UserPhone=userphone).first()
         if user.SecretKey == secretkey:
             if usersex is not None:
                 user.UserSex = usersex
@@ -11,7 +11,7 @@ class Nickname(object):
                 user.NickName = newnickname
             db.session.commit()
             state = 1
-            msg = "昵称修改成功！"
+            msg = "修改成功！"
             array = {
                 'state': state,
                 'msg': msg

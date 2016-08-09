@@ -300,6 +300,88 @@ class giveservice():
         }
         return array
 
+    def my_issuegive(self, state):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                p = Give.query.filter_by(UserId=u.UserId, State=state).all()
+                if len(p)>0:
+                    array = {
+                        'msg': '成功',
+                        'state': '1'
+                    }
+                    list1 = []
+                    for i in range(0, len(p)):
+                        array = {
+                            'GiveId': p[i].GiveId,
+                            'UserId': p[i].UserId,
+                            'GiveInformation': p[i].GiveInformation,
+                            'GiveImage' : p[i].GiveImage,
+                            'State': p[i].State
+                        }
+                        list1.append(array)
+                    array['data'] = list1
+                else:
+                    array = {
+                        'msg': '没有信息',
+                        'state': '0'
+                    }
+            else:
+                array = {
+                    'msg': '请登录',
+                    'state': '0'
+                }
+        else:
+            array = {
+                'msg': '请登录',
+                'state': '0'
+            }
+        return array
+
+    def mygetfood_overdue(self, state):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                p = Give.query.filter_by(GetUser=u.UserId, State=state).all()
+                if len(p)>0:
+                    array = {
+                        'msg': '成功',
+                        'state': '1'
+                    }
+                    list1 = []
+                    for i in range(0, len(p)):
+                        array = {
+                            'GiveId': p[i].GiveId,
+                            'UserId': p[i].UserId,
+                            'GiveInformation': p[i].GiveInformation,
+                            'GiveImage' : p[i].GiveImage,
+                            'State': p[i].State
+                        }
+                        list1.append(array)
+                    array['data'] = list1
+                else:
+                    array = {
+                        'msg': '没有信息',
+                        'state': '0'
+                    }
+            else:
+                array = {
+                    'msg': '请登录',
+                    'state': '0'
+                }
+        else:
+            array = {
+                'msg': '请登录',
+                'state': '0'
+            }
+        return array
+
 
 
 

@@ -145,14 +145,15 @@ class xueservice():
         }
         return array
 
-    def myxue(self):
-        UserPhone = request.args.get('UserPhone')
-        SecretKey = request.args.get('SecretKey')
+    def my_issuexue(self,state):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
-                p = Xue.query.filter_by(UserId=u.UserId).all()
-                if p is not None:
+                p = Xue.query.filter_by(UserId=u.UserId, State=state).all()
+                if len(p)>0:
                     array = {
                         'msg': '成功',
                         'state': '1'
@@ -170,19 +171,65 @@ class xueservice():
                         }
                         list1.append(array1)
                     array['data'] = list1
-                    return array
+                else:
+                    array = {
+                        'msg': '信息为空',
+                        'state': '0'
+                    }
             else:
                 array = {
                     'msg': '请登录',
                     'state': '0'
                 }
-                return array
         else:
             array = {
                 'msg': '请登录',
                 'state': '0'
             }
-            return array
+        return array
+
+    def my_getxue(self, state):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                p = Xue.query.filter_by(GetUser=u.UserId, State=state).all()
+                if len(p) > 0:
+                    array = {
+                        'msg': '成功',
+                        'state': '1'
+                    }
+                    list1 = []
+                    for i in range(0, len(p)):
+                        array1 = {
+                            'XueId': p[i].XueId,
+                            'UserId': p[i].UserId,
+                            'XueArea': p[i].XueArea,
+                            'XueInformation': p[i].XueInformation,
+                            'GetUser': p[i].GetUser,
+                            'XueTime': p[i].XueTime,
+                            'State': p[i].State
+                        }
+                        list1.append(array1)
+                    array['data'] = list1
+                else:
+                    array = {
+                        'msg': '信息为空',
+                        'state': '0'
+                    }
+            else:
+                array = {
+                    'msg': '请登录',
+                    'state': '0'
+                }
+        else:
+            array = {
+                'msg': '请登录',
+                'state': '0'
+            }
+        return array
 
     def thisxue(self):
         XueId = int(request.args.get('XueId'))

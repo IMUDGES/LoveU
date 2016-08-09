@@ -312,13 +312,14 @@ class paiservice():
         }
         return array
 
-    def mypai(self):
-        UserPhone = request.args.get('UserPhone')
-        SecretKey = request.args.get('SecretKey')
+    def my_issuepai(self,state):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
-                p = Pai.query.filter_by(UserId=u.UserId).all()
+                p = Pai.query.filter_by(UserId=u.UserId, State=state).all()
                 if p is not None:
                     array = {
                         'msg': '成功',
@@ -338,19 +339,66 @@ class paiservice():
                         }
                         list1.append(array)
                     array['data'] = list1
-                    return array
+                else:
+                    array = {
+                        'msg': '信息为空',
+                        'state': '0'
+                    }
             else:
                 array = {
                     'msg': '请登录',
                     'state': '0'
                 }
-                return array
         else:
             array = {
                 'msg': '请登录',
                 'state': '0'
             }
-            return array
+        return array
+
+    def my_getpai(self, state):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                p = Pai.query.filter_by(GetUser=u.UserId, State=state).all()
+                if p is not None:
+                    array = {
+                        'msg': '成功',
+                        'state': '1'
+                    }
+                    list1 = []
+                    for i in range(0, len(p)):
+                        array = {
+                            'FoodId': p[i].FoodId,
+                            'UserId': p[i].UserId,
+                            'FoodArea': p[i].FoodArea,
+                            'FoodInformation': p[i].FoodInformation,
+                            'GetUser': p[i].GetUser,
+                            'FoodTime': p[i].FoodTime,
+                            'FoodWay': p[i].FoodWay,
+                            'State': p[i].State
+                        }
+                        list1.append(array)
+                    array['data'] = list1
+                else:
+                    array = {
+                        'msg': '信息为空',
+                        'state': '0'
+                    }
+            else:
+                array = {
+                    'msg': '请登录',
+                    'state': '0'
+                }
+        else:
+            array = {
+                'msg': '请登录',
+                'state': '0'
+            }
+        return array
 
 
 

@@ -163,14 +163,15 @@ class helpservice():
         }
         return array
 
-    def myhelp(self):
-        UserPhone = request.args.get('UserPhone')
-        SecretKey = request.args.get('SecretKey')
+    def my_issuehelp(self,state):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
-                p = Help.query.filter_by(UserId=u.UserId).all()
-                if p is not None:
+                p = Help.query.filter_by(UserId=u.UserId, State=state).all()
+                if len(p)>0:
                     array = {
                         'msg': '成功',
                         'state': '1'
@@ -189,19 +190,66 @@ class helpservice():
                         }
                         list1.append(array)
                         array['data'] = list1
-                    return array
+                else:
+                    array = {
+                        'msg': '没有信息',
+                        'state': '0'
+                    }
             else:
                 array = {
                     'msg': '请登录',
                     'state': '0'
                 }
-                return array
         else:
             array = {
                 'msg': '请登录',
                 'state': '0'
             }
-            return array
+        return array
+
+    def my_gethelp(self, state):
+        form = request.form
+        UserPhone = form.get('UserPhone')
+        SecretKey = form.get('SecretKey')
+        if UserPhone and SecretKey:
+            u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.SecretKey == SecretKey:
+                p = Help.query.filter_by(GetUser=u.UserId, State=state).all()
+                if len(p)>0:
+                    array = {
+                        'msg': '成功',
+                        'state': '1'
+                    }
+                    list1 = []
+                    for i in range(0, len(p)):
+                        array = {
+                            'HelpId': p[i].HelpId,
+                            'UserId': p[i].UserId,
+                            'HelpMoney': p[i].HelpMoney,
+                            'DownTime': p[i].DownTime,
+                            'GetUser': p[i].GetUser,
+                            'HelpInformation': p[i].HelpInformation,
+                            'Finish': p[i].Finish,
+                            'State': p[i].State
+                        }
+                        list1.append(array)
+                        array['data'] = list1
+                else:
+                    array = {
+                        'msg': '没有信息',
+                        'state': '0'
+                    }
+            else:
+                array = {
+                    'msg': '请登录',
+                    'state': '0'
+                }
+        else:
+            array = {
+                'msg': '请登录',
+                'state': '0'
+            }
+        return array
 
     def thishelp(self):
         FoodId = int(request.args.get('FoodId'))

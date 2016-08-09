@@ -84,7 +84,9 @@ class data():
                 'msg': '成功',
                 'state': '1'
             }
+            UserPhone = u.UserPhone[0]+u.UserPhone[1]+u.UserPhone[2]+'****'+u.UserPhone[7]+u.UserPhone[8]+u.UserPhone[9]+u.UserPhone[10]
             a = {
+                'UserPhone':UserPhone,
                 'UserId': u.UserId,
                 'NickName': u.NickName,
                 'UserSex': u.UserSex,

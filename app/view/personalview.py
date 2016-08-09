@@ -8,7 +8,7 @@ from app.controller.jwxtservice.upjwxtservice import upjwxtService
 @app.route('/changemydata', methods = ['POST', 'GET'])
 def nickname():
     nicknameq = Nickname()
-    form = request.form()
+    form = request.form
     UserPhone = form.get('UserPhone')
     SecretKey = form.get('SecretKey')
     NickName = form.get('NickName')

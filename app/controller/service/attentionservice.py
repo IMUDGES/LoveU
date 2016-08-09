@@ -6,18 +6,26 @@ from flask import request
 class Attentionservice(object):
     def attention_other(self):
         try:
-            UserPhone = request.args.get('UserPhone')
-            OtherUserId = request.args.get('OtherUserId')
+            form = request.form
+            UserPhone = form.get('UserPhone')
+            SecretKey = form.get('SecretKey')
+            BefocusonId = form.get('BefocusonId')
             user = User.query.filter_by(UserPhone=UserPhone).first()
-            attentioninfo = Attention()
-            attentioninfo.UserId = user['UserId']
-            attentioninfo.BefocusonId  = OtherUserId
-            db.session.add(attentioninfo)
-            db.session.commit()
-            array = {
-                'msg': '成功',
-                'state': '1'
-            }
+            if user.SecretKey == SecretKey:
+                attentioninfo = Attention()
+                attentioninfo.UserId = user['UserId']
+                attentioninfo.BefocusonId  = BefocusonId
+                db.session.add(attentioninfo)
+                db.session.commit()
+                array = {
+                    'msg': '成功',
+                    'state': '1'
+                }
+            else:
+                array = {
+                    'msg': '请登录',
+                    'state': '0'
+                }
             return array
         except Exception as e:
             array = {
