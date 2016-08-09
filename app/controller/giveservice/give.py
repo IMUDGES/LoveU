@@ -341,7 +341,7 @@ class giveservice():
             }
         return array
 
-    def mygetfood_overdue(self, state):
+    def my_getgive(self, state):
         form = request.form
         UserPhone = form.get('UserPhone')
         SecretKey = form.get('SecretKey')

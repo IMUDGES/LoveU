@@ -39,4 +39,32 @@ def thishelp():
 def confirm():
     h = helpservice()
     return jsonify(h.confirm())
+
+
+#我发出的未过期的help
+@app.route('/myissuehelp_notoverdue', methods = ['POST', 'GET'])
+def myissuehelp_notoverdue():
+    h = helpservice()
+    return jsonify(h.my_issuehelp(1))
+
+
+#我发出的过期的help
+@app.route('/myissuehelp_overdue', methods = ['POST', 'GET'])
+def myissuehelp_overdue():
+    h = helpservice()
+    return jsonify(h.my_issuehelp(0))
+
+
+#我接受的未过期的help
+@app.route('/mygethelp_notoverdue', methods = ['POST', 'GET'])
+def mygethelp_notoverdue():
+    h = helpservice()
+    return jsonify(h.my_gethelp(1))
+
+
+#我接受的过期的help
+@app.route('/mygethelp_overdue', methods = ['POST', 'GET'])
+def mygethelp_overdue():
+    h = helpservice()
+    return jsonify(h.my_gethelp(0))
 #结束

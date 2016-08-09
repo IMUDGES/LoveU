@@ -29,10 +29,32 @@ def canclefood():
     return jsonify(f.cancle())
 
 
-@app.route('/myfood', methods = ['POST', 'GET'])
-def myfood():
+#我发出的未过期的food
+@app.route('/myissuefood_notoverdue', methods = ['POST', 'GET'])
+def myissuefood_notoverdue():
     f = foodservice()
-    return jsonify(f.myfood())
+    return jsonify(f.my_issuefood(1))
+
+
+#我发出的过期的food
+@app.route('/myissuefood_overdue', methods = ['POST', 'GET'])
+def myissuefood_overdue():
+    f = foodservice()
+    return jsonify(f.my_issuefood(0))
+
+
+#我接受的未过期的food
+@app.route('/mygetfood_notoverdue', methods = ['POST', 'GET'])
+def mygetfood_notoverdue():
+    f = foodservice()
+    return jsonify(f.my_getfood(1))
+
+
+#我接受的过期的food
+@app.route('/mygetfood_overdue', methods = ['POST', 'GET'])
+def mygetfood_overdue():
+    f = foodservice()
+    return jsonify(f.my_getfood(0))
 
 
 @app.route('/thisfood', methods = ['GET', 'POST'])
