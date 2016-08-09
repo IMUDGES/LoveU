@@ -38,7 +38,7 @@ class giveservice():
                         'State': p[i].State
                     }
                     list1.append(array1)
-            array['givedata'] = list1
+            array['giveModels'] = list1
             return array
         else:
             array = {

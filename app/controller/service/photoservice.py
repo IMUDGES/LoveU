@@ -12,6 +12,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 class Upphoto(object):
+
     def allowed_file(self, filename):
         return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
@@ -62,6 +63,55 @@ class Upphoto(object):
                 'msg': msg
             }
             return array
+
+    def Upuserphoto(self, file, UserPhone, SecretKey):
+        try:
+            if file and self.allowed_file(file.filename):
+                qiniuup = Qiniuup()
+                userphotorandom = Userphotorandom()
+                # 图片名字
+                file.filename = userphotorandom.getuserphotorandom() + '.png'
+                fname = secure_filename(file.filename)
+
+                file.save(os.path.join(UPLOAD_FOLDER, fname))
+                print(UPLOAD_FOLDER + file.filename)
+                str = qiniuup.up(UPLOAD_FOLDER + file.filename, 'loveu')
+                u = User.query.filter_by(UserPhone=UserPhone).first()
+                if u.SecretKey == SecretKey:
+                    u.UserPhoto = str
+                    db.session.commit()
+                    msg = "成功！"
+                    state = '1'
+                    array = {
+                        'state': state,
+                        'msg': msg
+                    }
+                    return array
+                else:
+                    msg = '请登录'
+                    state = '0'
+                    array = {
+                        'state': state,
+                        'msg': msg
+                    }
+                    return array
+            else:
+                msg = "请合法上传！"
+                state = '0'
+                array = {
+                    'state': state,
+                    'msg': msg
+                }
+                return array
+        except Exception as e:
+            state = 0
+            msg = "出现未知的错误了哦~，再试试吧"
+            array = {
+                'state': state,
+                'msg': msg
+            }
+            return array
+
 
 
 

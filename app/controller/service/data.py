@@ -10,15 +10,12 @@ class data():
         if u is not None:
             array = {
                 'msg': '成功',
-                'state': '1'
-            }
-            a = {
+                'state': '1',
                 'UserId': u.UserId,
                 'NickName': u.NickName,
                 'UserSex': u.UserSex,
                 'UserPhoto': u.UserPhoto
             }
-            array['date'] = a
             return array
         else:
             array = {
@@ -35,17 +32,19 @@ class data():
             u = User.query.filter_by(UserPhone=UserPhone).first()
             if u.SecretKey == SecretKey:
                 m = Money.query.filter_by(UserId=u.UserId).first()
-                if m.PayPassword is not None:
+                if m is not None:
                     array = {
                         'state': '1',
                         'msg': '成功',
-                        'ispay': '1'
+                        'ispay': '1',
+                        'money':m.Money
                     }
                 else:
                     array = {
                         'state': '1',
                         'msg': '成功',
-                        'ispay': '0'
+                        'ispay': '0',
+                        'money':0
                     }
                 a = {
                     'UserId': u.UserId,
