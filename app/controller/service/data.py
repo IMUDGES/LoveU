@@ -30,6 +30,19 @@ class data():
         SecretKey = form.get('SecretKey')
         if UserPhone and SecretKey:
             u = User.query.filter_by(UserPhone=UserPhone).first()
+            if u.UserGrade is None:
+                isjwxt = '0'
+                a = {
+                    'isjwxt': isjwxt
+                }
+            else:
+                isjwxt = '1'
+                a ={
+                    'isjwxt':isjwxt
+                }
+                a['TrueName'] = u.TrueName
+                a['UserGrade'] = u.UserGrade
+                a['UserMajor'] = u.UserMajor
             if u.SecretKey == SecretKey:
                 m = Money.query.filter_by(UserId=u.UserId).first()
                 if m is not None:
@@ -50,23 +63,20 @@ class data():
                     'UserId': u.UserId,
                     'UserPhone': u.UserPhone,
                     'NickName': u.NickName,
-                    'TrueName': u.TrueName,
-                    'UserSex': u.UserSex,
-                    'UserGrade': u.UserGrade,
                     'UserPhoto': u.UserPhoto,
-                    'UserMajor': u.UserMajor
+                    'UserSex': u.UserSex
                 }
                 array['data'] = a
                 return array
             else:
                 array = {
                     'state': '0',
-                    'msg': '不存在此ID',
+                    'msg': '不存在此ID'
                 }
                 return array
         else:
             array = {
                 'state': '0',
-                'msg': '不存在此ID',
+                'msg': '不存在此ID'
             }
             return array
