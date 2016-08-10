@@ -3,6 +3,8 @@ from app.bean.secretkey import Secretkey
 from app.db import User
 from flask import request
 import hashlib
+from app.bean.rong import ApiClient
+from app.controller.imservice.im import Imservice
 
 
 def dologin():
@@ -11,6 +13,7 @@ def dologin():
     PassWord = form.get('PassWord')
     u = User.query.filter_by(UserPhone=UserPhone).first()
     print (UserPhone)
+    token = None
     if u is None:
         msg = '用户不存在'
         state = '0'
@@ -23,6 +26,8 @@ def dologin():
         print (psw)
         print (u.PassWord)
         if psw == u.PassWord:
+            i = Imservice()
+            token = i.gettoken(UserPhone)
             state = '1'
             msg = '登陆成功'
             S = Secretkey()
@@ -35,6 +40,7 @@ def dologin():
     array = {
         'msg': msg,
         'state' : state,
-        'SecretKey': SecretKey
+        'SecretKey': SecretKey,
+        'token':token
     }
     return array

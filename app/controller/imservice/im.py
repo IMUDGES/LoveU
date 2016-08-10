@@ -5,39 +5,19 @@ from app.db import db, User
 
 
 class Imservice(object):
-    def gettoken(self):
+    def gettoken(self,UserPhone):
         try:
-            UserPhone = request.args.get('UserPhone')
-            SecretKey = request.args.get('SecretKey')
             user = User.query.filter_by(UserPhone=UserPhone).first()
-            if SecretKey != user['SecretKey']:
-                array = {
-                    'msg': '请登陆后在尝试',
-                    'state': '0',
-                }
-                return array
-            if user['Token'] != None:
-                array = {
-                    'msg': '成功',
-                    'state': '1',
-                    'token': user['Token']
-                }
-                return array
+            if user.Token != None:
+                return user.Token
             app_key = 'y745wfm8440uv'
             app_secret = '8H4Zs6MenT3Trf'
             api = ApiClient(app_key, app_secret)
-            r = api.getToken(userId=user['UserId'], name=user['NickName'],portraitUri=user['UserPhoto'])
-            user.Token = r
+            r = api.getToken(userId=user.UserId, name=user.NickName,portraitUri=user.UserPhoto)
+            r = str(r)
+            r = eval(r)
+            user.Token = r['token']
             db.session.commit()
-            array = {
-                'msg': '成功',
-                'state': '1',
-                'token': r
-            }
-            return array
+            return r['token']
         except Exception as e:
-            array = {
-                'msg': '失败',
-                'state': '0',
-            }
-            return array
+            return "失败"

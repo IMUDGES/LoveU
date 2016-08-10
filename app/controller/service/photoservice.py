@@ -38,7 +38,7 @@ class Upphoto(object):
                     app_secret = '8H4Zs6MenT3Trf'
                     api = ApiClient(app_key, app_secret)
                     db.session.commit()
-                    r = api.refreshUser(u['UserId'], u['NickName'], u['UserPhoto'])
+                    r = api.refreshUser(u.UserId, u.NickName, u.UserPhoto)
                     msg = "成功！"
                     state = '1'
                     array = {
@@ -90,6 +90,11 @@ class Upphoto(object):
                 if u.SecretKey == SecretKey:
                     u.UserPhoto = str
                     db.session.commit()
+                    app_key = 'y745wfm8440uv'
+                    app_secret = '8H4Zs6MenT3Trf'
+                    api = ApiClient(app_key, app_secret)
+                    db.session.commit()
+                    r = api.refreshUser(u.UserId, u.NickName, u.UserPhoto)
                     msg = "成功！"
                     state = '1'
                     array = {

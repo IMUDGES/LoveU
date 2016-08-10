@@ -14,7 +14,7 @@ class Nickname(object):
             app_secret = '8H4Zs6MenT3Trf'
             api = ApiClient(app_key, app_secret)
             db.session.commit()
-            r = api.refreshUser(user['UserId'],user['NickName'],user['UserPhoto'])
+            r = api.refreshUser(user.UserId,user.NickName,user.UserPhoto)
             state = 1
             msg = "修改成功！"
             array = {
