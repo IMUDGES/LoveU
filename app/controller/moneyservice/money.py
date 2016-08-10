@@ -44,7 +44,7 @@ class moneyservice():
                 UserId = u.UserId
                 CheckCode = form.get('CheckCode')
                 if CheckCode:
-                    c = Checkcode.query.filter_by(UserPhone = UserPhone, CheckCode = CheckCode).first()
+                    c = Checkcode.query.order_by(-Checkcode.CheckId).filter_by(UserPhone = UserPhone, CheckCode = CheckCode).first()
                     if c is not None:
                         m = Money()
                         m.UserId = UserId
