@@ -27,7 +27,7 @@ class Register3(object):
             user.UserPhone = UserPhone
             user.UserPhoto = 'http://7xrqhs.com1.z0.glb.clouddn.com/default1.jpg'
             user.Experience = 0
-            user.UserSex = 3
+            user.UserSex = 2
             db.session.add(user)
             db.session.commit()
 
