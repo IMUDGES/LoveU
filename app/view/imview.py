@@ -3,7 +3,9 @@ from flask import jsonify
 from app import app
 from app.controller.imservice.im import Imservice
 
-@app.route('/gettoken', methods = ['GET','POST'])
-def gettoken():
+
+
+@app.route('/getfriends', methods = ['GET','POST'])
+def getfriends():
     i = Imservice()
-    return jsonify(i.gettoken())
+    return jsonify(i.getfriends())
