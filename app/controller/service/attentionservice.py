@@ -11,9 +11,11 @@ class Attentionservice(object):
             SecretKey = form.get('SecretKey')
             BefocusonId = form.get('BefocusonId')
             user = User.query.filter_by(UserPhone=UserPhone).first()
+            print(user.SecretKey)
+            print(SecretKey)
             if user.SecretKey == SecretKey:
                 attentioninfo = Attention()
-                attentioninfo.UserId = user['UserId']
+                attentioninfo.UserId = user.UserId
                 attentioninfo.BefocusonId  = BefocusonId
                 db.session.add(attentioninfo)
                 db.session.commit()
