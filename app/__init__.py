@@ -18,4 +18,6 @@ from app.view import userphoto
 from app.view import mineview
 from app.view import moneyview
 from app.view import imview
+from app.view import attentionview
+from app.view import refuseview
 

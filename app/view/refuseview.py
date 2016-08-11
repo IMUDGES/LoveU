@@ -4,7 +4,7 @@ from app import app
 from app.controller.service.refuseservice import Refuseservice
 
 
-@app.route('/attention', methods = ['POST', 'GET'])
-def attention():
+@app.route('/refuse', methods = ['POST', 'GET'])
+def refuse():
     a = Refuseservice()
     return jsonify(a.refuse_other())
