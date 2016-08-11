@@ -169,8 +169,6 @@ services.factory('RegistService', ['$q', '$http',
         }
     }]);
 services.factory('ProfileService', ['$q', '$http', 'SecretKey', '$timeout', function ($q, $http, SecretKey, $timeout) {
-    var key = SecretKey.Get();
-    var phone = SecretKey.GetPhone();
     var dataURItoBlob = function (dataURI) {
         var binary = atob(dataURI.split(',')[1]);
         var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -191,7 +189,19 @@ services.factory('ProfileService', ['$q', '$http', 'SecretKey', '$timeout', func
         SetMsg: function () {
             return {
                 ifavatar: false,
-                croped: false
+                croped: false,
+                jwxt: '验证教务系统以获取更多支持',
+                pay: 'test',
+                ifpay: false
+            }
+        },
+        SetForm: function () {
+            return {
+                Jwxt: '',
+                Pass: '',
+                Money: '',
+                PayPass: '',
+                Vcode: ''
             }
         },
         GetData: function () {
@@ -205,7 +215,7 @@ services.factory('ProfileService', ['$q', '$http', 'SecretKey', '$timeout', func
                 promise.then(null, fn);
                 return promise;
             };
-            if (key.length == 0 || phone.length == 0) {
+            if (SecretKey.Get().length == 0 || SecretKey.GetPhone().length == 0) {
                 delay.reject("error");
                 return promise;
             }
@@ -213,8 +223,8 @@ services.factory('ProfileService', ['$q', '$http', 'SecretKey', '$timeout', func
                 delay.reject('网络错误');
             }, 2000);
             $http.post(root_url + 'mydata', {
-                UserPhone: phone,
-                SecretKey: key
+                UserPhone: SecretKey.GetPhone(),
+                SecretKey: SecretKey.Get()
             }, postCfg).success(function (data) {
                 delay.resolve(data.data)
             }).error(function () {
@@ -238,12 +248,15 @@ services.factory('ProfileService', ['$q', '$http', 'SecretKey', '$timeout', func
                 return promise;
             }
             $http.post(root_url + 'changemydata', {
-                UserPhone:SecretKey.GetPhone(),
-                SecretKey:SecretKey.Get(),
-                NickName:data.NickName,
-                UserSex:data.UserSex
+                UserPhone: SecretKey.GetPhone(),
+                SecretKey: SecretKey.Get(),
+                NickName: data.NickNameCopy,
+                UserSex: data.UserSex
             }, postCfg).success(function (data) {
-                delay.resolve(data);
+                if (data.state == '1')
+                    delay.resolve(data);
+                else
+                    delay.reject(data.msg);
             }).error(function () {
                 delay.reject('Unable to Connect');
             });
@@ -262,13 +275,15 @@ services.factory('ProfileService', ['$q', '$http', 'SecretKey', '$timeout', func
                 return promise;
             };
             $http({
-                method: 'POST', url: root_url+'Userphoto', headers: {
+                method: 'POST',
+                url: root_url + 'Userphoto',
+                headers: {
                     'Content-Type': undefined
                 },
                 data: {
                     file: blob,
                     UserPhone: SecretKey.GetPhone(),
-                    SecretKey:SecretKey.Get()
+                    SecretKey: SecretKey.Get()
                 },
                 transformRequest: formDataObject
             }).success(function (data) {
@@ -277,13 +292,125 @@ services.factory('ProfileService', ['$q', '$http', 'SecretKey', '$timeout', func
                 delay.reject('上传失败，请稍后重试');
             });
             return promise;
+        },
+        Jwxt: function (form) {
+            var delay = $q.defer();
+            var promise = delay.promise;
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            };
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            };
+            if (form.Jwxt.length != 10 || form.Jwxt.length == 0) {
+                delay.reject('输入的学号有误');
+                return promise;
+            }
+            if (form.Pass.length == 0) {
+                delay.reject("请输入密码");
+                return promise;
+            }
+            $http.post(root_url + 'upjwxtservice', {
+                UserPhone: SecretKey.GetPhone(),
+                SecretKey: SecretKey.Get(),
+                JwxtNumber: form.Jwxt,
+                JwxtPassword: form.Pass
+            }, postCfg).success(function (data) {
+                if (data.state == '1')
+                    delay.resolve(data);
+                else
+                    delay.reject(data.msg);
+            }).error(function () {
+                delay.reject('Unable to Connect');
+            });
+            return promise;
+        },
+        Charge: function (form) {
+            var delay = $q.defer();
+            var promise = delay.promise;
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            };
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            };
+            if (form.Money.length == 0 || isNaN(form.Money)) {
+                delay.reject('请输入正确的数字');
+                return promise;
+            }
+            $http.post(root_url + 'recharge', {
+                UserPhone: SecretKey.GetPhone(),
+                SecretKey: SecretKey.Get(),
+                Money: form.Money
+            }, postCfg).success(function (data) {
+                if (data.state == '1') {
+                    delay.resolve();
+                }
+                else {
+                    delay.reject(data.msg);
+                }
+            }).error(function () {
+                delay.reject('Unable to Connect');
+            });
+            return promise;
+        },
+        GetVcode: function () {
+            var delay = $q.defer();
+            var promise = delay.promise;
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            };
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            };
+            $http.post(root_url + 'sendcheck', {
+                UserPhone: SecretKey.GetPhone(),
+                SecretKey: SecretKey.Get()
+            }, postCfg).error(function () {
+                delay.reject('验证手机号失败');
+            });
+            return promise;
+        },
+        CreatPay: function (form) {
+            var delay = $q.defer();
+            var promise = delay.promise;
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            };
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            };
+            $http.post(root_url + 'setpsw', {
+                UserPhone: SecretKey.GetPhone(),
+                SecretKey: SecretKey.Get(),
+                CheckCode: form.Vcode,
+                PayPassword: md5_s(form.PayPass)
+            }, postCfg).success(function (data) {
+                if (data.state == '1') {
+                    delay.resolve();
+                }
+                else {
+                    delay.reject(data.msg);
+                }
+            }).error(function () {
+                delay.reject('Unable to Connect');
+            });
+            return promise;
         }
     }
 }]);
 
 services.factory('FoodService', ['$q', '$http', '$timeout', function ($q, $http, $timeout) {
     return {
-        foodlist: function () {
+        foodlist: function (page) {
             var delay = $q.defer();
             var promise = delay.promise;
             promise.success = function (fn) {
@@ -297,12 +424,43 @@ services.factory('FoodService', ['$q', '$http', '$timeout', function ($q, $http,
             $timeout(function () {
                 delay.reject('网络错误');
             }, 3000);
-            $http.get(root_url + 'food?page=1').success(function (data) {
-                delay.resolve(data.fooddata);
+            $http.get(root_url + 'food?page='+page).success(function (data) {
+                if(data.num!=0)  delay.resolve(data);
+                else delay.reject('0');
             }).error(function () {
                 delay.reject('Unable to connect');
             });
             return promise;
+        },
+        SetPage: function () {
+            return {
+                Last:false,
+                Num:1,
+                Old:true
+            }
+        },
+        GetOtherData: function (UserId) {
+            var delay = $q.defer();
+            var promise = delay.promise;
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            };
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            };
+            $http.get(root_url+'data',{
+                params: {UserId:UserId}
+            } ).success(function (data) {
+                 delay.resolve(data);
+            }).error(function () {
+                delay.reject("Unable to Connect");
+            });
+            return promise;
+        },
+        Accept: function () {
+
         }
     }
 }]);

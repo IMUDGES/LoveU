@@ -376,3 +376,21 @@ img-crop canvas {
 .inline{
     display: inline;
 }
+.modal-header{
+    background-color: #48CFAD;
+    color: white;
+}
+.close{
+    color: white!important;
+}
+.modal-content ,.modal-footer{
+    background-color: white;
+}
+.tooltip{
+    background-color: #48CFAD!important;
+    color: white;
+}
+.tooltip-inner{
+    background-color: #48CFAD!important;
+    color: white;
+}

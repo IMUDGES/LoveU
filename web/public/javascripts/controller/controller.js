@@ -109,15 +109,17 @@ app.controller('RegCtrl', ['$scope', 'RegistService', '$rootScope', '$location',
 
         }
     }]);
-
 app.controller('ProfileCtrl', ['$scope', '$rootScope', 'data', 'ProfileService', function ($scope, $rootScope, data, ProfileService) {
     $scope.data = data;
     $rootScope.web = data.NickName + '的个人中心';
     data.NickNameCopy = data.NickName;
     $scope.msg = ProfileService.SetMsg();
+    $scope.form = ProfileService.SetForm();
     /*基础信息部分*/
     $scope.update = function () {
-        ProfileService.Update($scope.data);
+        ProfileService.Update($scope.data).error(function (msg) {
+            alert(msg);
+        })
     };
     $scope.ChangeAvatar = function () {
         $scope.msg.ifavatar = true;
@@ -149,14 +151,105 @@ app.controller('ProfileCtrl', ['$scope', '$rootScope', 'data', 'ProfileService',
     angular.element(document.querySelector('#fileInput')).on('change', handleFileSelect);
     /*教务系统部分*/
     $scope.jwxt = function () {
-
+        ProfileService.Jwxt($scope.form).success(function (data) {
+            location.reload();
+            $scope.data.isjwxt = true;
+        }).error(function (msg) {
+            $scope.msg.jwxt = msg;
+        })
     };
+    /*钱包部分*/
+    $scope.charge = function () {
+        ProfileService.Charge($scope.form).success(function () {
+            $scope.data.money = parseInt($scope.form.Money) + parseInt($scope.data.money);
+            $scope.form.Money = '';
+            $scope.msg.ifpay = false;
+        }).error(function (msg) {
+            $scope.msg.pay = msg;
+            $scope.msg.ifpay = true;
+        });
+    };
+    $scope.GetVcode = function () {
+        ProfileService.GetVcode();
+    };
+    $scope.SetPass = function () {
+        ProfileService.CreatPay($scope.form).success(function () {
+            location.reload();
+        }).error(function (msg) {
+            $scope.msg.pay = msg;
+            $scope.msg.ifpay = true;
+        });
+    }
 }]);
-app.controller('FoodCtrl', ['$scope', '$rootScope', 'foodlist', function ($scope, $rootScope, foodlist) {
+
+app.controller('FoodCtrl', ['$scope', '$rootScope', 'foodlist', 'FoodService', function ($scope, $rootScope, foodlist, FoodService) {
     $rootScope.web = 'LoveU - food';
-    $scope.list = foodlist;
+    $scope.list = foodlist.fooddata;
+    //翻页部分
+    $scope.page = FoodService.SetPage();
+    if(parseInt(foodlist.num)!=10){
+        $scope.page.Old=false;
+    }
+    $scope.ifpage = function (bool) {
+        if (bool) return 'btn-click';
+        else return 'btn-default';
+    };
+    $scope.ifLast = function () {
+        if ($scope.page.Last) return "更新的";
+        else return "已显示最新消息";
+    };
+    $scope.ifOld = function () {
+        if ($scope.page.Old) return "更早的";
+        else return "没有更多的消息了";
+    };
+    $scope.LastPage = function () {
+        if (parseInt($scope.page.Num)!=1) {
+            $scope.page.Num = parseInt($scope.page.Num) -1;
+            if(parseInt($scope.page.Num)==1){
+                $scope.page.Last=false;
+            }
+            FoodService.foodlist($scope.page.Num).success(function (data) {
+                $scope.list=data.fooddata;
+                $scope.page.Old=true;
+            });
+            $("html,body").animate({scrollTop:0},100);
+        }
+    };
+    $scope.OldPage = function () {
+        if ($scope.page.Old) {
+            $scope.page.Num = parseInt($scope.page.Num) +1;
+            FoodService.foodlist($scope.page.Num).success(function (data) {
+                $scope.page.Last=true;
+                $scope.list=data.fooddata;
+                if(parseInt(data.num)!=10){
+                    $scope.page.Old=false;
+                }
+            }).error(function (msg) {
+                alert(msg);
+            });
+            $("html,body").animate({scrollTop:0},100);
+        }
+    };
+
     $scope.accept = function (index) {
-        alert(foodlist[index].FoodId);
+        alert($scope.list[index].FoodId);
+    };
+    $scope.person={};
+    $scope.SexInfo= function (bool) {
+        if(bool==1) return "♂";
+        if(bool==2) return '♀';
+        else return 'Hiden';
+    };
+    $scope.more= function (index) {
+        FoodService.GetOtherData($scope.list[index].UserId).success(function (data) {
+            $scope.person=data.data;
+            $scope.data=$scope.list[index];
+            $('#myModal').modal('toggle');
+        });
+
+    }
+    $scope.accept= function () {
+        alert("sd");
     }
 }]);
 app.controller('RunCtrl', ['$scope', '$rootScope', 'runlist', function ($scope, $rootScope, runlist) {
@@ -252,7 +345,7 @@ app.config(['$routeProvider', function ($routeProvider, $scope) {
             templateUrl: 'views/food.html',
             resolve: {
                 foodlist: ['FoodService', '$location', function (FoodService, $location) {
-                    return FoodService.foodlist().success(function (data) {
+                    return FoodService.foodlist(1).success(function (data) {
                         return data;
                     }).error(function (status) {
                         alert(status);
