@@ -44,6 +44,12 @@ def sendpaiinformation():
      return jsonify(p.sendcomment())
 
 
+@app.route('/pai_detail', methods=['POST', 'GET'])
+def pai_detail():
+     p = paiservice()
+     return jsonify(p.thispai())
+
+
 #我发出的未过期的pai
 @app.route('/myissuepai_notoverdue', methods = ['POST', 'GET'])
 def myissuepai_notoverdue():

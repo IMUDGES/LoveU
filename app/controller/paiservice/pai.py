@@ -422,6 +422,41 @@ class paiservice():
             }
         return array
 
+    def thispai(self):
+        PaiId = int(request.args.get('PaiId'))
+        p = Pai.query.filter_by(PaiId=PaiId).first()
+        if p is not None:
+            d = data()
+            a =  d.GetOthersData(p.UserId)
+            array = {
+                'UserPhoto':a['UserPhoto'],
+                'NickName':a['NickName'],
+                'UserSex':a['UserSex'],
+                'PaiId': p.PaiId,
+                'PaiTitle': p.PaiTitle,
+                'UserId': p.UserId,
+                'PaiMoney': p.PaiMoney,
+                'UpTime': p.UpTime,
+                'PaiInformation': p.PaiInformation,
+                'PaiImage': p.PaiImage,
+                'DownTime': p.DownTime
+            }
+            state = '1'
+            msg = '成功'
+            ar = {
+                'stata':state,
+                'msg':msg
+            }
+            ar['paidata'] = array
+            return ar
+        else:
+            array = {
+                'state':'0',
+                'msg':'不存在此信息'
+            }
+            return array
+
+
 
 
 
