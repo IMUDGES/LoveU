@@ -205,12 +205,16 @@ class helpservice():
             else:
                 array = {
                     'msg': '请登录',
-                    'state': '0'
+                    'state': '0',
+                    'num': 0,
+                    'helpdata': []
                 }
         else:
             array = {
                 'msg': '请登录',
-                'state': '0'
+                'state': '0',
+                'num': 0,
+                'helpdata': []
             }
         return array
 

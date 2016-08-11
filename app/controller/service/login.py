@@ -18,6 +18,7 @@ def dologin():
         msg = '用户不存在'
         state = '0'
         SecretKey = None
+        UserPhoto = None
     else:
         m = PassWord.encode('utf-8')
         password = hashlib.md5()
@@ -33,14 +34,17 @@ def dologin():
             S = Secretkey()
             SecretKey = S.GetSecretKey()
             u.SecretKey = SecretKey
+            UserPhoto = u.UserPhoto
         else:
             msg = '账号或密码错误'
             state = '0'
             SecretKey = None
+            UserPhoto = None
     array = {
         'msg': msg,
         'state' : state,
         'SecretKey': SecretKey,
-        'token':token
+        'token':token,
+        'UserPhoto':UserPhoto
     }
     return array

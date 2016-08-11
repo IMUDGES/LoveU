@@ -97,7 +97,7 @@ class JwxtService(object):
         array = content.decode('gbk')
         array = eval(str(array))
         user.TrueName = array['name']
-        user.UserGrade = array['className'][4]+array['className'][5]
+        user.UserGrade = array['className'][4]+array['className'][5]+array['className'][6]
         user.UserMajor = array['profession']
         if array['sex'] == '男':
             User.UserSex = 1
