@@ -322,36 +322,48 @@ class paiservice():
                 if p is not None:
                     array = {
                         'msg': '成功',
-                        'state': '1'
+                        'state': '1',
+                        'num':len(p)
                     }
                     list1 = []
+                    d = data()
                     for i in range(0, len(p)):
+                        a = d.GetOthersData(p[i].UserId)
                         array1 = {
-                            'FoodId': p[i].FoodId,
+                            'UserPhoto': a['UserPhoto'],
+                            'NickName': a['NickName'],
+                            'UserSex': a['UserSex'],
+                            'PaiId': p[i].PaiId,
+                            'PaiTitle': p[i].PaiTitle,
                             'UserId': p[i].UserId,
-                            'FoodArea': p[i].FoodArea,
-                            'FoodInformation': p[i].FoodInformation,
-                            'GetUser': p[i].GetUser,
-                            'FoodTime': p[i].FoodTime,
-                            'FoodWay': p[i].FoodWay,
-                            'State': p[i].State
+                            'PaiMoney': p[i].PaiMoney,
+                            'UpTime': p[i].UpTime,
+                            'PaiInformation': p[i].PaiInformation,
+                            'PaiImage': p[i].PaiImage,
+                            'DownTime': p[i].DownTime
                         }
                         list1.append(array1)
-                    array['data'] = list1
+                    array['paidata'] = list1
                 else:
                     array = {
                         'msg': '信息为空',
-                        'state': '0'
+                        'state': '0',
+                        'num': 0,
+                        'paidata': []
                     }
             else:
                 array = {
                     'msg': '请登录',
-                    'state': '0'
+                    'state': '0',
+                    'num':0,
+                    'paidata': []
                 }
         else:
             array = {
                 'msg': '请登录',
-                'state': '0'
+                'state': '0',
+                'num': 0,
+                'paidata': []
             }
         return array
 
@@ -365,36 +377,48 @@ class paiservice():
                 if p is not None:
                     array = {
                         'msg': '成功',
-                        'state': '1'
+                        'state': '1',
+                        'num':len(p)
                     }
                     list1 = []
+                    d = data()
                     for i in range(0, len(p)):
+                        a = d.GetOthersData(p[i].UserId)
                         array1 = {
-                            'FoodId': p[i].FoodId,
+                            'UserPhoto': a['UserPhoto'],
+                            'NickName': a['NickName'],
+                            'UserSex': a['UserSex'],
+                            'PaiId': p[i].PaiId,
+                            'PaiTitle': p[i].PaiTitle,
                             'UserId': p[i].UserId,
-                            'FoodArea': p[i].FoodArea,
-                            'FoodInformation': p[i].FoodInformation,
-                            'GetUser': p[i].GetUser,
-                            'FoodTime': p[i].FoodTime,
-                            'FoodWay': p[i].FoodWay,
-                            'State': p[i].State
+                            'PaiMoney': p[i].PaiMoney,
+                            'UpTime': p[i].UpTime,
+                            'PaiInformation': p[i].PaiInformation,
+                            'PaiImage': p[i].PaiImage,
+                            'DownTime': p[i].DownTime
                         }
                         list1.append(array1)
-                    array['data'] = list1
+                    array['paidata'] = list1
                 else:
                     array = {
                         'msg': '信息为空',
-                        'state': '0'
+                        'state': '0',
+                        'num': 0,
+                        'paidata': []
                     }
             else:
                 array = {
                     'msg': '请登录',
-                    'state': '0'
+                    'state': '0',
+                    'num':0,
+                    'paidata': []
                 }
         else:
             array = {
                 'msg': '请登录',
-                'state': '0'
+                'state': '0',
+                'num': 0,
+                'paidata': []
             }
         return array
 

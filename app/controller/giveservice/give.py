@@ -69,8 +69,8 @@ class giveservice():
                     'CommentInformation':g[i].CommentInformation
                 }
                 list1.append(array1)
-            array['givecommentdata'] = list1
-            return list1
+            array['giveCommentModels'] = list1
+            return array
         else:
             array = {
                 'msg':'当前没有评论，赶紧抢占沙发吧！',
@@ -310,11 +310,17 @@ class giveservice():
                 if len(p)>0:
                     array = {
                         'msg': '成功',
-                        'state': '1'
+                        'state': '1',
+                        'num':len(p)
                     }
                     list1 = []
+                    d = data()
                     for i in range(0, len(p)):
+                        a = d.GetOthersData(p[i].UserId)
                         array1 = {
+                            'UserPhoto': a['UserPhoto'],
+                            'NickName': a['NickName'],
+                            'UserSex': a['UserSex'],
                             'GiveId': p[i].GiveId,
                             'UserId': p[i].UserId,
                             'GiveInformation': p[i].GiveInformation,
@@ -322,21 +328,27 @@ class giveservice():
                             'State': p[i].State
                         }
                         list1.append(array1)
-                    array['data'] = list1
+                    array['givedata'] = list1
                 else:
                     array = {
                         'msg': '没有信息',
-                        'state': '0'
+                        'state': '0',
+                        'num': 0,
+                        'data': []
                     }
             else:
                 array = {
                     'msg': '请登录',
-                    'state': '0'
+                    'state': '0',
+                    'num':0,
+                    'data': []
                 }
         else:
             array = {
                 'msg': '请登录',
-                'state': '0'
+                'state': '0',
+                'num': 0,
+                'data': []
             }
         return array
 
@@ -350,11 +362,17 @@ class giveservice():
                 if len(p)>0:
                     array = {
                         'msg': '成功',
-                        'state': '1'
+                        'state': '1',
+                        'num':len(p)
                     }
                     list1 = []
+                    d = data()
                     for i in range(0, len(p)):
+                        a = d.GetOthersData(p[i].UserId)
                         array1 = {
+                            'UserPhoto': a['UserPhoto'],
+                            'NickName': a['NickName'],
+                            'UserSex': a['UserSex'],
                             'GiveId': p[i].GiveId,
                             'UserId': p[i].UserId,
                             'GiveInformation': p[i].GiveInformation,
@@ -362,21 +380,27 @@ class giveservice():
                             'State': p[i].State
                         }
                         list1.append(array1)
-                    array['data'] = list1
+                    array['givedata'] = list1
                 else:
                     array = {
                         'msg': '没有信息',
-                        'state': '0'
+                        'state': '0',
+                        'num': 0,
+                        'givedata': []
                     }
             else:
                 array = {
                     'msg': '请登录',
-                    'state': '0'
+                    'state': '0',
+                    'num':0,
+                    'givedata': []
                 }
         else:
             array = {
                 'msg': '请登录',
-                'state': '0'
+                'state': '0',
+                'num': 0,
+                'givedata': []
             }
         return array
 

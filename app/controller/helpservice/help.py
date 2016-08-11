@@ -173,11 +173,17 @@ class helpservice():
                 if len(p)>0:
                     array = {
                         'msg': '成功',
-                        'state': '1'
+                        'state': '1',
+                        'num':len(p)
                     }
                     list1 = []
+                    d = data()
                     for i in range(0, len(p)):
+                        a = d.GetOthersData(p[i].UserId)
                         array1 = {
+                            'UserPhoto': a['UserPhoto'],
+                            'NickName': a['NickName'],
+                            'UserSex': a['UserSex'],
                             'HelpId': p[i].HelpId,
                             'UserId': p[i].UserId,
                             'HelpMoney': p[i].HelpMoney,
@@ -188,11 +194,13 @@ class helpservice():
                             'State': p[i].State
                         }
                         list1.append(array1)
-                        array['data'] = list1
+                        array['helpdata'] = list1
                 else:
                     array = {
                         'msg': '没有信息',
-                        'state': '0'
+                        'state': '0',
+                        'num': 0,
+                        'helpdata': []
                     }
             else:
                 array = {
@@ -216,11 +224,18 @@ class helpservice():
                 if len(p)>0:
                     array = {
                         'msg': '成功',
-                        'state': '1'
+                        'state': '1',
+                        'num': len(p),
+                        'helpdata': []
                     }
                     list1 = []
+                    d = data()
                     for i in range(0, len(p)):
+                        a = d.GetOthersData(p[i].UserId)
                         array1 = {
+                            'UserPhoto': a['UserPhoto'],
+                            'NickName': a['NickName'],
+                            'UserSex': a['UserSex'],
                             'HelpId': p[i].HelpId,
                             'UserId': p[i].UserId,
                             'HelpMoney': p[i].HelpMoney,
@@ -231,21 +246,27 @@ class helpservice():
                             'State': p[i].State
                         }
                         list1.append(array1)
-                        array['data'] = list1
+                        array['helpdata'] = list1
                 else:
                     array = {
                         'msg': '没有信息',
-                        'state': '0'
+                        'state': '0',
+                        'num': 0,
+                        'helpdata': []
                     }
             else:
                 array = {
                     'msg': '请登录',
-                    'state': '0'
+                    'state': '0',
+                    'num':0,
+                    'helpdata': []
                 }
         else:
             array = {
                 'msg': '请登录',
-                'state': '0'
+                'state': '0',
+                'num': 0,
+                'helpdata': []
             }
         return array
 

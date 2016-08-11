@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from flask import jsonify
+from flask import jsonify, request
 from app import app
 from app.controller.giveservice.give import giveservice
 
@@ -48,26 +48,34 @@ def select():
 #我发出的未过期的give
 @app.route('/myissuegive_notoverdue', methods = ['POST', 'GET'])
 def myissuegive_notoverdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     g = giveservice()
-    return jsonify(g.my_issuegive(1))
+    return jsonify(g.my_issuegive(1,UserPhone,SecretKey))
 
 
 #我发出的过期的give
 @app.route('/myissuegive_overdue', methods = ['POST', 'GET'])
 def myissuegive_overdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     g = giveservice()
-    return jsonify(g.my_issuegive(0))
+    return jsonify(g.my_issuegive(0,UserPhone,SecretKey))
 
 
 #我接受的未过期的give
 @app.route('/mygetgive_notoverdue', methods = ['POST', 'GET'])
 def mygetgive_notoverdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     g = giveservice()
-    return jsonify(g.my_getgive(1))
+    return jsonify(g.my_getgive(1,UserPhone,SecretKey))
 
 
 #我接受的过期的give
 @app.route('/mygetgive_overdue', methods = ['POST', 'GET'])
 def mygetgive_overdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     g = giveservice()
-    return jsonify(g.my_getgive(0))
+    return jsonify(g.my_getgive(0,UserPhone,SecretKey))

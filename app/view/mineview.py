@@ -5,9 +5,18 @@ from app import app
 from flask import request
 
 
-@app.route('/mine')
+@app.route('/myissue')
 def MINEDATA():
-    UserPhone = request.form.get('UserPhone')
-    SecretKey = request.form.get('SecretKey')
-    return jsonify(mine(UserPhone,SecretKey))
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
+    a,a1 = mine(UserPhone, SecretKey)
+    return jsonify(a)
+
+
+@app.route('/myget')
+def MINEDATA1():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
+    a, a1 = mine(UserPhone, SecretKey)
+    return jsonify(a1)
 

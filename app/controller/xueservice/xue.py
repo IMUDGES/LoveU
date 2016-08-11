@@ -155,11 +155,17 @@ class xueservice():
                 if len(p)>0:
                     array = {
                         'msg': '成功',
-                        'state': '1'
+                        'state': '1',
+                        'num':len(p)
                     }
                     list1 = []
+                    d = data()
                     for i in range(0, len(p)):
+                        a = d.GetOthersData(p[i].UserId)
                         array1 = {
+                            'UserPhoto': a['UserPhoto'],
+                            'NickName': a['NickName'],
+                            'UserSex': a['UserSex'],
                             'XueId': p[i].XueId,
                             'UserId': p[i].UserId,
                             'XueArea': p[i].XueArea,
@@ -169,21 +175,27 @@ class xueservice():
                             'State': p[i].State
                         }
                         list1.append(array1)
-                    array['data'] = list1
+                    array['xuedata'] = list1
                 else:
                     array = {
                         'msg': '信息为空',
-                        'state': '0'
+                        'state': '0',
+                        'num': 0,
+                        'xuedata': []
                     }
             else:
                 array = {
                     'msg': '请登录',
-                    'state': '0'
+                    'state': '0',
+                'num':0,
+                'xuedata': []
                 }
         else:
             array = {
                 'msg': '请登录',
-                'state': '0'
+                'state': '0',
+                'num': 0,
+                'xuedata': []
             }
         return array
 
@@ -197,11 +209,17 @@ class xueservice():
                 if len(p) > 0:
                     array = {
                         'msg': '成功',
-                        'state': '1'
+                        'state': '1',
+                        'num':len(p)
                     }
                     list1 = []
+                    d = data()
                     for i in range(0, len(p)):
+                        a = d.GetOthersData(p[i].UserId)
                         array1 = {
+                            'UserPhoto': a['UserPhoto'],
+                            'NickName': a['NickName'],
+                            'UserSex': a['UserSex'],
                             'XueId': p[i].XueId,
                             'UserId': p[i].UserId,
                             'XueArea': p[i].XueArea,
@@ -211,21 +229,27 @@ class xueservice():
                             'State': p[i].State
                         }
                         list1.append(array1)
-                    array['data'] = list1
+                    array['xuedata'] = list1
                 else:
                     array = {
                         'msg': '信息为空',
-                        'state': '0'
+                        'state': '0',
+                        'num': 0,
+                        'xuedata': []
                     }
             else:
                 array = {
                     'msg': '请登录',
-                    'state': '0'
+                    'state': '0',
+                    'num':0,
+                    'xuedata': []
                 }
         else:
             array = {
                 'msg': '请登录',
-                'state': '0'
+                'state': '0',
+                'num': 0,
+                'xuedata': []
             }
         return array
 

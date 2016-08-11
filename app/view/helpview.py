@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from flask import jsonify
+from flask import jsonify, request
 from app import app
 from app.controller.helpservice.help import helpservice
 
@@ -44,27 +44,35 @@ def confirm():
 #我发出的未过期的help
 @app.route('/myissuehelp_notoverdue', methods = ['POST', 'GET'])
 def myissuehelp_notoverdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     h = helpservice()
-    return jsonify(h.my_issuehelp(1))
+    return jsonify(h.my_issuehelp(1,UserPhone,SecretKey))
 
 
 #我发出的过期的help
 @app.route('/myissuehelp_overdue', methods = ['POST', 'GET'])
 def myissuehelp_overdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     h = helpservice()
-    return jsonify(h.my_issuehelp(0))
+    return jsonify(h.my_issuehelp(0,UserPhone,SecretKey))
 
 
 #我接受的未过期的help
 @app.route('/mygethelp_notoverdue', methods = ['POST', 'GET'])
 def mygethelp_notoverdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     h = helpservice()
-    return jsonify(h.my_gethelp(1))
+    return jsonify(h.my_gethelp(1,UserPhone,SecretKey))
 
 
 #我接受的过期的help
 @app.route('/mygethelp_overdue', methods = ['POST', 'GET'])
 def mygethelp_overdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     h = helpservice()
-    return jsonify(h.my_gethelp(0))
+    return jsonify(h.my_gethelp(0,UserPhone,SecretKey))
 #结束

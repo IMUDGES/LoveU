@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from flask import jsonify
+from flask import jsonify,request
 from app import app
 from app.controller.runservice.run import runservice
 
@@ -50,27 +50,35 @@ def refuserun():
 #我发出的未过期的run
 @app.route('/myissuerun_notoverdue', methods = ['POST', 'GET'])
 def myissuerun_notoverdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     r = runservice()
-    return jsonify(r.my_issuerun(1))
+    return jsonify(r.my_issuerun(1,UserPhone,SecretKey))
 
 
 #我发出的过期的run
 @app.route('/myissuerun_overdue', methods = ['POST', 'GET'])
 def myissuerun_overdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     r = runservice()
-    return jsonify(r.my_issuerun(0))
+    return jsonify(r.my_issuerun(0,UserPhone,SecretKey))
 
 
 #我接受的未过期的run
 @app.route('/mygetrun_notoverdue', methods = ['POST', 'GET'])
 def mygetrun_notoverdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     r = runservice()
-    return jsonify(r.my_getrun(1))
+    return jsonify(r.my_getrun(1,UserPhone,SecretKey))
 
 
 #我接受的过期的run
 @app.route('/mygetrun_overdue', methods = ['POST', 'GET'])
 def mygetrun_overdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     r = runservice()
-    return jsonify(r.my_getrun(0))
+    return jsonify(r.my_getrun(0,UserPhone,SecretKey))
 #run模块结束---------------------------------------------------run模块结束

@@ -167,11 +167,17 @@ class foodservice():
                 if len(p)>0:
                     array = {
                         'msg' : '成功',
-                        'state' : '1'
+                        'state' : '1',
+                        'num':len(p)
                     }
                     list1 = []
-                    for i in range(0,len(p)):
+                    d = data()
+                    for i in range(0, len(p)):
+                        a = d.GetOthersData(p[i].UserId)
                         array1 = {
+                            'UserPhoto': a['UserPhoto'],
+                            'NickName': a['NickName'],
+                            'UserSex': a['UserSex'],
                             'FoodId': p[i].FoodId,
                             'UserId': p[i].UserId,
                             'FoodArea': p[i].FoodArea,
@@ -182,21 +188,27 @@ class foodservice():
                             'State': p[i].State
                         }
                         list1.append(array1)
-                    array['data'] = list1
+                    array['fooddata'] = list1
                 else:
                     array = {
                         'msg': '没有信息',
-                        'state': '0'
+                        'state': '0',
+                        'num':0,
+                        'fooddata':[]
                     }
             else:
                 array = {
                     'msg': '请登录',
-                    'state': '0'
+                    'state': '0',
+                    'num':0,
+                    'fooddata':[]
                 }
         else:
             array = {
                 'msg': '请登录',
-                'state': '0'
+                'state': '0',
+                'num':0,
+                'fooddata': []
             }
         return array
 
@@ -210,11 +222,17 @@ class foodservice():
                 if len(p)>0:
                     array = {
                         'msg': '成功',
-                        'state': '1'
+                        'state': '1',
+                        'num':len(p)
                     }
                     list1 = []
+                    d = data()
                     for i in range(0, len(p)):
+                        a = d.GetOthersData(p[i].UserId)
                         array1 = {
+                            'UserPhoto': a['UserPhoto'],
+                            'NickName': a['NickName'],
+                            'UserSex': a['UserSex'],
                             'FoodId': p[i].FoodId,
                             'UserId': p[i].UserId,
                             'FoodArea': p[i].FoodArea,
@@ -225,21 +243,27 @@ class foodservice():
                             'State': p[i].State
                         }
                         list1.append(array1)
-                    array['data'] = list1
+                    array['fooddata'] = list1
                 else:
                     array = {
                         'msg': '没有信息',
-                        'state': '0'
+                        'state': '0',
+                        'num': 0,
+                        'fooddata': []
                     }
             else:
                 array = {
                     'msg': '请登录',
-                    'state': '0'
+                    'state': '0',
+                    'num':0,
+                    'fooddata': []
                 }
         else:
             array = {
                 'msg': '请登录',
-                'state': '0'
+                'state': '0',
+                'num': 0,
+                'fooddata': []
             }
         return array
 

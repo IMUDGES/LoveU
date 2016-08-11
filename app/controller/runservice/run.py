@@ -159,11 +159,17 @@ class runservice():
                 if len(p)>0:
                     array = {
                         'msg': '成功',
-                        'state': '1'
+                        'state': '1',
+                        'num':len(p)
                     }
                     list1 = []
+                    d = data()
                     for i in range(0, len(p)):
+                        a = d.GetOthersData(p[i].UserId)
                         array1 = {
+                            'UserPhoto': a['UserPhoto'],
+                            'NickName': a['NickName'],
+                            'UserSex': a['UserSex'],
                             'RunId': p[i].RunId,
                             'UserId': p[i].UserId,
                             'RunArea': p[i].RunArea,
@@ -173,21 +179,27 @@ class runservice():
                             'State': p[i].State
                         }
                         list1.append(array1)
-                        array['data'] = list1
+                        array['rundata'] = list1
                 else:
                     array = {
                         'msg': '信息为空',
-                        'state': '0'
+                        'state': '0',
+                        'num': 0,
+                        'rundata': []
                     }
             else:
                 array = {
                     'msg': '请登录',
-                    'state': '0'
+                    'state': '0',
+                    'num':0,
+                    'rundata': []
                 }
         else:
             array = {
                 'msg': '请登录',
-                'state': '0'
+                'state': '0',
+                'num': 0,
+                'rundata': []
             }
         return array
 
@@ -201,11 +213,17 @@ class runservice():
                 if len(p) > 0:
                     array = {
                         'msg': '成功',
-                        'state': '1'
+                        'state': '1',
+                        'num':len(p)
                     }
                     list1 = []
+                    d = data()
                     for i in range(0, len(p)):
+                        a = d.GetOthersData(p[i].UserId)
                         array1 = {
+                            'UserPhoto': a['UserPhoto'],
+                            'NickName': a['NickName'],
+                            'UserSex': a['UserSex'],
                             'RunId': p[i].RunId,
                             'UserId': p[i].UserId,
                             'RunArea': p[i].RunArea,
@@ -215,21 +233,27 @@ class runservice():
                             'State': p[i].State
                         }
                         list1.append(array1)
-                        array['data'] = list1
+                        array['rundata'] = list1
                 else:
                     array = {
                         'msg': '信息为空',
-                        'state': '0'
+                        'state': '0',
+                        'num': 0,
+                        'rundata': []
                     }
             else:
                 array = {
                     'msg': '请登录',
-                    'state': '0'
+                    'state': '0',
+                    'num':0,
+                    'rundata': []
                 }
         else:
             array = {
                 'msg': '请登录',
-                'state': '0'
+                'state': '0',
+                'num': 0,
+                'rundata': []
             }
         return array
 

@@ -1,5 +1,5 @@
 # -*- coding:utf-8 -*-
-from flask import jsonify
+from flask import jsonify, request
 from app import app
 from app.controller.paiservice.pai import paiservice
 
@@ -47,26 +47,34 @@ def sendpaiinformation():
 #我发出的未过期的pai
 @app.route('/myissuepai_notoverdue', methods = ['POST', 'GET'])
 def myissuepai_notoverdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     p = paiservice()
-    return jsonify(p.my_issuepai(1))
+    return jsonify(p.my_issuepai(1,UserPhone,SecretKey))
 
 
 #我发出的过期的pai
 @app.route('/myissuepai_overdue', methods = ['POST', 'GET'])
 def myissuepai_overdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     p = paiservice()
-    return jsonify(p.my_issuepai(0))
+    return jsonify(p.my_issuepai(0,UserPhone,SecretKey))
 
 
 #我接受的未过期的pai
 @app.route('/mygetpai_notoverdue', methods = ['POST', 'GET'])
 def mygetpai_notoverdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     p = paiservice()
-    return jsonify(p.my_getpai(1))
+    return jsonify(p.my_getpai(1,UserPhone,SecretKey))
 
 
 #我接受的过期的pai
 @app.route('/mygetpai_overdue', methods = ['POST', 'GET'])
 def mygetpai_overdue():
+    UserPhone = request.args.get('UserPhone')
+    SecretKey = request.args.get('SecretKey')
     p = paiservice()
-    return jsonify(p.my_getpai(0))
+    return jsonify(p.my_getpai(0,UserPhone,SecretKey))
