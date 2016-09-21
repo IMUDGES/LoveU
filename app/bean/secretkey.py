@@ -12,3 +12,4 @@ class Secretkey():
         str4 = str3.encode('utf-8')
         psw = encrypt(str4)
         return psw
+

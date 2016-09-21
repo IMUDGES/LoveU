@@ -3,6 +3,7 @@ from flask import jsonify, request
 from app import app
 from app.controller.service.nickname import Nickname
 from app.controller.jwxtservice.upjwxtservice import upjwxtService
+from app.controller.jwxtservice.downclass import Downclass
 
 
 @app.route('/changemydata', methods = ['POST', 'GET'])
@@ -14,7 +15,6 @@ def nickname():
     NickName = form.get('NickName')
     UserSex = form.get('UserSex')
     return jsonify(nicknameq.change(UserPhone, SecretKey, NickName,UserSex))
-
 
 @app.route('/upjwxtservice', methods = ['POST', 'GET'])
 def upjwxtservice():
@@ -32,6 +32,6 @@ def downclass():
     form = request.form
     UserPhone = form.get('UserPhone')
     Secretkey = form.get('SecretKey')
-    JwxtNumber = form.get('JwxtNumber')
-    JwxtPassword = form.get('JwxtPassword')
-    return "未完成"
+    downclassinfo = Downclass()
+    n = downclassinfo.downclass(UserPhone,Secretkey)
+    return jsonify(n)

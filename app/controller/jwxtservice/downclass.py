@@ -1,4 +1,6 @@
 # -*- coding:utf-8 -*-
+from flask import jsonify, request
+from app import app
 from app.controller.jwxtservice.jwxtservice import JwxtService
 from app.db import db, Class, User
 
@@ -9,11 +11,16 @@ class Downclass(object):
         if user.SecretKey == secretkey:
             classinfo = Class.query.filter_by(UserId=user.UserId).all()
             print(classinfo)
+            classinfojson = []
+            for q in classinfo:
+                w = jsonify(q)
+                classinfojson.append(w)
             msg = "成功！"
             state = 1
             array = [{
                 'state': state,
-                'msg': msg
+                'msg': msg,
+                'data': classinfojson,
             }]
             return array
         else:
@@ -24,6 +31,3 @@ class Downclass(object):
                 'msg': msg
             }
             return array
-
-downclass = Downclass()
-downclass.downclass("11111111114", "61f70c29fda751350de97e7b92163de4")

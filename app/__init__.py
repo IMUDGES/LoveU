@@ -5,6 +5,7 @@ app = Flask(__name__)
 CORS(app)
 app.config['Access-Control-Allow-Origin'] = 'http://183.175.12.157/'
 app.config['UPLOAD_FOLDER'] = 'static/'
+
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
 from app.view import views
 from app.view import foodview, views
