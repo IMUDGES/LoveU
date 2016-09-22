@@ -1,44 +1,73 @@
 # -*- coding:utf-8 -*-
 import httplib2
-from app.db import db, Class, User, Jwxt
-import json
+from app.db import db, Class, User, Jwxt, Choice
 
 
 class JwxtService(object):
     # 教务系统账号，教务系统密码，课程号，课序号
-    def chooseClass(self, JwxtNumber, JwxtPassword, ClassNumber, ClassOrder):
-        if ClassOrder < 10:
-            ClassOrder = '0' + str(ClassOrder)
+    def chooseClass(self, UserPhone, SecretKey, ClassNumber, ClassOrder):
+        u = User.query.filter_by(UserPhone=UserPhone, SecretKey=SecretKey).first()
+        if u is None:
+            msg = '请登录'
+            state = '0'
         else:
-            ClassOrder = str(ClassOrder)
-        h = httplib2.Http()
-        headers = {
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-            "Accept-Encoding": "gzip, deflate",
-            "Accept-Language": "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3",
-            "Connection": "keep-alive",
-            "Host": "jwxt.imu.edu.cn",
-            "Referer": "http://jwxt.imu.edu.cn/logout.do",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0",
+            j = Jwxt.query.filter_by(UserId=u.UserId).first()
+            if j is None:
+                msg = '请完善教务系统信息'
+                state = '0'
+            else:
+                UserId = u.UserId
+                if Choice.query.filter_by(UserId=UserId, State=0) is not None:
+                    msg = '您已预订了一门课程'
+                    state = '0'
+                else:
+                    c = Choice()
+                    c.UserId = UserId
+                    c.JwxtNumber = j.JwxtNumber
+                    c.JwxtPassword = j.JwxtPassword
+                    c.ClassNumber = ClassNumber
+                    c.ClassOrder = ClassOrder
+                    db.session.add(c)
+                    db.session.commit()
+                    msg = '成功'
+                    state = '1'
+        array = {
+            'msg': msg,
+            'state': state
         }
-        resp, content = h.request("http://jwxt.imu.edu.cn/loginAction.do?zjh=" + JwxtNumber + "&mm=" + JwxtPassword,
-                                  "GET", headers=headers)
-        print(resp)
-        cookie = resp['set-cookie'].replace('; path=/', "")
-        headers['Cookie'] = cookie
-        resp2, content2 = h.request("http://jwxt.imu.edu.cn/xkAction.do?actionType=6", "GET", headers=headers)
-        resp3, content3 = h.request("http://jwxt.imu.edu.cn/xkAction.do?actionType=-1&fajhh=32874", "GET",
-                                    headers=headers)
-        resp4, content4 = h.request("http://jwxt.imu.edu.cn/xkAction.do?actionType=2&pageNumber=-1&oper1=ori", "GET",
-                                    headers=headers)
-        resp5, content5 = h.request(
-            "http://jwxt.imu.edu.cn/xkAction.do?jhxn=&kcsxdm=&kch=" + ClassNumber + "&cxkxh=&actionType=2&oper2=gl&pageNumber=-1",
-            "GET", headers=headers)
-        resp6, content6 = h.request(
-            "http://jwxt.imu.edu.cn/xkAction.do?kcId=" + ClassNumber + "_" + ClassOrder + "&preActionType=2&actionType=9",
-            "GET", headers=headers)
-        print(content6.decode('gb2312'))
+        return array
+        # if ClassOrder < 10:
+        #     ClassOrder = '0' + str(ClassOrder)
+        # else:
+        #     ClassOrder = str(ClassOrder)
+        # h = httplib2.Http()
+        # headers = {
+        #     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        #     "Accept-Encoding": "gzip, deflate",
+        #     "Accept-Language": "zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3",
+        #     "Connection": "keep-alive",
+        #     "Host": "jwxt.imu.edu.cn",
+        #     "Referer": "http://jwxt.imu.edu.cn/logout.do",
+        #     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64; rv:47.0) Gecko/20100101 Firefox/47.0",
+        # }
+        # resp, content = h.request("http://jwxt.imu.edu.cn/loginAction.do?zjh=" + JwxtNumber + "&mm=" + JwxtPassword,
+        #                           "GET", headers=headers)
         # print(resp)
+        # cookie = resp['set-cookie'].replace('; path=/', "")
+        # headers['Cookie'] = cookie
+        # resp2, content2 = h.request("http://jwxt.imu.edu.cn/xkAction.do?actionType=6", "GET", headers=headers)
+        # resp3, content3 = h.request("http://jwxt.imu.edu.cn/xkAction.do?actionType=-1&fajhh=32874", "GET",
+        #                             headers=headers)
+        # resp4, content4 = h.request("http://jwxt.imu.edu.cn/xkAction.do?actionType=2&pageNumber=-1&oper1=ori", "GET",
+        #                             headers=headers)
+        # resp5, content5 = h.request(
+        #     "http://jwxt.imu.edu.cn/xkAction.do?jhxn=&kcsxdm=&kch=" + ClassNumber + "&cxkxh=&actionType=2&oper2=gl&pageNumber=-1",
+        #     "GET", headers=headers)
+        # resp6, content6 = h.request(
+        #     "http://jwxt.imu.edu.cn/xkAction.do?kcId=" + ClassNumber + "_" + ClassOrder + "&preActionType=2&actionType=9",
+        #     "GET", headers=headers)
+        # print(content6.decode('gb2312'))
+        # # print(resp)
 
     def loginService(self, jwxtnumber, jwxtpassword):
         url = "http://183.175.14.250:8080/JwxtInterface/check.html?zjh=" + jwxtnumber + "&mm=" + jwxtpassword
@@ -90,6 +119,7 @@ class JwxtService(object):
             q = q + 1
 
     def inforService(self, jwxtnumber, userid):
+
         url = "http://183.175.14.250:8080/JwxtInterface/info.html?zjh=" + jwxtnumber
         conn = httplib2.Http()
         resp, content = conn.request(url, "GET")

@@ -46,12 +46,17 @@ class moneyservice():
                 if CheckCode:
                     c = Checkcode.query.order_by(-Checkcode.CheckId).filter_by(UserPhone = UserPhone, CheckCode = CheckCode).first()
                     if c is not None:
-                        m = Money()
-                        m.UserId = UserId
-                        m.Money = 0
-                        m.PayPassword = encrypt(form.get('PayPassword').encode('utf-8'))
-                        db.session.add(m)
-                        db.session.commit()
+                        mn = Money.query.filter_by(UserId=UserId).first()
+                        if mn is None:
+                            m = Money()
+                            m.UserId = UserId
+                            m.Money = 0
+                            m.PayPassword = encrypt(form.get('PayPassword').encode('utf-8'))
+                            db.session.add(m)
+                            db.session.commit()
+                        else:
+                            mn.PayPassword = encrypt(form.get('PayPassword').encode('utf-8'))
+                            db.session.commit()
                         msg = '设置成功'
                         state = '1'
                     else:

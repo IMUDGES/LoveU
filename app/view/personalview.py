@@ -3,6 +3,7 @@ from flask import jsonify, request
 from app import app
 from app.controller.service.nickname import Nickname
 from app.controller.jwxtservice.upjwxtservice import upjwxtService
+from app.controller.jwxtservice.jwxtservice import JwxtService
 from app.controller.jwxtservice.downclass import Downclass
 
 
@@ -35,3 +36,15 @@ def downclass():
     downclassinfo = Downclass()
     n = downclassinfo.downclass(UserPhone,Secretkey)
     return jsonify(n)
+
+
+@app.route('/selectclass', methods=['POST', 'GET'])
+def selectclass():
+    form = request.form
+    UserPhone = form.get('UserPhone')
+    Secretkey = form.get('SecretKey')
+    ClassNumber = form.get('ClassNumber')
+    ClassOrder = form.get('ClassOrder')
+    j = JwxtService()
+    return jsonify(j.chooseClass(UserPhone, Secretkey, ClassNumber, ClassOrder))
+

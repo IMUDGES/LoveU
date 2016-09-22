@@ -200,5 +200,15 @@ class Refuse(db.Model):
         return '<User %r>' % self.UserId
 
 
+class Choice(db.Model):
+    ChoiceId = db.Column(db.Integer, primary_key=True)
+    UserId = db.Column(db.Integer)
+    ClassNumber = db.Column(db.String)
+    ClassOrder = db.Column(db.String)
+    State = db.Column(db.Integer)
+    JwxtNumber = db.Column(db.String)
+    JwxtPassword = db.Column(db.String)
+
+
 if __name__ == '__main__':
     manager.run()

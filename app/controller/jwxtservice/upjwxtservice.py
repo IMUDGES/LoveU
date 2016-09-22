@@ -17,7 +17,7 @@ class upjwxtService(object):
                     jwxtservice.classupdataService(jwxtnumber,jwxtpassword,user.UserId)
                 else:
                     jwxtservice.classService(jwxtnumber, jwxtpassword,user.UserId)
-                jwxtservice.inforService(jwxtnumber, user.UserId)
+                # jwxtservice.inforService(jwxtnumber, user.UserId)
                 jwxt = Jwxt()
                 jwxtinfo = jwxt.query.filter_by(UserId=user.UserId).first()
                 if jwxtinfo:
@@ -46,4 +46,4 @@ class upjwxtService(object):
                 'state': state,
                 'msg': msg
             }
-            return array
+        return array
