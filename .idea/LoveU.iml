@@ -4,7 +4,12 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 3.5.2 (C:\Users\LC\AppData\Local\Programs\Python\Python35\python.exe)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="Danjango" />
+    <orderEntry type="module" module-name="untitled9" />
+    <orderEntry type="module" module-name="JWXT" />
+    <orderEntry type="module" module-name="untitled10" />
+    <orderEntry type="module" module-name="Model" />
+    <orderEntry type="module" module-name="TakeOutTogetherWeb" />
+    <orderEntry type="module" module-name="图书管理系统" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
