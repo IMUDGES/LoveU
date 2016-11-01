@@ -1,13 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head style="background-color: #5bc0de">
     <meta charset="UTF-8">
     <title>Title</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet">
+    <style>
+        .c1 {
+            background-color: #66FF99;
+        }
+
+        .c2 {
+            background-color: #CC99FF;
+        }
+
+        .c3 {
+            background-color: #FFFF66;
+        }
+
+        .c4 {
+            background-color: #cccccc;
+        }
+
+        .c5 {
+            background-color: #66CCFF;
+        }
+
+        .c6 {
+            background-color: #66FFCC;
+        }
+
+        .c7 {
+            background-color: #CC6666;
+        }
+
+        .c8 {
+            background-color: #FF9966;
+        }
+
+        .margin-top {
+            border-top: 5px solid #f5f5f5;
+        }
+
+        .margin {
+            border-bottom: 5px solid #f5f5f5;
+        }
+
+        th {
+            width: 100px;
+            text-align: center;
+            height: 50px;
+        }
+
+        .td {
+            text-align: center;
+            height: 60px;
+            background-color: white;
+            font-family: "Comic Sans MS";
+            border-right: 5px solid #f5f5f5;
+        }
+
+        tr {
+            border: none;
+            margin: 0;
+        }
+
+        .table-class {
+            width: 100%;
+            border: none;
+        }
+
+        .class {
+            width: 100px;
+            height: 200px;
+            border-bottom: 5px solid #f5f5f5;
+            border-right: 5px solid #f5f5f5;
+            border-left: none;
+            border-top: none;
+            word-break: break-all;
+            color: #f5f5f5;
+        }
+
+        .container {
+            padding-right: 15px;
+            padding-left: 15px;
+            margin-right: auto;
+            margin-left: auto;
+        }
+
+        .big {
+            font-size: 1.5em;
+        }
+
+    </style>
 </head>
-<body>
-<form action="/test" enctype="multipart/form-data" method="post">
-    <input  type="file" name="file">
-    <input type="submit" value="tijiao">
-</form>
+<body style="background-color: #F5F5F5">
+<h1 class="text-center" style="font-family:  'Microsoft YaHei UI';">课&nbsp;程&nbsp;表</h1>
+<div class="container">
+    <div class="row">
+        <table class="big table-class">
+            <tr class="panel panel-info">
+                <th>&nbsp;</th>
+                <th>星期一</th>
+                <th>星期二</th>
+                <th>星期三</th>
+                <th>星期四</th>
+                <th>星期五</th>
+                <th>星期六</th>
+                <th>星期日</th>
+            </tr>
+            <tr>
+                <td class="td margin-top">1</td>
+                <td class="class margin-top" rowspan="2" id="a1"></td>
+                <td class="class margin-top" rowspan="2" id="b1"></td>
+                <td class="class margin-top" rowspan="2" id="c1"></td>
+                <td class="class margin-top" rowspan="2" id="d1"></td>
+                <td class="class margin-top" rowspan="2" id="e1"></td>
+                <td class="class margin-top" rowspan="2" id="f1"></td>
+                <td class="class margin-top" rowspan="2" id="g1"></td>
+            </tr>
+            <tr>
+                <td class="td margin">2</td>
+            </tr>
+            <tr>
+                <td class="td">3</td>
+                <td class="class" rowspan="2" id="a2"></td>
+                <td class="class" rowspan="2" id="b2"></td>
+                <td class="class" rowspan="2" id="c2"></td>
+                <td class="class" rowspan="2" id="d2"></td>
+                <td class="class" rowspan="2" id="e2"></td>
+                <td class="class" rowspan="2" id="f2"></td>
+                <td class="class" rowspan="2" id="g2"></td>
+            </tr>
+            <tr>
+                <td class="td margin">4</td>
+            </tr>
+            <tr>
+                <td class="td">5</td>
+                <td class="class" rowspan="2" id="a3"></td>
+                <td class="class" rowspan="2" id="b3"></td>
+                <td class="class" rowspan="2" id="c3"></td>
+                <td class="class" rowspan="2" id="d3"></td>
+                <td class="class" rowspan="2" id="e3"></td>
+                <td class="class" rowspan="2" id="f3"></td>
+                <td class="class" rowspan="2" id="g3"></td>
+            </tr>
+            <tr>
+                <td class="td margin">6</td>
+            </tr>
+            <tr>
+                <td class="td">7</td>
+                <td class="class" rowspan="2" id="a4"></td>
+                <td class="class" rowspan="2" id="b4"></td>
+                <td class="class" rowspan="2" id="c4"></td>
+                <td class="class" rowspan="2" id="d4"></td>
+                <td class="class" rowspan="2" id="e4"></td>
+                <td class="class" rowspan="2" id="f4"></td>
+                <td class="class" rowspan="2" id="g4"></td>
+            </tr>
+            <tr>
+                <td class="td margin">8</td>
+            </tr>
+            <tr>
+                <td class="td">9</td>
+                <td class="class" rowspan="3" id="a5"></td>
+                <td class="class" rowspan="3" id="b5"></td>
+                <td class="class" rowspan="3" id="c5"></td>
+                <td class="class" rowspan="3" id="d5"></td>
+                <td class="class" rowspan="3" id="e5"></td>
+                <td class="class" rowspan="3" id="f5"></td>
+                <td class="class" rowspan="3" id="g5"></td>
+            </tr>
+            <tr>
+                <td class="td">10</td>
+            </tr>
+            <tr>
+                <td class="td">11</td>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
+
+<script src="../static/js/jQuery.js"></script>
+<script>
+    var id=1;
+    $(document).ready(function () {
+        $.ajaxSetup({
+            async: false
+        });
+        var UserName = "UserPhone={{ data.UserPhone }}&SecretKey={{ data.SecretKey }}";
+        var url = '/downclass?' + UserName;
+        $.getJSON(url, function (data) {
+            CreatClass('a',data[1]);
+            CreatClass('b',data[2]);
+            CreatClass('c',data[3]);
+            CreatClass('d',data[4]);
+            CreatClass('e',data[5]);
+            CreatClass('f',data[6]);
+            CreatClass('g',data[7]);
+        });
+        fix();
+    });
+{#    data = {{ data }};#}
+{#    var id = 1;#}
+{#    var arr = [];#}
+{#    for(var i=0;i<=7;i++)#}
+{#    {#}
+{#        for(var j=0;j<=7;j++)#}
+{#            arr[j] = {{ data[1][1] }}#}
+{#        data[i] = arr;#}
+{#    }#}
+{#    alert("111");#}
+{#    CreatClass('a', data[1]);#}
+{#    CreatClass('b', data[2]);#}
+{#    CreatClass('c', data[3]);#}
+{#    CreatClass('d', data[4]);#}
+{#    CreatClass('e', data[5]);#}
+{#    CreatClass('f', data[6]);#}
+{#    CreatClass('g', data[7]);#}
+    function CreatClass(char, data) {
+        var obj;
+        var DOM;
+        var css = 'c';
+        obj = '#' + char;
+        for (var i = 0; i < 5; i++) {
+            if (getData(data[2 * i + 1])) {
+                DOM = obj + (i + 1);
+                $(DOM)[0].innerHTML = data[2 * i + 1];
+                $(DOM).addClass(css + id);
+                id++;
+                if (id == 8) {
+                    id = 1;
+                }
+            }
+        }
+    }
+    function getData(data) {
+        if (data == '' || data == null)
+            return 0;
+        return 1;
+    }
+
+    function fix() {
+        var obj = $("#g1");
+        obj.addClass('hidden');
+    }
+
+</script>
 </html>

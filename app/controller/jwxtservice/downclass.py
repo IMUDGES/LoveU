@@ -10,18 +10,23 @@ class Downclass(object):
         user = User.query.filter_by(UserPhone=userphone).first()
         if user.SecretKey == secretkey:
             classinfo = Class.query.filter_by(UserId=user.UserId).all()
-            print(classinfo)
             classinfojson = []
+            l = 0
+            for i in range(0,8):
+                aaa = []
+                for j in range(0,12):
+                    aaa.append(0)
+                classinfojson.append(aaa)
+
             for q in classinfo:
-                w = jsonify(q)
-                classinfojson.append(w)
+                classinfojson[q.Day][q.Number] = q.Information
             msg = "成功！"
             state = 1
-            array = [{
+            array = {
                 'state': state,
                 'msg': msg,
                 'data': classinfojson,
-            }]
+            }
             return array
         else:
             msg = "请登录！"
